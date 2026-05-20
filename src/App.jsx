@@ -1,198 +1,1108 @@
-import { COLORS, FONT } from "./brand";
-import { CTAButton, AnimatedNumber, FAQItem, ProductCard, StepCard } from "./components";
+import { useState, useEffect, useRef } from "react";
 
-export default function App() {
+const MWG_YELLOW = "#FFD400";
+const MWG_BLACK = "#1A1A1A";
+const MWG_RED = "#D0021B";
+const SOFT_PINK = "#FFF0F3";
+const SOFT_YELLOW = "#FFFBEB";
+const SOFT_BLUE = "#EEF6FF";
+const WARM_GRAY = "#F8F7F5";
+const BORDER = "#E8E8E8";
+const TEXT_SECONDARY = "#6B7280";
+const TEXT_MUTED = "#9CA3AF";
+const GRADIENT_END = "#FFE866";
+const ACCENT_GREEN = "#10B981";
+
+const formatCurrency = (num) =>
+  new Intl.NumberFormat("vi-VN").format(num) + "đ";
+
+const useWindowWidth = () => {
+  const [w, setW] = useState(() => window.innerWidth);
+  useEffect(() => {
+    const h = () => setW(window.innerWidth);
+    window.addEventListener("resize", h);
+    return () => window.removeEventListener("resize", h);
+  }, []);
+  return w;
+};
+
+const CountUp = ({ end, suffix = "", prefix = "" }) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const started = useRef(false);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true;
+          let start = 0;
+          const duration = 1500;
+          const step = (timestamp) => {
+            if (!start) start = timestamp;
+            const progress = Math.min((timestamp - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setCount(Math.round(eased * end));
+            if (progress < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [end]);
   return (
-    <div style={{ fontFamily: FONT, background: COLORS.pageBg, color: COLORS.textPrimary, maxWidth: 480, margin: "0 auto" }}>
-      {/* NAV */}
-      <nav style={{ background: COLORS.primary, padding: "14px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <div style={{ width: 32, height: 32, borderRadius: 6, background: COLORS.white, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: COLORS.textPrimary }}>MWG</div>
-          <span style={{ fontSize: 16, fontWeight: 500, color: COLORS.white }}>PayLater</span>
-        </div>
-        <CTAButton text="Đăng ký" />
-      </nav>
+    <span ref={ref}>
+      {prefix}
+      {count.toLocaleString("vi-VN")}
+      {suffix}
+    </span>
+  );
+};
 
-      {/* HERO */}
-      <section style={{ position: "relative", padding: "48px 24px 40px", background: COLORS.darkNavy, overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: -80, right: -80, width: 240, height: 240, borderRadius: "50%", background: `radial-gradient(circle, ${COLORS.primary}20, transparent 70%)` }} />
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: `${COLORS.primary}18`, border: `1px solid ${COLORS.primary}30`, borderRadius: 4, padding: "6px 12px", marginBottom: 24 }}>
-          <span style={{ fontSize: 11, fontWeight: 600, color: COLORS.accentYellow, letterSpacing: 1 }}>VÍ TRẢ SAU CHÍNH HÃNG MWG</span>
+const StickyHeader = ({ isDesktop }) => {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return (
+    <div
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 100,
+        background: "rgba(255,255,255,0.97)",
+        backdropFilter: "blur(12px)",
+        borderBottom: `1px solid ${BORDER}`,
+        boxShadow: scrolled ? "0 2px 16px rgba(0,0,0,0.08)" : "none",
+        transition: "box-shadow 0.3s",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: isDesktop ? 1100 : 480,
+          margin: "0 auto",
+          padding: isDesktop ? "14px 40px" : "10px 16px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <img
+          src="https://cdnv2.tgdd.vn/pim/cdn/images/202512/Logo%20MWG%20Paylater105741.png"
+          alt="Ví MWG PayLater"
+          style={{ height: isDesktop ? 36 : 32, objectFit: "contain" }}
+        />
+        <div style={{ display: "flex", alignItems: "center", gap: isDesktop ? 28 : 0 }}>
+          {isDesktop && (
+            <>
+              <a href="#" style={{ fontSize: 14, fontWeight: 500, color: TEXT_SECONDARY, textDecoration: "none" }}>Tính năng</a>
+              <a href="#" style={{ fontSize: 14, fontWeight: 500, color: TEXT_SECONDARY, textDecoration: "none" }}>Hướng dẫn</a>
+              <a href="#" style={{ fontSize: 14, fontWeight: 500, color: TEXT_SECONDARY, textDecoration: "none" }}>FAQ</a>
+            </>
+          )}
+          <button
+            style={{
+              background: MWG_YELLOW,
+              color: MWG_BLACK,
+              border: "none",
+              borderRadius: 20,
+              padding: isDesktop ? "10px 24px" : "8px 18px",
+              fontSize: isDesktop ? 14 : 13,
+              fontWeight: 600,
+              cursor: "pointer",
+              marginLeft: isDesktop ? 8 : 0,
+            }}
+          >
+            Đăng ký ngay
+          </button>
         </div>
-        <h1 style={{ fontSize: 30, fontWeight: 500, color: COLORS.white, lineHeight: 1.2, marginBottom: 8 }}>
-          Mua ngay. <span style={{ color: COLORS.primary, fontWeight: 700 }}>Trả sau.</span>
-        </h1>
-        <h2 style={{ fontSize: 32, fontWeight: 700, color: COLORS.white, lineHeight: 1.2, marginBottom: 20 }}>0% lãi suất.</h2>
-        <p style={{ fontSize: 16, color: "#ffffffaa", lineHeight: 1.7, marginBottom: 32, maxWidth: 360 }}>
-          Hạn mức đến <strong style={{ color: COLORS.primary }}>40 triệu đồng</strong>, duyệt online trong 2 phút. Mua sắm tại Thế Giới Di Động, Điện Máy Xanh & TopZone.
-        </p>
-        <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-          <CTAButton text="Đăng ký ngay →" />
-          <CTAButton text="Tìm hiểu thêm" variant="secondary" />
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 32, paddingTop: 20, borderTop: `1px solid ${COLORS.white}15`, flexWrap: "wrap" }}>
-          {["Thế Giới Di Động", "Điện Máy Xanh", "TopZone", "Avakids"].map((n) => (
-            <div key={n} style={{ padding: "6px 10px", background: `${COLORS.white}08`, borderRadius: 4, fontSize: 10, color: `${COLORS.white}70`, fontWeight: 500, whiteSpace: "nowrap", border: `0.5px solid ${COLORS.white}15` }}>{n}</div>
-          ))}
-        </div>
-      </section>
+      </div>
+    </div>
+  );
+};
 
-      {/* STATS */}
-      <section style={{ padding: "28px 24px", background: COLORS.primaryLight, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-        {[
-          { num: 40, suffix: " triệu", label: "Hạn mức tối đa" },
-          { num: 2, suffix: " phút", label: "Duyệt online" },
-          { num: 0, suffix: "% lãi", label: "Trả góp đến 12 tháng" },
-          { num: 90, suffix: " ngày", label: "Miễn lãi tối đa" },
-        ].map((s, i) => (
-          <div key={i} style={{ textAlign: "center", padding: 10 }}>
-            <div style={{ fontSize: 26, fontWeight: 700, color: COLORS.textPrimary, marginBottom: 4 }}>
-              <AnimatedNumber target={s.num} suffix={s.suffix} />
+const HeroSection = ({ isDesktop }) => (
+  <div
+    style={{
+      background: `linear-gradient(180deg, ${MWG_YELLOW} 0%, ${GRADIENT_END} 60%, #FFFEF5 100%)`,
+      position: "relative",
+      overflow: "hidden",
+    }}
+  >
+    <div
+      style={{
+        position: "absolute",
+        top: -60,
+        right: isDesktop ? "8%" : -60,
+        width: isDesktop ? 360 : 200,
+        height: isDesktop ? 360 : 200,
+        borderRadius: "50%",
+        background: "rgba(255,255,255,0.25)",
+      }}
+    />
+    <div
+      style={{
+        position: "absolute",
+        bottom: -30,
+        left: -40,
+        width: isDesktop ? 200 : 140,
+        height: isDesktop ? 200 : 140,
+        borderRadius: "50%",
+        background: "rgba(255,255,255,0.2)",
+      }}
+    />
+    <div
+      style={{
+        maxWidth: isDesktop ? 1100 : 480,
+        margin: "0 auto",
+        padding: isDesktop ? "80px 40px 100px" : "32px 20px 40px",
+        position: "relative",
+        zIndex: 1,
+      }}
+    >
+      {isDesktop ? (
+        <div style={{ display: "flex", alignItems: "center", gap: 60 }}>
+          <div style={{ flex: 1 }}>
+            <h1
+              style={{
+                fontSize: 52,
+                fontWeight: 800,
+                color: MWG_BLACK,
+                lineHeight: 1.15,
+                margin: "0 0 20px",
+                letterSpacing: -1.5,
+              }}
+            >
+              Chỉ một khoản nhỏ
+              <br />
+              <span style={{ color: MWG_RED }}>Sở hữu ngay</span> sản phẩm mơ ước
+            </h1>
+            <p
+              style={{
+                fontSize: 18,
+                color: "rgba(26,26,26,0.7)",
+                lineHeight: 1.6,
+                margin: "0 0 36px",
+                maxWidth: 460,
+              }}
+            >
+              Chia nhỏ thanh toán theo kỳ, 0% lãi suất. Không cần trả đủ một lúc — mua ngay, dùng ngay.
+            </p>
+            <div style={{ display: "flex", gap: 14 }}>
+              <button
+                style={{
+                  background: MWG_BLACK,
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: 28,
+                  padding: "16px 40px",
+                  fontSize: 16,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
+                }}
+              >
+                Kích hoạt ngay
+              </button>
+              <button
+                style={{
+                  background: "rgba(255,255,255,0.7)",
+                  color: MWG_BLACK,
+                  border: "1.5px solid rgba(0,0,0,0.12)",
+                  borderRadius: 28,
+                  padding: "16px 28px",
+                  fontSize: 16,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                }}
+              >
+                Tìm hiểu thêm
+              </button>
             </div>
-            <div style={{ fontSize: 12, color: COLORS.textSecondary }}>{s.label}</div>
+          </div>
+          <div style={{ width: 260, flexShrink: 0 }}>
+            <div
+              style={{
+                background: "#fff",
+                borderRadius: 32,
+                overflow: "hidden",
+                boxShadow: "0 24px 64px rgba(0,0,0,0.18)",
+                border: "2px solid rgba(255,255,255,0.8)",
+              }}
+            >
+              <img src="/qtv-home.png" alt="App QTV" style={{ width: "100%", display: "block" }} />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div style={{ textAlign: "center" }}>
+          <h1
+            style={{
+              fontSize: 28,
+              fontWeight: 800,
+              color: MWG_BLACK,
+              lineHeight: 1.25,
+              margin: "0 0 12px",
+              letterSpacing: -0.5,
+            }}
+          >
+            Chỉ một khoản nhỏ
+            <br />
+            <span style={{ color: MWG_RED }}>Sở hữu ngay</span> sản phẩm mơ ước
+          </h1>
+          <p
+            style={{
+              fontSize: 15,
+              color: "rgba(26,26,26,0.7)",
+              lineHeight: 1.5,
+              margin: "0 0 24px",
+              maxWidth: 320,
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            Chia nhỏ thanh toán theo kỳ, 0% lãi suất. Không cần trả đủ một lúc — mua ngay, dùng ngay.
+          </p>
+          <div style={{ display: "flex", gap: 10, justifyContent: "center", marginBottom: 28 }}>
+            <button
+              style={{
+                background: MWG_BLACK,
+                color: "#fff",
+                border: "none",
+                borderRadius: 24,
+                padding: "14px 28px",
+                fontSize: 15,
+                fontWeight: 600,
+                cursor: "pointer",
+                boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+              }}
+            >
+              Kích hoạt ngay
+            </button>
+            <button
+              style={{
+                background: "rgba(255,255,255,0.7)",
+                color: MWG_BLACK,
+                border: "1.5px solid rgba(0,0,0,0.12)",
+                borderRadius: 24,
+                padding: "14px 20px",
+                fontSize: 15,
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              Tìm hiểu thêm
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+);
+
+const PartnerBanner = ({ isDesktop }) => (
+  <div
+    style={{
+      maxWidth: isDesktop ? 1100 : 480,
+      margin: "-20px auto 0",
+      padding: isDesktop ? "0 40px" : "0 16px",
+      position: "relative",
+      zIndex: 2,
+    }}
+  >
+    <div
+      style={{
+        background: MWG_BLACK,
+        borderRadius: 16,
+        padding: isDesktop ? "20px 32px" : "16px 20px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 16,
+      }}
+    >
+      <div
+        style={{
+          fontSize: 11,
+          color: "rgba(255,255,255,0.5)",
+          textTransform: "uppercase",
+          letterSpacing: 1,
+        }}
+      >
+        Sản phẩm hợp tác
+      </div>
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <img src="/logo-tgdd.png" alt="Thế Giới Di Động" style={{ height: 24, objectFit: "contain" }} />
+        <span style={{ color: "rgba(255,255,255,0.3)", fontSize: 16 }}>×</span>
+        <img src="/logo-cake.png" alt="Cake by VPBank" style={{ height: 24, objectFit: "contain" }} />
+      </div>
+    </div>
+  </div>
+);
+
+const uspItems = [
+  { img: "/usp-duyet.png", title: "Duyệt trong 30 giây", desc: "Chỉ cần CCCD, không cần chứng minh thu nhập" },
+  { img: "/usp-hanmuc.png", title: "Hạn mức 5 triệu", desc: "Mua ngay, trả sau lên đến 5.000.000đ" },
+  { img: "/usp-tragop.png", title: "Trả góp linh hoạt", desc: "Chuyển đổi trả góp 3-12 tháng bất kỳ lúc nào" },
+  { img: "/usp-khonglai.png", title: "Không lãi suất", desc: "Miễn lãi hoàn toàn khi thanh toán đúng hạn" },
+];
+
+const USPSection = ({ isDesktop }) => (
+  <div style={{ background: "rgb(248, 247, 245)" }}>
+    <div
+      style={{
+        maxWidth: isDesktop ? 1100 : 480,
+        margin: "0 auto",
+        padding: isDesktop ? "72px 40px" : "36px 16px",
+      }}
+    >
+      <div style={{ textAlign: "center", marginBottom: isDesktop ? 44 : 24 }}>
+        <h2
+          style={{
+            fontSize: isDesktop ? 34 : 22,
+            fontWeight: 700,
+            color: MWG_BLACK,
+            margin: "0 0 8px",
+          }}
+        >
+          Ví MWG có gì{" "}
+          <span
+            style={{
+              color: MWG_RED,
+              textDecoration: "underline",
+              textDecorationColor: MWG_YELLOW,
+              textUnderlineOffset: 4,
+              textDecorationThickness: 3,
+            }}
+          >
+            khác biệt
+          </span>
+          ?
+        </h2>
+        <p style={{ fontSize: isDesktop ? 16 : 14, color: TEXT_SECONDARY, margin: 0 }}>
+          Ví trả sau tiện lợi, nhanh chóng và minh bạch
+        </p>
+      </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: isDesktop ? "1fr 1fr 1fr 1fr" : "1fr 1fr",
+          gap: isDesktop ? 20 : 12,
+        }}
+      >
+        {uspItems.map((item, i) => (
+          <div
+            key={i}
+            style={{
+              background: "#fff",
+              borderRadius: 16,
+              padding: isDesktop ? "28px 24px" : "20px 16px",
+              border: `1px solid ${BORDER}`,
+            }}
+          >
+            <img
+              src={item.img}
+              alt={item.title}
+              style={{ width: isDesktop ? 56 : 48, height: isDesktop ? 56 : 48, objectFit: "contain", marginBottom: isDesktop ? 16 : 10 }}
+            />
+            <div style={{ fontSize: isDesktop ? 16 : 14, fontWeight: 700, color: MWG_BLACK, marginBottom: 6, lineHeight: 1.3 }}>
+              {item.title}
+            </div>
+            <div style={{ fontSize: isDesktop ? 13 : 12, color: TEXT_SECONDARY, lineHeight: 1.5 }}>
+              {item.desc}
+            </div>
           </div>
         ))}
-      </section>
+      </div>
+    </div>
+  </div>
+);
 
-      {/* TRUST */}
-      <section style={{ padding: "28px 24px", textAlign: "center", background: COLORS.white }}>
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 10, background: COLORS.inputBg, borderRadius: 4, padding: "10px 20px", border: `0.8px solid ${COLORS.border}` }}>
-          <span style={{ fontSize: 14, color: COLORS.textMuted }}>Vận hành bởi</span>
-          <span style={{ fontWeight: 700, fontSize: 14, color: COLORS.textPrimary }}>Cake by VPBank</span>
-          <span style={{ fontSize: 12, color: COLORS.success, fontWeight: 600 }}>✓</span>
-        </div>
-        <p style={{ fontSize: 14, color: COLORS.textMuted, marginTop: 12, lineHeight: 1.6 }}>Nguồn vốn & công nghệ tài chính từ Ngân hàng số Cake — Top 100 ngân hàng số toàn cầu</p>
-      </section>
+const guideSteps = [
+  { num: 1, title: "Mở app QTV", desc: 'Truy cập app QTV và chọn icon "Ví trả sau"' },
+  { num: 2, title: "Xác minh danh tính", desc: "Chụp CCCD gắn chip và xác thực khuôn mặt (eKYC)" },
+  { num: 3, title: "Nhận hạn mức", desc: "Hệ thống tự động duyệt và cấp hạn mức chi tiêu" },
+  { num: 4, title: "Mua sắm ngay", desc: "Chọn sản phẩm yêu thích, thanh toán bằng Ví MWG" },
+];
 
-      {/* USP */}
-      <section style={{ padding: "40px 24px", background: COLORS.pageBg }}>
-        <div style={{ marginBottom: 28 }}>
-          <div style={{ fontSize: 12, fontWeight: 600, color: COLORS.primary, letterSpacing: 1.5, marginBottom: 8 }}>TẠI SAO CHỌN MWG PAYLATER</div>
-          <h2 style={{ fontSize: 22, fontWeight: 700, lineHeight: 1.3 }}>Khác biệt so với trả góp truyền thống</h2>
-        </div>
-        <div style={{ display: "grid", gap: 12 }}>
-          {[
-            { icon: "🪪", title: "Không cần thẻ tín dụng", desc: "Chỉ cần CCCD gắn chip còn hiệu lực. Không yêu cầu chứng minh thu nhập.", accent: COLORS.info },
-            { icon: "⚡", title: "Duyệt siêu nhanh 2 phút", desc: "100% online qua eKYC + nhận diện khuôn mặt. Đăng ký xong là mua được ngay.", accent: COLORS.primary },
-            { icon: "💰", title: "0% lãi suất, 0đ trả trước", desc: "Trả góp 0% lãi đến 12 tháng. Miễn lãi lên đến 90 ngày — dài nhất thị trường.", accent: COLORS.success },
-            { icon: "🔄", title: "Linh hoạt kỳ hạn", desc: "Trả thẳng hoặc trả chậm 3/6/12/24 tháng. Chủ động chọn lộ trình phù hợp.", accent: COLORS.darkNavy2 },
-          ].map((u, i) => (
-            <div key={i} style={{ background: COLORS.white, border: `0.8px solid ${COLORS.border}`, borderRadius: 6, padding: 24, display: "flex", gap: 16, alignItems: "flex-start", transition: "border-color 0.2s" }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = u.accent)}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = COLORS.border)}>
-              <div style={{ width: 44, height: 44, borderRadius: 6, background: `${u.accent}12`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>{u.icon}</div>
-              <div>
-                <div style={{ fontSize: 16, fontWeight: 500, color: COLORS.textPrimary, marginBottom: 4 }}>{u.title}</div>
-                <div style={{ fontSize: 14, color: COLORS.textMuted, lineHeight: 1.6 }}>{u.desc}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+const GuideSection = ({ isDesktop }) => {
+  const [current, setCurrent] = useState(0);
+  const step = guideSteps[current];
 
-      {/* STEPS */}
-      <section style={{ padding: "40px 24px", background: COLORS.white, borderTop: `0.8px solid ${COLORS.border}`, borderBottom: `0.8px solid ${COLORS.border}` }}>
-        <div style={{ marginBottom: 28 }}>
-          <div style={{ fontSize: 12, fontWeight: 600, color: COLORS.success, letterSpacing: 1.5, marginBottom: 8 }}>ĐĂNG KÝ ĐƠN GIẢN</div>
-          <h2 style={{ fontSize: 22, fontWeight: 700, lineHeight: 1.3 }}>3 bước — 2 phút — xong!</h2>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-          <StepCard num="01" icon="📱" title="Mở app Quà Tặng VIP" desc="Tải ứng dụng Quà Tặng VIP của Thế Giới Di Động, chọn mục MWG PayLater." />
-          <StepCard num="02" icon="🪪" title="Xác thực eKYC" desc="Chụp CCCD 2 mặt + selfie xác minh khuôn mặt. Tự động, không cần giấy tờ khác." />
-          <StepCard num="03" icon="✅" title="Nhận hạn mức & mua sắm" desc="Hệ thống duyệt tự động, nhận hạn mức tức thì. Bắt đầu mua sắm trả sau ngay!" />
-        </div>
-        <div style={{ marginTop: 32, textAlign: "center" }}><CTAButton text="Đăng ký MWG PayLater →" full /></div>
-      </section>
-
-      {/* PRODUCTS */}
-      <section style={{ padding: "40px 0 40px 24px", background: COLORS.pageBg }}>
-        <div style={{ marginBottom: 20, paddingRight: 24 }}>
-          <div style={{ fontSize: 12, fontWeight: 600, color: COLORS.info, letterSpacing: 1.5, marginBottom: 8 }}>MUA GÌ CŨNG ĐƯỢC</div>
-          <h2 style={{ fontSize: 22, fontWeight: 700, lineHeight: 1.3 }}>Chia nhỏ mọi đơn hàng</h2>
-          <p style={{ fontSize: 14, color: COLORS.textMuted, marginTop: 8, lineHeight: 1.6 }}>Áp dụng tại toàn bộ hệ thống TGDĐ, ĐMX, TopZone, Avakids — online & offline.</p>
-        </div>
-        <div style={{ display: "flex", gap: 12, overflowX: "auto", paddingRight: 24, paddingBottom: 8 }}>
-          <ProductCard emoji="📱" name="iPhone 16 Pro Max" price="34.990.000₫" monthly="2.916.000₫" months={12} />
-          <ProductCard emoji="💻" name="MacBook Air M4" price="27.990.000₫" monthly="2.333.000₫" months={12} />
-          <ProductCard emoji="❄️" name="Máy lạnh Daikin" price="12.490.000₫" monthly="2.082.000₫" months={6} />
-          <ProductCard emoji="📺" name="TV Samsung 55 inch" price="15.990.000₫" monthly="1.333.000₫" months={12} />
-          <ProductCard emoji="🎧" name="AirPods Pro 2" price="6.190.000₫" monthly="1.032.000₫" months={6} />
-        </div>
-        <p style={{ fontSize: 12, color: COLORS.textLight, marginTop: 16, paddingRight: 24, fontStyle: "italic" }}>* Giá & kỳ hạn mang tính minh hoạ. Lãi suất 0% áp dụng theo chương trình từng thời điểm.</p>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section style={{ padding: "40px 24px", background: COLORS.darkNavy, color: COLORS.white }}>
-        <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 12, fontWeight: 600, color: COLORS.primary, letterSpacing: 1.5, marginBottom: 8 }}>KHÁCH HÀNG NÓI GÌ</div>
-          <h2 style={{ fontSize: 22, fontWeight: 700, lineHeight: 1.3 }}>Trải nghiệm thực tế</h2>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {[
-            { name: "Chị Như Quỳnh", role: "Mua tủ lạnh 24 triệu", text: "Tôi trả góp 0% lãi trong 12 tháng, mỗi tháng chỉ 2 triệu. Không mất thêm bất kỳ phí nào." },
-            { name: "Anh Minh Tuấn", role: "Mua máy lạnh trả sau", text: "Không cần chuẩn bị sẵn tiền. Thủ tục nhanh, đăng ký xong là dùng được ngay. Lại còn hoàn tiền." },
-            { name: "Chị Thuỳ Linh", role: "Mua iPhone tại TGDĐ", text: "Thấy tiện hơn trả góp qua công ty tài chính. Mọi thứ nằm gọn trên app Quà Tặng VIP." },
-          ].map((t, i) => (
-            <div key={i} style={{ background: `${COLORS.white}08`, borderRadius: 6, padding: 24, borderLeft: `3px solid ${COLORS.primary}` }}>
-              <p style={{ fontSize: 14, color: `${COLORS.white}cc`, lineHeight: 1.7, marginBottom: 16, fontStyle: "italic" }}>"{t.text}"</p>
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{ width: 36, height: 36, borderRadius: "50%", background: COLORS.primary, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: COLORS.textPrimary }}>
-                  {t.name.charAt(t.name.lastIndexOf(" ") + 1)}
-                </div>
-                <div>
-                  <div style={{ fontSize: 14, fontWeight: 500 }}>{t.name}</div>
-                  <div style={{ fontSize: 12, color: `${COLORS.white}60` }}>{t.role}</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section style={{ padding: "40px 24px", background: COLORS.white }}>
-        <div style={{ marginBottom: 20 }}>
-          <div style={{ fontSize: 12, fontWeight: 600, color: COLORS.primary, letterSpacing: 1.5, marginBottom: 8 }}>CÂU HỎI THƯỜNG GẶP</div>
-          <h2 style={{ fontSize: 22, fontWeight: 700, lineHeight: 1.3 }}>Giải đáp thắc mắc</h2>
-        </div>
-        <FAQItem q="MWG PayLater khác gì trả góp qua công ty tài chính?" a="MWG PayLater là ví trả sau do chính Thế Giới Di Động phát hành, vận hành bởi Ngân hàng số Cake by VPBank. Bạn được cấp hạn mức sẵn, dùng khi nào cũng được — không cần đăng ký vay từng lần." />
-        <FAQItem q="Cần những giấy tờ gì để đăng ký?" a="Chỉ cần CCCD gắn chip còn hiệu lực. Không cần chứng minh thu nhập, không cần hợp đồng lao động. Toàn bộ quy trình eKYC diễn ra online trên app." />
-        <FAQItem q="Có phí ẩn không? Trễ hạn thì sao?" a="Trả góp 0% lãi suất theo chương trình. Miễn lãi lên đến 90 ngày nếu trả thẳng. Nếu trễ hạn sẽ phát sinh phí — nên thanh toán đúng hạn để duy trì lịch sử tín dụng tốt." />
-        <FAQItem q="Mua online được không hay chỉ tại cửa hàng?" a="Hiện áp dụng tại toàn bộ cửa hàng offline: TGDĐ, ĐMX, TopZone, Avakids. Kênh online đang trong kế hoạch mở rộng." />
-        <FAQItem q="Hạn mức được quyết định thế nào?" a="Hệ thống AI của Cake tự động đánh giá lịch sử tín dụng để cấp hạn mức phù hợp, tối đa 40 triệu đồng. Sử dụng tốt sẽ được nâng hạn mức." />
-      </section>
-
-      {/* FINAL CTA */}
-      <section style={{ padding: "48px 24px", background: COLORS.darkNavy, textAlign: "center", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 280, height: 280, borderRadius: "50%", background: `radial-gradient(circle, ${COLORS.primary}15, transparent 70%)` }} />
-        <div style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ fontSize: 40, marginBottom: 16 }}>🎉</div>
-          <h2 style={{ fontSize: 24, fontWeight: 700, color: COLORS.white, marginBottom: 12, lineHeight: 1.3 }}>
-            Sẵn sàng mua sắm<br /><span style={{ color: COLORS.primary }}>không lo về giá?</span>
+  return (
+    <div style={{ background: "#fff" }}>
+      <div
+        style={{
+          maxWidth: isDesktop ? 1100 : 480,
+          margin: "0 auto",
+          padding: isDesktop ? "72px 40px" : "36px 16px",
+        }}
+      >
+        <div style={{ textAlign: "center", marginBottom: isDesktop ? 48 : 24 }}>
+          <h2 style={{ fontSize: isDesktop ? 34 : 22, fontWeight: 700, color: MWG_BLACK, margin: "0 0 8px" }}>
+            Hướng dẫn mở <span style={{ color: MWG_RED }}>Ví MWG</span>
           </h2>
-          <p style={{ fontSize: 16, color: `${COLORS.white}88`, marginBottom: 28, lineHeight: 1.6 }}>Đăng ký MWG PayLater ngay — chỉ 2 phút, nhận hạn mức tức thì.</p>
-          <CTAButton text="Mở Ví MWG PayLater →" full />
-          <div style={{ marginTop: 20, display: "flex", justifyContent: "center", gap: 20 }}>
-            {[{ icon: "🔒", text: "Bảo mật" }, { icon: "🏦", text: "Cake by VPBank" }, { icon: "⚡", text: "2 phút" }].map((b, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                <span style={{ fontSize: 14 }}>{b.icon}</span>
-                <span style={{ fontSize: 12, color: `${COLORS.white}60` }}>{b.text}</span>
+          <p style={{ fontSize: isDesktop ? 16 : 14, color: TEXT_SECONDARY, margin: 0 }}>
+            Chỉ 4 bước, hoàn tất trong 2 phút
+          </p>
+        </div>
+
+        {isDesktop ? (
+          <div style={{ display: "flex", gap: 60, alignItems: "center" }}>
+            <div style={{ flex: 1 }}>
+              {guideSteps.map((s, i) => (
+                <div
+                  key={i}
+                  onClick={() => setCurrent(i)}
+                  style={{
+                    padding: "20px 24px",
+                    borderRadius: 16,
+                    marginBottom: 12,
+                    border: `2px solid ${current === i ? MWG_YELLOW : "transparent"}`,
+                    background: current === i ? "#fff" : "rgba(255,255,255,0.5)",
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                  }}
+                >
+                  <div style={{ fontSize: 11, fontWeight: 600, color: TEXT_MUTED, letterSpacing: 1.5, marginBottom: 4 }}>
+                    BƯỚC {s.num}
+                  </div>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: MWG_BLACK, marginBottom: current === i ? 8 : 0 }}>
+                    {s.title}
+                  </div>
+                  {current === i && (
+                    <div style={{ fontSize: 14, color: TEXT_SECONDARY, lineHeight: 1.6 }}>{s.desc}</div>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div style={{ width: 280, flexShrink: 0 }}>
+              <div
+                style={{
+                  background: "#fff",
+                  borderRadius: 28,
+                  overflow: "hidden",
+                  boxShadow: "0 16px 48px rgba(0,0,0,0.12)",
+                  border: `1px solid ${BORDER}`,
+                }}
+              >
+                <img src="/qtv-home.png" alt="App QTV" style={{ width: "100%", display: "block" }} />
               </div>
+            </div>
+          </div>
+        ) : (
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 24,
+              padding: "24px 16px",
+              textAlign: "center",
+            }}
+          >
+            <div
+              style={{
+                background: WARM_GRAY,
+                borderRadius: 20,
+                maxWidth: 220,
+                margin: "0 auto 20px",
+                overflow: "hidden",
+                border: `1px solid ${BORDER}`,
+                boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+              }}
+            >
+              <img src="/qtv-home.png" alt="Màn hình app QTV" style={{ width: "100%", display: "block", objectFit: "cover" }} />
+            </div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 12 }}>
+              <button
+                onClick={() => setCurrent(Math.max(0, current - 1))}
+                disabled={current === 0}
+                style={{
+                  width: 36, height: 36, borderRadius: "50%", border: `1px solid ${BORDER}`,
+                  background: current === 0 ? WARM_GRAY : "#fff",
+                  cursor: current === 0 ? "default" : "pointer",
+                  fontSize: 16, color: current === 0 ? TEXT_MUTED : MWG_BLACK,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}
+              >‹</button>
+              <span style={{ fontSize: 14, fontWeight: 600, color: MWG_BLACK }}>
+                Bước {step.num} / {guideSteps.length}
+              </span>
+              <button
+                onClick={() => setCurrent(Math.min(guideSteps.length - 1, current + 1))}
+                disabled={current === guideSteps.length - 1}
+                style={{
+                  width: 36, height: 36, borderRadius: "50%", border: `1px solid ${BORDER}`,
+                  background: current === guideSteps.length - 1 ? WARM_GRAY : "#fff",
+                  cursor: current === guideSteps.length - 1 ? "default" : "pointer",
+                  fontSize: 16, color: current === guideSteps.length - 1 ? TEXT_MUTED : MWG_BLACK,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}
+              >›</button>
+            </div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: MWG_BLACK, marginBottom: 4 }}>{step.title}</div>
+            <div style={{ fontSize: 13, color: TEXT_SECONDARY, lineHeight: 1.5 }}>{step.desc}</div>
+            <div style={{ display: "flex", justifyContent: "center", gap: 6, marginTop: 14 }}>
+              {guideSteps.map((_, i) => (
+                <div
+                  key={i}
+                  style={{
+                    width: current === i ? 24 : 8, height: 8, borderRadius: 4,
+                    background: current === i ? MWG_YELLOW : BORDER,
+                    transition: "all 0.3s",
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        <div style={{ textAlign: "center", marginTop: isDesktop ? 40 : 28 }}>
+          <button
+            style={{
+              background: MWG_BLACK,
+              color: "#fff",
+              border: "none",
+              borderRadius: 28,
+              padding: isDesktop ? "18px 56px" : "14px 40px",
+              fontSize: isDesktop ? 16 : 15,
+              fontWeight: 700,
+              cursor: "pointer",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
+            }}
+          >
+            Đăng ký ngay →
+          </button>
+          <p style={{ fontSize: 12, color: TEXT_MUTED, marginTop: 10 }}>
+            Duyệt trong 30 giây · Không cần chứng minh thu nhập
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const bnplCategories = [
+  { img: "/cat-dienthoai.png", label: "Điện thoại", product: "Samsung Galaxy A56 5G", price: 9990000, tag: "Bán chạy" },
+  { img: "/cat-donghо.png", label: "Đồng hồ", product: "Samsung Galaxy Watch FE 40mm", price: 3160000, tag: "Yêu thích" },
+  { img: "/cat-laptop.png", label: "Máy tính bảng", product: "Samsung Galaxy Tab A9 WiFi", price: 4490000, tag: "Trending" },
+  { img: "/cat-phuкien.png", label: "Phụ kiện", product: "AirPods 4", price: 3490000, tag: "Đang hot" },
+];
+
+const periodOptions = [
+  { value: 30, label: "30 ngày", desc: "1 kỳ • 0% lãi", installments: 1 },
+  { value: 45, label: "45 ngày", desc: "1 kỳ • 0% lãi", installments: 1 },
+  { value: 90, label: "3 tháng", desc: "3 kỳ • 0% lãi", installments: 3 },
+];
+
+const ProductBNPLSection = ({ isDesktop }) => {
+  const [selected, setSelected] = useState(0);
+  const [period, setPeriod] = useState(45);
+  const cat = bnplCategories[selected];
+  const per = periodOptions.find((p) => p.value === period);
+  const payAmount = Math.round(cat.price / per.installments);
+
+  return (
+    <div style={{ background: "#fff" }}>
+      <div
+        style={{
+          maxWidth: isDesktop ? 1100 : 480,
+          margin: "0 auto",
+          padding: isDesktop ? "72px 40px" : "36px 16px",
+        }}
+      >
+        <div style={{ textAlign: "center", marginBottom: isDesktop ? 44 : 20 }}>
+          <h2 style={{ fontSize: isDesktop ? 34 : 22, fontWeight: 700, color: MWG_BLACK, margin: "0 0 8px" }}>
+            Trả sau với <span style={{ color: MWG_RED }}>Ví MWG</span>
+          </h2>
+          <p style={{ fontSize: isDesktop ? 16 : 14, color: TEXT_SECONDARY, margin: 0 }}>
+            Chọn danh mục, xem ngay số tiền trả sau
+          </p>
+        </div>
+
+        {isDesktop ? (
+          <div style={{ display: "flex", gap: 40, alignItems: "flex-start" }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12, marginBottom: 28 }}>
+                {bnplCategories.map((c, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setSelected(i)}
+                    style={{
+                      display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
+                      padding: "16px 12px", borderRadius: 16,
+                      border: selected === i ? `2px solid ${MWG_BLACK}` : `1px solid ${BORDER}`,
+                      background: selected === i ? SOFT_YELLOW : "#fff",
+                      cursor: "pointer", transition: "all 0.2s",
+                    }}
+                  >
+                    <img src={c.img} alt={c.label} style={{ width: 48, height: 48, objectFit: "contain" }} />
+                    <span style={{ fontSize: 13, fontWeight: selected === i ? 700 : 500, color: MWG_BLACK }}>{c.label}</span>
+                  </button>
+                ))}
+              </div>
+              <div style={{ background: WARM_GRAY, borderRadius: 20, padding: "24px 28px" }}>
+                <div style={{ fontSize: 14, fontWeight: 600, color: TEXT_MUTED, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>
+                  Sản phẩm đại diện
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                  <div style={{ width: 64, height: 64, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, padding: 8 }}>
+                    <img src={cat.img} alt={cat.label} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 16, fontWeight: 700, color: MWG_BLACK }}>{cat.product}</div>
+                    <div style={{ fontSize: 15, color: MWG_RED, fontWeight: 600, marginTop: 2 }}>{formatCurrency(cat.price)}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ width: 380, flexShrink: 0 }}>
+              <div style={{ background: "#fff", borderRadius: 20, border: `1px solid ${BORDER}`, padding: 28, boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}>
+                <div style={{ fontSize: 14, color: TEXT_SECONDARY, marginBottom: 12 }}>Chọn kỳ hạn trả sau</div>
+                <div style={{ display: "flex", gap: 10, marginBottom: 24 }}>
+                  {periodOptions.map((p) => (
+                    <button
+                      key={p.value}
+                      onClick={() => setPeriod(p.value)}
+                      style={{
+                        flex: 1, padding: "14px 8px", borderRadius: 12,
+                        border: period === p.value ? `2px solid ${MWG_BLACK}` : `1px solid ${BORDER}`,
+                        background: period === p.value ? SOFT_YELLOW : "#fff",
+                        cursor: "pointer", transition: "all 0.2s", textAlign: "center",
+                      }}
+                    >
+                      <div style={{ fontSize: 14, fontWeight: 700, color: MWG_BLACK }}>{p.label}</div>
+                      <div style={{ fontSize: 11, color: TEXT_SECONDARY, marginTop: 2 }}>{p.desc}</div>
+                    </button>
+                  ))}
+                </div>
+                <div style={{ background: `linear-gradient(135deg, ${MWG_YELLOW}, ${GRADIENT_END})`, borderRadius: 14, padding: "20px 22px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                    <span style={{ fontSize: 14, color: "rgba(26,26,26,0.6)" }}>Giá sản phẩm</span>
+                    <span style={{ fontSize: 16, fontWeight: 700, color: MWG_BLACK }}>{formatCurrency(cat.price)}</span>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                    <span style={{ fontSize: 14, color: "rgba(26,26,26,0.6)" }}>Phí / Lãi suất</span>
+                    <span style={{ fontSize: 16, fontWeight: 700, color: ACCENT_GREEN }}>0đ</span>
+                  </div>
+                  <div style={{ borderTop: "1px dashed rgba(0,0,0,0.15)", paddingTop: 12, display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+                    <span style={{ fontSize: 14, fontWeight: 600, color: MWG_BLACK }}>
+                      {per.installments > 1 ? "Mỗi kỳ thanh toán" : `Trả sau ${per.value} ngày`}
+                    </span>
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ fontSize: 24, fontWeight: 800, color: MWG_BLACK, letterSpacing: -0.5 }}>
+                        {formatCurrency(payAmount)}
+                      </div>
+                      {per.installments > 1 && (
+                        <div style={{ fontSize: 11, color: "rgba(26,26,26,0.5)" }}>× {per.installments} kỳ</div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <p style={{ fontSize: 11, color: TEXT_MUTED, textAlign: "center", margin: "12px 0 0", fontStyle: "italic" }}>
+                  * Giá mang tính minh hoạ. Lãi suất 0% áp dụng theo chương trình từng thời điểm.
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 4, marginBottom: 20, scrollbarWidth: "none" }}>
+              {bnplCategories.map((c, i) => (
+                <button
+                  key={i}
+                  onClick={() => setSelected(i)}
+                  style={{
+                    display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
+                    padding: "10px 14px", borderRadius: 12,
+                    border: selected === i ? `2px solid ${MWG_BLACK}` : `1px solid ${BORDER}`,
+                    background: selected === i ? SOFT_YELLOW : "#fff",
+                    cursor: "pointer", flexShrink: 0, transition: "all 0.2s",
+                  }}
+                >
+                  <img src={c.img} alt={c.label} style={{ width: 36, height: 36, objectFit: "contain" }} />
+                  <span style={{ fontSize: 11, fontWeight: selected === i ? 700 : 500, color: MWG_BLACK, whiteSpace: "nowrap" }}>{c.label}</span>
+                </button>
+              ))}
+            </div>
+            <div style={{ background: "#fff", borderRadius: 20, border: `1px solid ${BORDER}`, padding: 20, boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, paddingBottom: 16, borderBottom: `1px solid ${BORDER}` }}>
+                <div style={{ width: 52, height: 52, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, padding: 6 }}>
+                  <img src={cat.img} alt={cat.label} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: MWG_BLACK }}>{cat.product}</div>
+                  <div style={{ fontSize: 14, color: MWG_RED, fontWeight: 600, marginTop: 2 }}>{formatCurrency(cat.price)}</div>
+                </div>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ fontSize: 13, color: TEXT_SECONDARY, marginBottom: 10 }}>Chọn kỳ hạn trả sau</div>
+                <div style={{ display: "flex", gap: 8 }}>
+                  {periodOptions.map((p) => (
+                    <button
+                      key={p.value}
+                      onClick={() => setPeriod(p.value)}
+                      style={{
+                        flex: 1, padding: "12px 8px", borderRadius: 12,
+                        border: period === p.value ? `2px solid ${MWG_BLACK}` : `1px solid ${BORDER}`,
+                        background: period === p.value ? SOFT_YELLOW : "#fff",
+                        cursor: "pointer", transition: "all 0.2s", textAlign: "center",
+                      }}
+                    >
+                      <div style={{ fontSize: 13, fontWeight: 700, color: MWG_BLACK }}>{p.label}</div>
+                      <div style={{ fontSize: 10, color: TEXT_SECONDARY, marginTop: 2 }}>{p.desc}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={{ background: `linear-gradient(135deg, ${MWG_YELLOW}, ${GRADIENT_END})`, borderRadius: 14, padding: 18 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                  <span style={{ fontSize: 13, color: "rgba(26,26,26,0.6)" }}>Giá sản phẩm</span>
+                  <span style={{ fontSize: 15, fontWeight: 700, color: MWG_BLACK }}>{formatCurrency(cat.price)}</span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                  <span style={{ fontSize: 13, color: "rgba(26,26,26,0.6)" }}>Phí / Lãi suất</span>
+                  <span style={{ fontSize: 15, fontWeight: 700, color: ACCENT_GREEN }}>0đ</span>
+                </div>
+                <div style={{ borderTop: "1px dashed rgba(0,0,0,0.15)", paddingTop: 10, display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+                  <span style={{ fontSize: 14, fontWeight: 600, color: MWG_BLACK }}>
+                    {per.installments > 1 ? "Mỗi kỳ thanh toán" : `Trả sau ${per.value} ngày`}
+                  </span>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: 22, fontWeight: 800, color: MWG_BLACK, letterSpacing: -0.5 }}>
+                      {formatCurrency(payAmount)}
+                    </div>
+                    {per.installments > 1 && (
+                      <div style={{ fontSize: 11, color: "rgba(26,26,26,0.5)" }}>× {per.installments} kỳ</div>
+                    )}
+                  </div>
+                </div>
+                </div>
+              <p style={{ fontSize: 11, color: TEXT_MUTED, textAlign: "center", margin: "10px 0 0", fontStyle: "italic" }}>
+                * Giá mang tính minh hoạ. Lãi suất 0% áp dụng theo chương trình từng thời điểm.
+              </p>
+            </div>
+          </>
+        )}
+        <div style={{ textAlign: "center", marginTop: isDesktop ? 40 : 28 }}>
+          <button
+            style={{
+              background: MWG_BLACK,
+              color: "#fff",
+              border: "none",
+              borderRadius: 28,
+              padding: isDesktop ? "18px 56px" : "14px 40px",
+              fontSize: isDesktop ? 16 : 15,
+              fontWeight: 700,
+              cursor: "pointer",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
+            }}
+          >
+            Đăng ký ngay →
+          </button>
+          <p style={{ fontSize: 12, color: TEXT_MUTED, marginTop: 10 }}>
+            Duyệt trong 30 giây · Không cần chứng minh thu nhập
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+const storeChains = [
+  { name: "Thế Giới Di Động", count: "1.014", img: "/card-tgdd.png" },
+  { name: "Điện Máy Xanh", count: "2.006", img: "/card-dmx.png" },
+  { name: "TopZone", count: "100+", img: "/card-topzone.png" },
+  { name: "Avakids", count: "95", img: "/card-avakids.png" },
+];
+
+const StoreNetworkSection = ({ isDesktop }) => (
+  <div style={{ background: "#fff", borderBottom: `1px solid ${BORDER}` }}>
+    <div
+      style={{
+        maxWidth: isDesktop ? 1100 : 480,
+        margin: "0 auto",
+        padding: isDesktop ? "72px 40px" : "28px 16px",
+      }}
+    >
+      <div style={{ textAlign: "center", marginBottom: isDesktop ? 44 : 20 }}>
+        <h2 style={{ fontSize: isDesktop ? 34 : 20, fontWeight: 700, color: MWG_BLACK, margin: "0 0 6px" }}>
+          Mua sắm tại hơn{" "}
+          <span style={{ color: MWG_RED }}>3.200 cửa hàng</span>{" "}
+          toàn quốc
+        </h2>
+        <p style={{ fontSize: isDesktop ? 16 : 13, color: TEXT_SECONDARY, margin: 0 }}>
+          Ví MWG PayLater được chấp nhận tại toàn bộ hệ thống — online &amp; offline
+        </p>
+      </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: isDesktop ? "1fr 1fr 1fr 1fr" : "1fr 1fr",
+          gap: isDesktop ? 16 : 10,
+        }}
+      >
+        {storeChains.map((chain, i) => (
+          <div key={i} style={{ borderRadius: 14, overflow: "hidden", border: `1px solid ${BORDER}` }}>
+            <img src={chain.img} alt={chain.name} style={{ width: "100%", display: "block", objectFit: "cover" }} />
+          </div>
+        ))}
+      </div>
+      <div style={{ marginTop: 14, textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+        <span style={{ fontSize: 11, color: TEXT_MUTED }}>Số liệu Q1/2026</span>
+        <span style={{ fontSize: 11, color: BORDER }}>•</span>
+        <span style={{ fontSize: 11, color: TEXT_MUTED }}>Cập nhật liên tục</span>
+      </div>
+    </div>
+  </div>
+);
+
+const partners = [
+  { name: "VPBank", img: "/logos/logo-vpbank.png" },
+  { name: "Cake by VPBank", img: "/logos/logo-cake-vpbank.png" },
+  { name: "NAPAS", img: "/logos/logo-napas.png" },
+  { name: "VNPAY", img: "/logos/logo-vnpay.png" },
+];
+
+const TrustSection = ({ isDesktop }) => (
+  <div style={{ background: "#fff" }}>
+    <div
+      style={{
+        maxWidth: isDesktop ? 1100 : 480,
+        margin: "0 auto",
+        padding: isDesktop ? "60px 40px" : "36px 16px",
+      }}
+    >
+      <div style={{ textAlign: "center", marginBottom: isDesktop ? 32 : 20 }}>
+        <h2 style={{ fontSize: isDesktop ? 28 : 18, fontWeight: 700, color: MWG_BLACK, margin: "0 0 6px" }}>
+          Đối tác uy tín
+        </h2>
+        <p style={{ fontSize: isDesktop ? 15 : 13, color: TEXT_SECONDARY, margin: 0 }}>
+          An toàn với hệ sinh thái tài chính hàng đầu
+        </p>
+      </div>
+      <div style={{ display: "flex", justifyContent: "center", gap: isDesktop ? 16 : 12, flexWrap: "wrap" }}>
+        {partners.map((p, i) => (
+          <div
+            key={i}
+            style={{
+              background: WARM_GRAY,
+              borderRadius: 12,
+              padding: isDesktop ? "14px 28px" : "12px 20px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src={p.img}
+              alt={p.name}
+              style={{ height: isDesktop ? 32 : 26, objectFit: "contain" }}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+const faqData = [
+  { q: "Ví MWG PayLater là gì?", a: "Ví MWG PayLater là dịch vụ Mua trước - Trả sau, cho phép bạn mua sắm tại Thế Giới Di Động và Điện Máy Xanh với hạn mức lên đến 5 triệu đồng, miễn lãi khi thanh toán đúng hạn." },
+  { q: "Ai có thể đăng ký Ví MWG?", a: "Công dân Việt Nam từ 18 tuổi trở lên, có CCCD gắn chip còn hiệu lực. Không cần chứng minh thu nhập hay hồ sơ phức tạp." },
+  { q: "Ví MWG có tính lãi không?", a: "Không! Khi bạn thanh toán đúng hạn (trong kỳ miễn lãi 45 ngày), bạn hoàn toàn không phải trả bất kỳ khoản lãi nào. Nếu chuyển đổi trả góp, mức lãi suất sẽ được thông báo rõ ràng." },
+  { q: "Mua trước, trả sau có rủi ro gì không?", a: "Ví MWG minh bạch về mọi khoản phí. Bạn chỉ cần thanh toán đúng hạn để tránh phí trễ hạn. Mọi thông tin đều được hiển thị rõ trước khi xác nhận giao dịch." },
+  { q: "Hạn mức tối đa của Ví MWG là bao nhiêu?", a: "Hạn mức hiện tại lên đến 5.000.000đ. Hạn mức được cấp tự động dựa trên kết quả xét duyệt và có thể được nâng dần theo lịch sử thanh toán đúng hạn của bạn." },
+  { q: "Có thể dùng Ví MWG để mua hàng online không?", a: "Có! Ví MWG PayLater được chấp nhận tại website và app của Thế Giới Di Động, Điện Máy Xanh, TopZone và Avakids. Chọn Ví MWG làm phương thức thanh toán khi checkout là hoàn tất." },
+];
+
+const FAQItem = ({ faq, openIdx, idx, setOpenIdx }) => (
+  <div
+    style={{
+      background: "#fff",
+      borderRadius: 14,
+      border: `1px solid ${openIdx === idx ? MWG_YELLOW : BORDER}`,
+      overflow: "hidden",
+      transition: "border 0.2s",
+      marginBottom: 8,
+    }}
+  >
+    <button
+      onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
+      style={{
+        width: "100%", padding: "16px 18px",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        background: "none", border: "none", cursor: "pointer", textAlign: "left",
+      }}
+    >
+      <span style={{ fontSize: 14, fontWeight: 600, color: MWG_BLACK, flex: 1, paddingRight: 12 }}>
+        {faq.q}
+      </span>
+      <span
+        style={{
+          fontSize: 18, color: TEXT_MUTED, flexShrink: 0,
+          transform: openIdx === idx ? "rotate(45deg)" : "rotate(0deg)",
+          transition: "transform 0.2s",
+        }}
+      >+</span>
+    </button>
+    {openIdx === idx && (
+      <div style={{ padding: "0 18px 16px", fontSize: 13, color: TEXT_SECONDARY, lineHeight: 1.7 }}>
+        {faq.a}
+      </div>
+    )}
+  </div>
+);
+
+const FAQSection = ({ isDesktop }) => {
+  const [openIdx, setOpenIdx] = useState(null);
+
+  return (
+    <div style={{ background: "#fff" }}>
+      <div
+        style={{
+          maxWidth: isDesktop ? 1100 : 480,
+          margin: "0 auto",
+          padding: isDesktop ? "72px 40px" : "0 16px 36px",
+        }}
+      >
+        <div style={{ textAlign: "center", marginBottom: isDesktop ? 44 : 24 }}>
+          <h2 style={{ fontSize: isDesktop ? 34 : 22, fontWeight: 700, color: MWG_BLACK, margin: "0 0 8px" }}>
+            Câu hỏi <span style={{ color: MWG_RED }}>thường gặp</span>
+          </h2>
+        </div>
+        {isDesktop ? (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, alignItems: "start" }}>
+            <div>
+              {faqData.slice(0, Math.ceil(faqData.length / 2)).map((faq, i) => (
+                <FAQItem key={i} faq={faq} openIdx={openIdx} idx={i} setOpenIdx={setOpenIdx} />
+              ))}
+            </div>
+            <div>
+              {faqData.slice(Math.ceil(faqData.length / 2)).map((faq, i) => {
+                const idx = Math.ceil(faqData.length / 2) + i;
+                return <FAQItem key={idx} faq={faq} openIdx={openIdx} idx={idx} setOpenIdx={setOpenIdx} />;
+              })}
+            </div>
+          </div>
+        ) : (
+          <div>
+            {faqData.map((faq, i) => (
+              <FAQItem key={i} faq={faq} openIdx={openIdx} idx={i} setOpenIdx={setOpenIdx} />
             ))}
           </div>
-        </div>
-      </section>
+        )}
+      </div>
+    </div>
+  );
+};
 
-      {/* FOOTER */}
-      <footer style={{ padding: "28px 24px", background: COLORS.darkNavy2, textAlign: "center" }}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: COLORS.primary, marginBottom: 8 }}>MWG PayLater</div>
-        <p style={{ fontSize: 12, color: `${COLORS.white}50`, lineHeight: 1.6 }}>
-          Dịch vụ ví trả sau mang thương hiệu Thế Giới Di Động.<br />Vận hành bởi Ngân hàng số Cake by VPBank.<br />© 2026 Mobile World Group. All rights reserved.
-        </p>
-        <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${COLORS.white}10`, fontSize: 11, color: `${COLORS.white}30`, lineHeight: 1.6 }}>
-          Lưu ý: Sản phẩm tín dụng. Việc vay mượn cần được cân nhắc kỹ.<br />Vui lòng đọc kỹ điều khoản trước khi đăng ký sử dụng dịch vụ.
+const CTASection = ({ isDesktop }) => (
+  <div style={{ padding: isDesktop ? "0 0 40px" : "0 16px 24px" }}>
+    <div style={{ maxWidth: isDesktop ? 1100 : 480, margin: "0 auto", padding: isDesktop ? "0 40px" : "0" }}>
+      <div
+        style={{
+          background: `linear-gradient(135deg, ${MWG_BLACK} 0%, #2D2D2D 100%)`,
+          borderRadius: 24,
+          padding: isDesktop ? "52px 64px" : "32px 24px",
+          position: "relative",
+          overflow: "hidden",
+          display: isDesktop ? "flex" : "block",
+          alignItems: isDesktop ? "center" : undefined,
+          justifyContent: isDesktop ? "space-between" : undefined,
+          textAlign: isDesktop ? "left" : "center",
+        }}
+      >
+        <div style={{ position: "absolute", top: -40, right: -40, width: 160, height: 160, borderRadius: "50%", background: MWG_YELLOW, opacity: 0.08 }} />
+        <div style={{ position: "absolute", bottom: -30, left: isDesktop ? -30 : -30, width: 120, height: 120, borderRadius: "50%", background: MWG_YELLOW, opacity: 0.06 }} />
+        <div style={{ position: "relative", zIndex: 1, flex: isDesktop ? 1 : undefined }}>
+          <div style={{ fontSize: 13, color: MWG_YELLOW, fontWeight: 600, marginBottom: 8 }}>
+            🎁 Ưu đãi dành riêng cho bạn
+          </div>
+          <h2 style={{ fontSize: isDesktop ? 36 : 24, fontWeight: 800, color: "#fff", margin: "0 0 8px", lineHeight: 1.3 }}>
+            Đăng ký Ví MWG — nhận ngay{" "}
+            <span style={{ color: MWG_YELLOW }}>40.000đ</span>
+          </h2>
+          <p style={{ fontSize: isDesktop ? 15 : 13, color: "rgba(255,255,255,0.6)", margin: isDesktop ? 0 : "0 0 20px", lineHeight: 1.5 }}>
+            Áp dụng cho khách hàng kích hoạt lần đầu tại Thế Giới Di Động
+          </p>
         </div>
-      </footer>
+        <div style={{ position: "relative", zIndex: 1, flexShrink: isDesktop ? 0 : undefined }}>
+          <button
+            style={{
+              background: MWG_YELLOW,
+              color: MWG_BLACK,
+              border: "none",
+              borderRadius: 28,
+              padding: isDesktop ? "18px 52px" : "14px 40px",
+              fontSize: isDesktop ? 17 : 16,
+              fontWeight: 700,
+              cursor: "pointer",
+              boxShadow: "0 4px 24px rgba(255,212,0,0.35)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Kích hoạt ngay →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const Footer = ({ isDesktop }) => (
+  <div style={{ background: WARM_GRAY, padding: isDesktop ? "40px 0" : "24px 16px", textAlign: "center" }}>
+    <div style={{ maxWidth: isDesktop ? 1100 : 480, margin: "0 auto", padding: isDesktop ? "0 40px" : "0" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 12 }}>
+        <div
+          style={{
+            width: 28, height: 28, borderRadius: 6, background: MWG_YELLOW,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontWeight: 700, fontSize: 9, color: MWG_BLACK,
+          }}
+        >
+          MWG
+        </div>
+        <span style={{ fontWeight: 600, fontSize: 13, color: MWG_BLACK }}>Ví MWG PayLater</span>
+      </div>
+      <div style={{ fontSize: 12, color: TEXT_MUTED, lineHeight: 1.6, maxWidth: 400, margin: "0 auto" }}>
+        Sản phẩm hợp tác giữa Thế Giới Di Động và Cake by VPBank. Được cấp phép và giám sát bởi Ngân hàng Nhà nước Việt Nam.
+      </div>
+      <div style={{ display: "flex", justifyContent: "center", gap: 20, marginTop: 16, fontSize: 12, color: TEXT_SECONDARY }}>
+        <span>Điều khoản</span>
+        <span>Chính sách</span>
+        <span>Hỗ trợ</span>
+      </div>
+    </div>
+  </div>
+);
+
+export default function App() {
+  const w = useWindowWidth();
+  const isDesktop = w >= 768;
+
+  return (
+    <div
+      style={{
+        background: "#fff",
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        color: MWG_BLACK,
+      }}
+    >
+      <StickyHeader isDesktop={isDesktop} />
+      <HeroSection isDesktop={isDesktop} />
+      <PartnerBanner isDesktop={isDesktop} />
+      <ProductBNPLSection isDesktop={isDesktop} />
+      <USPSection isDesktop={isDesktop} />
+      <GuideSection isDesktop={isDesktop} />
+      <StoreNetworkSection isDesktop={isDesktop} />
+      <TrustSection isDesktop={isDesktop} />
+      <FAQSection isDesktop={isDesktop} />
+      <CTASection isDesktop={isDesktop} />
+      <Footer isDesktop={isDesktop} />
     </div>
   );
 }
