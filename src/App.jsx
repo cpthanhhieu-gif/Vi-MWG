@@ -411,7 +411,6 @@ const bnplCategories = [
   { img: "/cat-laptop.png", label: "Laptop", product: 'MacBook Air M4 13"', price: 28990000, tag: "Trending" },
   { img: "/apple-watch.png", label: "Smartwatch", product: "Apple Watch SE 2 40mm", price: 6490000, tag: "Yêu thích" },
   { img: "/may lanh.png", label: "Máy lạnh", product: "Daikin 1HP Inverter", price: 9990000, tag: "Hot hè" },
-  { img: "/Đồ chơi.png", label: "Đồ chơi", product: "LEGO City 2025", price: 1590000, tag: "Avakids" },
   { img: "/cat-phuкien.png", label: "Phụ kiện", product: "AirPods 4", price: 3490000, tag: "Đang hot" },
 ];
 
