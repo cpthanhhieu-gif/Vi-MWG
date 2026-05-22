@@ -407,11 +407,11 @@ const GuideSection = ({ isDesktop }) => {
 };
 
 const bnplCategories = [
-  { img: "/cat-dienthoai.png", label: "Điện thoại", product: "iPhone 16 128GB", price: 22990000, tag: "Bán chạy" },
-  { img: "/cat-laptop.png", label: "Laptop", product: 'MacBook Air M4 13"', price: 28990000, tag: "Trending" },
-  { img: "/apple-watch.png", label: "Smartwatch", product: "Apple Watch SE 2 40mm", price: 6490000, tag: "Yêu thích" },
-  { img: "/may lanh.png", label: "Máy lạnh", product: "Daikin 1HP Inverter", price: 9990000, tag: "Hot hè" },
-  { img: "/cat-phuкien.png", label: "Phụ kiện", product: "AirPods 4", price: 3490000, tag: "Đang hot" },
+  { icon: "📱", label: "Điện thoại", min: 3000000,  max: 30000000, defaultPrice: 15000000 },
+  { icon: "💻", label: "Laptop",     min: 10000000, max: 40000000, defaultPrice: 29000000 },
+  { icon: "⌚", label: "Smartwatch", min: 2000000,  max: 15000000, defaultPrice: 6000000  },
+  { icon: "❄️", label: "Máy lạnh",  min: 5000000,  max: 20000000, defaultPrice: 10000000 },
+  { icon: "🎧", label: "Phụ kiện",  min: 500000,   max: 5000000,  defaultPrice: 2000000  },
 ];
 
 const periodOptions = [
@@ -421,221 +421,159 @@ const periodOptions = [
 ];
 
 const ProductBNPLSection = ({ isDesktop }) => {
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(1); // default Laptop
+  const [price, setPrice] = useState(29000000);
   const [period, setPeriod] = useState(90);
+
   const cat = bnplCategories[selected];
   const per = periodOptions.find((p) => p.value === period);
-  const payAmount = Math.round(cat.price / per.installments);
+  const payAmount = Math.round(price / per.installments);
+
+  const handleCatSelect = (i) => {
+    setSelected(i);
+    setPrice(bnplCategories[i].defaultPrice);
+  };
+
+  const CategoryTabs = () => (
+    <div style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 4, marginBottom: isDesktop ? 32 : 20, scrollbarWidth: "none", justifyContent: isDesktop ? "center" : "flex-start" }}>
+      {bnplCategories.map((c, i) => (
+        <button key={i} onClick={() => handleCatSelect(i)} style={{
+          display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
+          padding: isDesktop ? "16px 24px" : "12px 16px", borderRadius: 16, flexShrink: 0,
+          border: selected === i ? `2px solid ${MWG_BLACK}` : `1px solid ${BORDER}`,
+          background: selected === i ? SOFT_YELLOW : "#fff",
+          cursor: "pointer", transition: "all 0.2s",
+        }}>
+          <span style={{ fontSize: isDesktop ? 28 : 22 }}>{c.icon}</span>
+          <span style={{ fontSize: isDesktop ? 13 : 11, fontWeight: selected === i ? 700 : 500, color: MWG_BLACK, whiteSpace: "nowrap" }}>{c.label}</span>
+        </button>
+      ))}
+    </div>
+  );
+
+  const SliderBlock = () => (
+    <div style={{ background: WARM_GRAY, borderRadius: 20, padding: isDesktop ? "28px 32px" : "20px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 16 }}>
+        <span style={{ fontSize: isDesktop ? 14 : 13, color: TEXT_SECONDARY }}>Giá sản phẩm của bạn</span>
+        <span style={{ fontSize: isDesktop ? 22 : 18, fontWeight: 800, color: MWG_BLACK }}>{formatCurrency(price)}</span>
+      </div>
+      <input type="range" min={cat.min} max={cat.max} step={500000} value={price}
+        onChange={(e) => setPrice(Number(e.target.value))}
+        style={{ width: "100%", accentColor: MWG_BLACK, cursor: "pointer", height: 4 }}
+      />
+      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8 }}>
+        <span style={{ fontSize: 11, color: TEXT_MUTED }}>{formatCurrency(cat.min)}</span>
+        <span style={{ fontSize: 11, color: TEXT_MUTED }}>{formatCurrency(cat.max)}</span>
+      </div>
+    </div>
+  );
+
+  const PeriodBlock = () => (
+    <div>
+      <div style={{ fontSize: isDesktop ? 14 : 13, color: TEXT_SECONDARY, marginBottom: 10 }}>Chọn kỳ hạn trả sau</div>
+      <div style={{ display: "flex", gap: isDesktop ? 12 : 8 }}>
+        {periodOptions.map((p) => (
+          <button key={p.value} onClick={() => setPeriod(p.value)} style={{
+            flex: 1, padding: isDesktop ? "16px 8px" : "12px 8px", borderRadius: 14,
+            border: period === p.value ? `2px solid ${MWG_BLACK}` : `1px solid ${BORDER}`,
+            background: period === p.value ? SOFT_YELLOW : "#fff",
+            cursor: "pointer", textAlign: "center", transition: "all 0.2s",
+          }}>
+            <div style={{ fontSize: isDesktop ? 15 : 13, fontWeight: 700, color: MWG_BLACK }}>{p.label}</div>
+            <div style={{ fontSize: isDesktop ? 11 : 10, color: TEXT_SECONDARY, marginTop: 3 }}>{p.desc}</div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+
+  const BreakdownCard = () => (
+    <div style={{ background: `linear-gradient(135deg, ${MWG_BLACK} 0%, #2D2D2D 100%)`, borderRadius: 24, padding: isDesktop ? "36px 32px" : "24px 20px", position: "relative", overflow: "hidden" }}>
+      <div style={{ position: "absolute", top: -30, right: -30, width: 120, height: 120, borderRadius: "50%", background: MWG_YELLOW, opacity: 0.06 }} />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: isDesktop ? 4 : 2 }}>
+          <span style={{ fontSize: isDesktop ? 18 : 16 }}>{cat.icon}</span>
+          <span style={{ fontSize: isDesktop ? 14 : 12, color: "rgba(255,255,255,0.5)" }}>{cat.label} · {formatCurrency(price)}</span>
+        </div>
+        <div style={{ fontSize: isDesktop ? 13 : 12, color: MWG_YELLOW, fontWeight: 600, marginBottom: isDesktop ? 24 : 16 }}>
+          Trả góp {per.label}
+        </div>
+
+        <div style={{ fontSize: isDesktop ? 14 : 13, color: "rgba(255,255,255,0.55)", marginBottom: 6 }}>
+          {per.installments > 1
+            ? (per.hasInterest ? "Mỗi tháng chỉ từ*" : "Mỗi tháng chỉ")
+            : `Trả 1 lần sau ${per.value} ngày`}
+        </div>
+        <div style={{ fontSize: isDesktop ? 52 : 38, fontWeight: 900, color: MWG_YELLOW, letterSpacing: -2, lineHeight: 1 }}>
+          {formatCurrency(payAmount)}
+        </div>
+        {per.installments > 1 && (
+          <div style={{ fontSize: isDesktop ? 13 : 11, color: "rgba(255,255,255,0.35)", marginTop: 8 }}>
+            × {per.installments} kỳ · {per.hasInterest ? "Lãi suất theo chương trình" : "0% lãi suất"}
+          </div>
+        )}
+
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", marginTop: isDesktop ? 28 : 18, paddingTop: isDesktop ? 20 : 14 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
+            <span style={{ fontSize: isDesktop ? 13 : 12, color: "rgba(255,255,255,0.45)" }}>Tổng giá trị sản phẩm</span>
+            <span style={{ fontSize: isDesktop ? 13 : 12, color: "#fff", fontWeight: 600 }}>{formatCurrency(price)}</span>
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span style={{ fontSize: isDesktop ? 13 : 12, color: "rgba(255,255,255,0.45)" }}>Lãi suất</span>
+            <span style={{ fontSize: isDesktop ? 13 : 12, fontWeight: 600, color: per.hasInterest ? MWG_YELLOW : ACCENT_GREEN }}>
+              {per.hasInterest ? "Theo chương trình" : "0đ"}
+            </span>
+          </div>
+        </div>
+
+        <p style={{ fontSize: isDesktop ? 11 : 10, color: "rgba(255,255,255,0.25)", marginTop: isDesktop ? 16 : 12, fontStyle: "italic" }}>
+          {per.hasInterest
+            ? "* Số tiền tạm tính phần gốc, chưa bao gồm lãi suất. Lãi suất theo chương trình từng thời điểm."
+            : "* Số tiền mang tính minh hoạ. Lãi suất 0% theo chương trình từng thời điểm."}
+        </p>
+      </div>
+    </div>
+  );
 
   return (
     <div style={{ background: "#fff" }}>
-      <div
-        style={{
-          maxWidth: isDesktop ? 1100 : 480,
-          margin: "0 auto",
-          padding: isDesktop ? "72px 40px" : "36px 16px",
-        }}
-      >
+      <div style={{ maxWidth: isDesktop ? 1100 : 480, margin: "0 auto", padding: isDesktop ? "72px 40px" : "36px 16px" }}>
         <div style={{ textAlign: "center", marginBottom: isDesktop ? 44 : 20 }}>
           <h2 style={{ fontSize: isDesktop ? 34 : 22, fontWeight: 700, color: MWG_BLACK, margin: "0 0 8px" }}>
             Trả sau với <span style={{ color: MWG_RED }}>Ví MWG</span>
           </h2>
           <p style={{ fontSize: isDesktop ? 16 : 14, color: TEXT_SECONDARY, margin: 0 }}>
-            Chọn danh mục, xem ngay số tiền trả sau
+            Chọn danh mục, điều chỉnh giá — xem ngay số tiền trả mỗi tháng
           </p>
         </div>
 
+        <CategoryTabs />
+
         {isDesktop ? (
           <div style={{ display: "flex", gap: 40, alignItems: "flex-start" }}>
-            <div style={{ flex: 1 }}>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12, marginBottom: 28 }}>
-                {bnplCategories.map((c, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setSelected(i)}
-                    style={{
-                      display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
-                      padding: "16px 12px", borderRadius: 16,
-                      border: selected === i ? `2px solid ${MWG_BLACK}` : `1px solid ${BORDER}`,
-                      background: selected === i ? SOFT_YELLOW : "#fff",
-                      cursor: "pointer", transition: "all 0.2s",
-                    }}
-                  >
-                    <img src={c.img} alt={c.label} style={{ width: 48, height: 48, objectFit: "contain" }} />
-                    <span style={{ fontSize: 13, fontWeight: selected === i ? 700 : 500, color: MWG_BLACK }}>{c.label}</span>
-                  </button>
-                ))}
-              </div>
-              <div style={{ background: WARM_GRAY, borderRadius: 20, padding: "24px 28px" }}>
-                <div style={{ fontSize: 14, fontWeight: 600, color: TEXT_MUTED, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>
-                  Sản phẩm đại diện
-                </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                  <div style={{ width: 64, height: 64, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, padding: 8 }}>
-                    <img src={cat.img} alt={cat.label} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 16, fontWeight: 700, color: MWG_BLACK }}>{cat.product}</div>
-                    <div style={{ fontSize: 15, color: MWG_RED, fontWeight: 600, marginTop: 2 }}>{formatCurrency(cat.price)}</div>
-                  </div>
-                </div>
-              </div>
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 20 }}>
+              <SliderBlock />
+              <PeriodBlock />
             </div>
-
             <div style={{ width: 380, flexShrink: 0 }}>
-              <div style={{ background: "#fff", borderRadius: 20, border: `1px solid ${BORDER}`, padding: 28, boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}>
-                <div style={{ fontSize: 14, color: TEXT_SECONDARY, marginBottom: 12 }}>Chọn kỳ hạn trả sau</div>
-                <div style={{ display: "flex", gap: 10, marginBottom: 24 }}>
-                  {periodOptions.map((p) => (
-                    <button
-                      key={p.value}
-                      onClick={() => setPeriod(p.value)}
-                      style={{
-                        flex: 1, padding: "14px 8px", borderRadius: 12,
-                        border: period === p.value ? `2px solid ${MWG_BLACK}` : `1px solid ${BORDER}`,
-                        background: period === p.value ? SOFT_YELLOW : "#fff",
-                        cursor: "pointer", transition: "all 0.2s", textAlign: "center",
-                      }}
-                    >
-                      <div style={{ fontSize: 14, fontWeight: 700, color: MWG_BLACK }}>{p.label}</div>
-                      <div style={{ fontSize: 11, color: TEXT_SECONDARY, marginTop: 2 }}>{p.desc}</div>
-                    </button>
-                  ))}
-                </div>
-                <div style={{ background: `linear-gradient(135deg, ${MWG_YELLOW}, ${GRADIENT_END})`, borderRadius: 14, padding: "20px 22px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                    <span style={{ fontSize: 14, color: "rgba(26,26,26,0.6)" }}>Giá sản phẩm</span>
-                    <span style={{ fontSize: 16, fontWeight: 700, color: MWG_BLACK }}>{formatCurrency(cat.price)}</span>
-                  </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                    <span style={{ fontSize: 14, color: "rgba(26,26,26,0.6)" }}>Phí / Lãi suất</span>
-                    {per.hasInterest
-                      ? <span style={{ fontSize: 13, fontWeight: 600, color: MWG_BLACK }}>Theo chương trình</span>
-                      : <span style={{ fontSize: 16, fontWeight: 700, color: ACCENT_GREEN }}>0đ</span>
-                    }
-                  </div>
-                  <div style={{ borderTop: "1px dashed rgba(0,0,0,0.15)", paddingTop: 12, display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
-                    <span style={{ fontSize: 14, fontWeight: 600, color: MWG_BLACK }}>
-                      {per.installments > 1 ? (per.hasInterest ? "Mỗi tháng (chưa tính lãi)*" : "Mỗi kỳ thanh toán") : `Trả sau ${per.value} ngày`}
-                    </span>
-                    <div style={{ textAlign: "right" }}>
-                      <div style={{ fontSize: 24, fontWeight: 800, color: MWG_BLACK, letterSpacing: -0.5 }}>
-                        {formatCurrency(payAmount)}
-                      </div>
-                      {per.installments > 1 && (
-                        <div style={{ fontSize: 11, color: "rgba(26,26,26,0.5)" }}>× {per.installments} kỳ</div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <p style={{ fontSize: 11, color: TEXT_MUTED, textAlign: "center", margin: "12px 0 0", fontStyle: "italic" }}>
-                  {per.hasInterest
-                    ? "* Số tiền gốc/tháng, chưa bao gồm lãi suất. Lãi suất theo chương trình từng thời điểm."
-                    : "* Giá mang tính minh hoạ. Lãi suất 0% áp dụng theo chương trình từng thời điểm."
-                  }
-                </p>
-              </div>
+              <BreakdownCard />
             </div>
           </div>
         ) : (
-          <>
-            <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 4, marginBottom: 20, scrollbarWidth: "none" }}>
-              {bnplCategories.map((c, i) => (
-                <button
-                  key={i}
-                  onClick={() => setSelected(i)}
-                  style={{
-                    display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
-                    padding: "10px 14px", borderRadius: 12,
-                    border: selected === i ? `2px solid ${MWG_BLACK}` : `1px solid ${BORDER}`,
-                    background: selected === i ? SOFT_YELLOW : "#fff",
-                    cursor: "pointer", flexShrink: 0, transition: "all 0.2s",
-                  }}
-                >
-                  <img src={c.img} alt={c.label} style={{ width: 36, height: 36, objectFit: "contain" }} />
-                  <span style={{ fontSize: 11, fontWeight: selected === i ? 700 : 500, color: MWG_BLACK, whiteSpace: "nowrap" }}>{c.label}</span>
-                </button>
-              ))}
-            </div>
-            <div style={{ background: "#fff", borderRadius: 20, border: `1px solid ${BORDER}`, padding: 20, boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, paddingBottom: 16, borderBottom: `1px solid ${BORDER}` }}>
-                <div style={{ width: 52, height: 52, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, padding: 6 }}>
-                  <img src={cat.img} alt={cat.label} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: MWG_BLACK }}>{cat.product}</div>
-                  <div style={{ fontSize: 14, color: MWG_RED, fontWeight: 600, marginTop: 2 }}>{formatCurrency(cat.price)}</div>
-                </div>
-              </div>
-              <div style={{ marginBottom: 16 }}>
-                <div style={{ fontSize: 13, color: TEXT_SECONDARY, marginBottom: 10 }}>Chọn kỳ hạn trả sau</div>
-                <div style={{ display: "flex", gap: 8 }}>
-                  {periodOptions.map((p) => (
-                    <button
-                      key={p.value}
-                      onClick={() => setPeriod(p.value)}
-                      style={{
-                        flex: 1, padding: "12px 8px", borderRadius: 12,
-                        border: period === p.value ? `2px solid ${MWG_BLACK}` : `1px solid ${BORDER}`,
-                        background: period === p.value ? SOFT_YELLOW : "#fff",
-                        cursor: "pointer", transition: "all 0.2s", textAlign: "center",
-                      }}
-                    >
-                      <div style={{ fontSize: 13, fontWeight: 700, color: MWG_BLACK }}>{p.label}</div>
-                      <div style={{ fontSize: 10, color: TEXT_SECONDARY, marginTop: 2 }}>{p.desc}</div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div style={{ background: `linear-gradient(135deg, ${MWG_YELLOW}, ${GRADIENT_END})`, borderRadius: 14, padding: 18 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                  <span style={{ fontSize: 13, color: "rgba(26,26,26,0.6)" }}>Giá sản phẩm</span>
-                  <span style={{ fontSize: 15, fontWeight: 700, color: MWG_BLACK }}>{formatCurrency(cat.price)}</span>
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                  <span style={{ fontSize: 13, color: "rgba(26,26,26,0.6)" }}>Phí / Lãi suất</span>
-                  {per.hasInterest
-                    ? <span style={{ fontSize: 12, fontWeight: 600, color: MWG_BLACK }}>Theo chương trình</span>
-                    : <span style={{ fontSize: 15, fontWeight: 700, color: ACCENT_GREEN }}>0đ</span>
-                  }
-                </div>
-                <div style={{ borderTop: "1px dashed rgba(0,0,0,0.15)", paddingTop: 10, display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: MWG_BLACK }}>
-                    {per.installments > 1 ? (per.hasInterest ? "Mỗi tháng (chưa tính lãi)*" : "Mỗi kỳ thanh toán") : `Trả sau ${per.value} ngày`}
-                  </span>
-                  <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: 22, fontWeight: 800, color: MWG_BLACK, letterSpacing: -0.5 }}>
-                      {formatCurrency(payAmount)}
-                    </div>
-                    {per.installments > 1 && (
-                      <div style={{ fontSize: 11, color: "rgba(26,26,26,0.5)" }}>× {per.installments} kỳ</div>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <p style={{ fontSize: 11, color: TEXT_MUTED, textAlign: "center", margin: "10px 0 0", fontStyle: "italic" }}>
-                {per.hasInterest
-                  ? "* Số tiền gốc/tháng, chưa bao gồm lãi suất. Lãi suất theo chương trình từng thời điểm."
-                  : "* Giá mang tính minh hoạ. Lãi suất 0% áp dụng theo chương trình từng thời điểm."
-                }
-              </p>
-            </div>
-          </>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <SliderBlock />
+            <PeriodBlock />
+            <BreakdownCard />
+          </div>
         )}
+
         <div style={{ textAlign: "center", marginTop: isDesktop ? 40 : 28 }}>
-          <button
-            style={{
-              background: MWG_BLACK,
-              color: "#fff",
-              border: "none",
-              borderRadius: 28,
-              padding: isDesktop ? "18px 56px" : "14px 40px",
-              fontSize: isDesktop ? 16 : 15,
-              fontWeight: 700,
-              cursor: "pointer",
-              boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
-            }}
-          >
+          <button style={{
+            background: MWG_BLACK, color: "#fff", border: "none", borderRadius: 28,
+            padding: isDesktop ? "18px 56px" : "14px 40px",
+            fontSize: isDesktop ? 16 : 15, fontWeight: 700, cursor: "pointer",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
+          }}>
             Đăng ký ngay →
           </button>
           <p style={{ fontSize: 12, color: TEXT_MUTED, marginTop: 10 }}>
