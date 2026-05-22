@@ -407,16 +407,18 @@ const GuideSection = ({ isDesktop }) => {
 };
 
 const bnplCategories = [
-  { img: "/cat-dienthoai.png", label: "Điện thoại", product: "Samsung Galaxy A56 5G", price: 9990000, tag: "Bán chạy" },
-  { img: "/cat-donghо.png", label: "Đồng hồ", product: "Samsung Galaxy Watch FE 40mm", price: 3160000, tag: "Yêu thích" },
-  { img: "/cat-laptop.png", label: "Máy tính bảng", product: "Samsung Galaxy Tab A9 WiFi", price: 4490000, tag: "Trending" },
+  { img: "/cat-dienthoai.png", label: "Điện thoại", product: "iPhone 16 128GB", price: 22990000, tag: "Bán chạy" },
+  { img: "/cat-laptop.png", label: "Laptop", product: 'MacBook Air M4 13"', price: 28990000, tag: "Trending" },
+  { img: "/apple-watch.png", label: "Smartwatch", product: "Apple Watch SE 2 40mm", price: 6490000, tag: "Yêu thích" },
+  { img: "/may lanh.png", label: "Máy lạnh", product: "Daikin 1HP Inverter", price: 9990000, tag: "Hot hè" },
+  { img: "/Đồ chơi.png", label: "Đồ chơi", product: "LEGO City 2025", price: 1590000, tag: "Avakids" },
   { img: "/cat-phuкien.png", label: "Phụ kiện", product: "AirPods 4", price: 3490000, tag: "Đang hot" },
 ];
 
 const periodOptions = [
-  { value: 30, label: "30 ngày", desc: "Trả 1 lần • 0% lãi", installments: 1 },
-  { value: 90, label: "90 ngày", desc: "Trả 1 lần • 0% lãi", installments: 1 },
-  { value: 270, label: "3 tháng", desc: "Chia 3 kỳ • 0% lãi", installments: 3 },
+  { value: 90,  label: "90 ngày",   desc: "1 lần • 0% lãi", installments: 1,  hasInterest: false },
+  { value: 270, label: "3 tháng",   desc: "3 kỳ • 0% lãi",  installments: 3,  hasInterest: false },
+  { value: 720, label: "24 tháng",  desc: "24 kỳ • có lãi", installments: 24, hasInterest: true  },
 ];
 
 const ProductBNPLSection = ({ isDesktop }) => {
@@ -508,11 +510,14 @@ const ProductBNPLSection = ({ isDesktop }) => {
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
                     <span style={{ fontSize: 14, color: "rgba(26,26,26,0.6)" }}>Phí / Lãi suất</span>
-                    <span style={{ fontSize: 16, fontWeight: 700, color: ACCENT_GREEN }}>0đ</span>
+                    {per.hasInterest
+                      ? <span style={{ fontSize: 13, fontWeight: 600, color: MWG_BLACK }}>Theo chương trình</span>
+                      : <span style={{ fontSize: 16, fontWeight: 700, color: ACCENT_GREEN }}>0đ</span>
+                    }
                   </div>
                   <div style={{ borderTop: "1px dashed rgba(0,0,0,0.15)", paddingTop: 12, display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
                     <span style={{ fontSize: 14, fontWeight: 600, color: MWG_BLACK }}>
-                      {per.installments > 1 ? "Mỗi kỳ thanh toán" : `Trả sau ${per.value} ngày`}
+                      {per.installments > 1 ? (per.hasInterest ? "Mỗi tháng (chưa tính lãi)*" : "Mỗi kỳ thanh toán") : `Trả sau ${per.value} ngày`}
                     </span>
                     <div style={{ textAlign: "right" }}>
                       <div style={{ fontSize: 24, fontWeight: 800, color: MWG_BLACK, letterSpacing: -0.5 }}>
@@ -525,7 +530,10 @@ const ProductBNPLSection = ({ isDesktop }) => {
                   </div>
                 </div>
                 <p style={{ fontSize: 11, color: TEXT_MUTED, textAlign: "center", margin: "12px 0 0", fontStyle: "italic" }}>
-                  * Giá mang tính minh hoạ. Lãi suất 0% áp dụng theo chương trình từng thời điểm.
+                  {per.hasInterest
+                    ? "* Số tiền gốc/tháng, chưa bao gồm lãi suất. Lãi suất theo chương trình từng thời điểm."
+                    : "* Giá mang tính minh hoạ. Lãi suất 0% áp dụng theo chương trình từng thời điểm."
+                  }
                 </p>
               </div>
             </div>
@@ -587,11 +595,14 @@ const ProductBNPLSection = ({ isDesktop }) => {
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
                   <span style={{ fontSize: 13, color: "rgba(26,26,26,0.6)" }}>Phí / Lãi suất</span>
-                  <span style={{ fontSize: 15, fontWeight: 700, color: ACCENT_GREEN }}>0đ</span>
+                  {per.hasInterest
+                    ? <span style={{ fontSize: 12, fontWeight: 600, color: MWG_BLACK }}>Theo chương trình</span>
+                    : <span style={{ fontSize: 15, fontWeight: 700, color: ACCENT_GREEN }}>0đ</span>
+                  }
                 </div>
                 <div style={{ borderTop: "1px dashed rgba(0,0,0,0.15)", paddingTop: 10, display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
-                  <span style={{ fontSize: 14, fontWeight: 600, color: MWG_BLACK }}>
-                    {per.installments > 1 ? "Mỗi kỳ thanh toán" : `Trả sau ${per.value} ngày`}
+                  <span style={{ fontSize: 13, fontWeight: 600, color: MWG_BLACK }}>
+                    {per.installments > 1 ? (per.hasInterest ? "Mỗi tháng (chưa tính lãi)*" : "Mỗi kỳ thanh toán") : `Trả sau ${per.value} ngày`}
                   </span>
                   <div style={{ textAlign: "right" }}>
                     <div style={{ fontSize: 22, fontWeight: 800, color: MWG_BLACK, letterSpacing: -0.5 }}>
@@ -602,9 +613,12 @@ const ProductBNPLSection = ({ isDesktop }) => {
                     )}
                   </div>
                 </div>
-                </div>
+              </div>
               <p style={{ fontSize: 11, color: TEXT_MUTED, textAlign: "center", margin: "10px 0 0", fontStyle: "italic" }}>
-                * Giá mang tính minh hoạ. Lãi suất 0% áp dụng theo chương trình từng thời điểm.
+                {per.hasInterest
+                  ? "* Số tiền gốc/tháng, chưa bao gồm lãi suất. Lãi suất theo chương trình từng thời điểm."
+                  : "* Giá mang tính minh hoạ. Lãi suất 0% áp dụng theo chương trình từng thời điểm."
+                }
               </p>
             </div>
           </>
@@ -658,10 +672,10 @@ const DifferentiatorSection = ({ isDesktop }) => (
 );
 
 const storeChains = [
-  { name: "Thế Giới Di Động", count: "1.014", img: "/card-tgdd.png" },
-  { name: "Điện Máy Xanh", count: "2.006", img: "/card-dmx.png" },
-  { name: "TopZone", count: "100+", img: "/card-topzone.png" },
-  { name: "Avakids", count: "95", img: "/card-avakids.png" },
+  { name: "Thế Giới Di Động", count: "1.014", img: "/TGDĐ.png" },
+  { name: "Điện Máy Xanh", count: "2.006", img: "/DMX.png" },
+  { name: "TopZone", count: "100+", img: "/Topzone.png" },
+  { name: "Avakids", count: "95", img: "/Avakids.png" },
 ];
 
 const StoreNetworkSection = ({ isDesktop }) => (
@@ -816,14 +830,14 @@ const CTASection = ({ isDesktop }) => (
         <div style={{ position: "absolute", bottom: -30, left: isDesktop ? -30 : -30, width: 120, height: 120, borderRadius: "50%", background: MWG_YELLOW, opacity: 0.06 }} />
         <div style={{ position: "relative", zIndex: 1, flex: isDesktop ? 1 : undefined }}>
           <div style={{ fontSize: 13, color: MWG_YELLOW, fontWeight: 600, marginBottom: 8 }}>
-            🎁 Ưu đãi dành riêng cho bạn
+            Ưu đãi dành riêng cho bạn
           </div>
           <h2 style={{ fontSize: isDesktop ? 36 : 24, fontWeight: 800, color: "#fff", margin: "0 0 8px", lineHeight: 1.3 }}>
-            Đăng ký Ví MWG — nhận ngay{" "}
-            <span style={{ color: MWG_YELLOW }}>40.000đ</span>
+            Đăng ký Ví MWG — hoàn tiền đến{" "}
+            <span style={{ color: MWG_YELLOW }}>500.000đ</span>
           </h2>
           <p style={{ fontSize: isDesktop ? 15 : 13, color: "rgba(255,255,255,0.6)", margin: isDesktop ? 0 : "0 0 20px", lineHeight: 1.5 }}>
-            Áp dụng cho khách hàng kích hoạt lần đầu tại Thế Giới Di Động
+            Áp dụng cho giao dịch đủ điều kiện · Theo chương trình từng thời điểm
           </p>
         </div>
         <div style={{ position: "relative", zIndex: 1, flexShrink: isDesktop ? 0 : undefined }}>
