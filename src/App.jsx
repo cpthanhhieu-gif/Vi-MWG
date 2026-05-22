@@ -463,7 +463,8 @@ const ProductBNPLSection = ({ isDesktop }) => {
     e.target.select();
   };
 
-  const CategoryTabs = () => (
+  // --- category tabs ---
+  const categoryTabsJsx = (
     <div style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 4, marginBottom: isDesktop ? 32 : 20, scrollbarWidth: "none", justifyContent: isDesktop ? "center" : "flex-start" }}>
       {bnplCategories.map((c, i) => (
         <button key={i} onClick={() => handleCatSelect(i)} style={{
@@ -480,7 +481,8 @@ const ProductBNPLSection = ({ isDesktop }) => {
     </div>
   );
 
-  const SliderBlock = () => (
+  // --- slider block ---
+  const sliderBlockJsx = (
     <div style={{ background: WARM_GRAY, borderRadius: 20, padding: isDesktop ? "28px 32px" : "20px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 16 }}>
         <span style={{ fontSize: isDesktop ? 14 : 13, color: TEXT_SECONDARY }}>Giá sản phẩm của bạn</span>
@@ -492,6 +494,14 @@ const ProductBNPLSection = ({ isDesktop }) => {
             onChange={handleInputChange}
             onBlur={handleInputBlur}
             onFocus={handleInputFocus}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                const num = Math.min(Math.max(Number(inputVal.replace(/[^0-9]/g, "")) || cat.min, cat.min), cat.max);
+                setPrice(num);
+                setInputVal(formatNum(num));
+                e.target.blur();
+              }
+            }}
             style={{
               fontSize: isDesktop ? 22 : 18,
               fontWeight: 800,
@@ -520,7 +530,8 @@ const ProductBNPLSection = ({ isDesktop }) => {
     </div>
   );
 
-  const PeriodBlock = () => (
+  // --- period block ---
+  const periodBlockJsx = (
     <div>
       <div style={{ fontSize: isDesktop ? 14 : 13, color: TEXT_SECONDARY, marginBottom: 10 }}>Chọn kỳ hạn trả sau</div>
       <div style={{ display: "flex", gap: isDesktop ? 12 : 8 }}>
@@ -539,12 +550,12 @@ const ProductBNPLSection = ({ isDesktop }) => {
     </div>
   );
 
-  const BreakdownCard = () => (
+  // --- breakdown card ---
+  const breakdownCardJsx = (
     <div style={{ background: SOFT_YELLOW, borderRadius: 24, padding: isDesktop ? "36px 32px" : "24px 20px", border: `1px solid ${BORDER}` }}>
       <div style={{ fontSize: isDesktop ? 13 : 12, color: MWG_RED, fontWeight: 600, marginBottom: isDesktop ? 24 : 16 }}>
         Trả góp {per.label}
       </div>
-
       <div style={{ fontSize: isDesktop ? 14 : 13, color: TEXT_SECONDARY, marginBottom: 6 }}>
         {per.installments > 1
           ? (per.hasInterest ? "Mỗi tháng chỉ từ*" : "Mỗi tháng chỉ")
@@ -558,7 +569,6 @@ const ProductBNPLSection = ({ isDesktop }) => {
           × {per.installments} kỳ · {per.hasInterest ? "Lãi suất theo chương trình" : "0% lãi suất"}
         </div>
       )}
-
       <div style={{ borderTop: `1px solid ${BORDER}`, marginTop: isDesktop ? 28 : 18, paddingTop: isDesktop ? 20 : 14 }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
           <span style={{ fontSize: isDesktop ? 13 : 12, color: TEXT_SECONDARY }}>Tổng giá trị sản phẩm</span>
@@ -571,7 +581,6 @@ const ProductBNPLSection = ({ isDesktop }) => {
           </span>
         </div>
       </div>
-
       <p style={{ fontSize: isDesktop ? 11 : 10, color: TEXT_MUTED, marginTop: isDesktop ? 16 : 12, fontStyle: "italic" }}>
         {per.hasInterest
           ? "* Số tiền tạm tính phần gốc, chưa bao gồm lãi suất. Lãi suất theo chương trình từng thời điểm."
@@ -592,23 +601,23 @@ const ProductBNPLSection = ({ isDesktop }) => {
           </p>
         </div>
 
-        <CategoryTabs />
+        {categoryTabsJsx}
 
         {isDesktop ? (
           <div style={{ display: "flex", gap: 40, alignItems: "flex-start" }}>
             <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 20 }}>
-              <SliderBlock />
-              <PeriodBlock />
+              {sliderBlockJsx}
+              {periodBlockJsx}
             </div>
             <div style={{ width: 380, flexShrink: 0 }}>
-              <BreakdownCard />
+              {breakdownCardJsx}
             </div>
           </div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <SliderBlock />
-            <PeriodBlock />
-            <BreakdownCard />
+            {sliderBlockJsx}
+            {periodBlockJsx}
+            {breakdownCardJsx}
           </div>
         )}
 
