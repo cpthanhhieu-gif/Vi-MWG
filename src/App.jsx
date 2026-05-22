@@ -136,9 +136,9 @@ const HeroSection = ({ isDesktop }) => (
       }}
     >
       <img
-        src="/hero-banner ví mwg.png"
+        src={isDesktop ? "/hero-banner ví mwg desktop.png" : "/hero-banner ví mwg 1.png"}
         alt="Ví MWG PayLater — Mua trước, trả sau"
-        style={{ width: "100%", display: "block", borderRadius: isDesktop ? 0 : 0 }}
+        style={{ width: "100%", display: "block" }}
       />
     </div>
 
@@ -199,27 +199,37 @@ const PartnerBanner = ({ isDesktop }) => (
         style={{
           background: WARM_GRAY,
           borderRadius: 16,
-          padding: isDesktop ? "20px 32px" : "16px 20px",
+          padding: isDesktop ? "28px 40px" : "20px 20px",
           display: "flex",
+          flexDirection: isDesktop ? "row" : "column",
           alignItems: "center",
           justifyContent: "center",
-          gap: 16,
+          gap: isDesktop ? 32 : 12,
         }}
       >
         <div
           style={{
-            fontSize: 11,
+            fontSize: isDesktop ? 14 : 11,
+            fontWeight: isDesktop ? 600 : 400,
             color: TEXT_MUTED,
             textTransform: "uppercase",
-            letterSpacing: 1,
+            letterSpacing: 1.5,
           }}
         >
           Sản phẩm hợp tác
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <img src="/logos/Logo-The-Gioi-Di-Dong-MWG-B-V.png" alt="Thế Giới Di Động" style={{ height: 24, objectFit: "contain" }} />
-          <span style={{ color: TEXT_MUTED, fontSize: 16 }}>×</span>
-          <img src="/logo-cake.png" alt="Cake by VPBank" style={{ height: 24, objectFit: "contain" }} />
+        <div style={{ display: "flex", alignItems: "center", gap: isDesktop ? 28 : 16 }}>
+          <img
+            src="/logos/Logo-The-Gioi-Di-Dong-MWG-B-V.png"
+            alt="Thế Giới Di Động"
+            style={{ height: isDesktop ? 60 : 40, objectFit: "contain" }}
+          />
+          <span style={{ color: BORDER, fontSize: isDesktop ? 28 : 20 }}>×</span>
+          <img
+            src="/logo-cake.png"
+            alt="Cake by VPBank"
+            style={{ height: isDesktop ? 60 : 40, objectFit: "contain" }}
+          />
         </div>
       </div>
     </div>
