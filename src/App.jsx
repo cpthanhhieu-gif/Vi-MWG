@@ -305,50 +305,52 @@ const HeroSection = ({ isDesktop }) => (
 );
 
 const PartnerBanner = ({ isDesktop }) => (
-  <div
-    style={{
-      maxWidth: isDesktop ? 1100 : 480,
-      margin: "-20px auto 0",
-      padding: isDesktop ? "0 40px" : "0 16px",
-      position: "relative",
-      zIndex: 2,
-    }}
-  >
+  <div style={{ background: "#fff", paddingBottom: isDesktop ? 48 : 32 }}>
     <div
       style={{
-        background: MWG_BLACK,
-        borderRadius: 16,
-        padding: isDesktop ? "20px 32px" : "16px 20px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 16,
+        maxWidth: isDesktop ? 1100 : 480,
+        margin: "-20px auto 0",
+        padding: isDesktop ? "0 40px" : "0 16px",
+        position: "relative",
+        zIndex: 2,
       }}
     >
       <div
         style={{
-          fontSize: 11,
-          color: "rgba(255,255,255,0.5)",
-          textTransform: "uppercase",
-          letterSpacing: 1,
+          background: MWG_BLACK,
+          borderRadius: 16,
+          padding: isDesktop ? "20px 32px" : "16px 20px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 16,
         }}
       >
-        Sản phẩm hợp tác
-      </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <img src="/logo-tgdd.png" alt="Thế Giới Di Động" style={{ height: 24, objectFit: "contain" }} />
-        <span style={{ color: "rgba(255,255,255,0.3)", fontSize: 16 }}>×</span>
-        <img src="/logo-cake.png" alt="Cake by VPBank" style={{ height: 24, objectFit: "contain" }} />
+        <div
+          style={{
+            fontSize: 11,
+            color: "rgba(255,255,255,0.5)",
+            textTransform: "uppercase",
+            letterSpacing: 1,
+          }}
+        >
+          Sản phẩm hợp tác
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <img src="/logo-tgdd.png" alt="Thế Giới Di Động" style={{ height: 24, objectFit: "contain" }} />
+          <span style={{ color: "rgba(255,255,255,0.3)", fontSize: 16 }}>×</span>
+          <img src="/logo-cake.png" alt="Cake by VPBank" style={{ height: 24, objectFit: "contain" }} />
+        </div>
       </div>
     </div>
   </div>
 );
 
 const uspItems = [
-  { img: "/usp-duyet.png", title: "Duyệt trong 30 giây", desc: "Chỉ cần CCCD, không cần chứng minh thu nhập" },
-  { img: "/usp-hanmuc.png", title: "Hạn mức 5 triệu", desc: "Mua ngay, trả sau lên đến 5.000.000đ" },
-  { img: "/usp-tragop.png", title: "Trả góp linh hoạt", desc: "Chuyển đổi trả góp 3-12 tháng bất kỳ lúc nào" },
-  { img: "/usp-khonglai.png", title: "Không lãi suất", desc: "Miễn lãi hoàn toàn khi thanh toán đúng hạn" },
+  { img: "/usp-duyet.png", title: "Duyệt trong 2 phút", desc: "Chỉ cần CCCD gắn chip, duyệt tự động 100% online" },
+  { img: "/usp-hanmuc.png", title: "Hạn mức 40 triệu", desc: "Mua ngay, trả sau lên đến 40.000.000đ" },
+  { img: "/usp-tragop.png", title: "Miễn lãi đến 90 ngày", desc: "Hoặc trả góp linh hoạt lên đến 24 tháng" },
+  { img: "/usp-khonglai.png", title: "0% lãi suất", desc: "Miễn lãi hoàn toàn khi thanh toán đúng hạn" },
 ];
 
 const USPSection = ({ isDesktop }) => (
@@ -592,14 +594,14 @@ const bnplCategories = [
 ];
 
 const periodOptions = [
-  { value: 30, label: "30 ngày", desc: "1 kỳ • 0% lãi", installments: 1 },
-  { value: 45, label: "45 ngày", desc: "1 kỳ • 0% lãi", installments: 1 },
-  { value: 90, label: "3 tháng", desc: "3 kỳ • 0% lãi", installments: 3 },
+  { value: 30, label: "30 ngày", desc: "Trả 1 lần • 0% lãi", installments: 1 },
+  { value: 90, label: "90 ngày", desc: "Trả 1 lần • 0% lãi", installments: 1 },
+  { value: 270, label: "3 tháng", desc: "Chia 3 kỳ • 0% lãi", installments: 3 },
 ];
 
 const ProductBNPLSection = ({ isDesktop }) => {
   const [selected, setSelected] = useState(0);
-  const [period, setPeriod] = useState(45);
+  const [period, setPeriod] = useState(90);
   const cat = bnplCategories[selected];
   const per = periodOptions.find((p) => p.value === period);
   const payAmount = Math.round(cat.price / per.installments);
@@ -813,6 +815,28 @@ const ProductBNPLSection = ({ isDesktop }) => {
 };
 
 
+const DifferentiatorSection = ({ isDesktop }) => (
+  <div style={{ background: "#fff" }}>
+    <div
+      style={{
+        maxWidth: isDesktop ? 1100 : 480,
+        margin: "0 auto",
+        padding: isDesktop ? "56px 40px" : "32px 16px",
+      }}
+    >
+      <img
+        src="/banner điểm khác biệt của ví mwg.png"
+        alt="Điểm khác biệt của Ví MWG PayLater"
+        style={{
+          width: "100%",
+          display: "block",
+          borderRadius: isDesktop ? 20 : 14,
+        }}
+      />
+    </div>
+  </div>
+);
+
 const storeChains = [
   { name: "Thế Giới Di Động", count: "1.014", img: "/card-tgdd.png" },
   { name: "Điện Máy Xanh", count: "2.006", img: "/card-dmx.png" },
@@ -821,7 +845,7 @@ const storeChains = [
 ];
 
 const StoreNetworkSection = ({ isDesktop }) => (
-  <div style={{ background: "#fff", borderBottom: `1px solid ${BORDER}` }}>
+  <div style={{ background: "#fff" }}>
     <div
       style={{
         maxWidth: isDesktop ? 1100 : 480,
@@ -861,62 +885,14 @@ const StoreNetworkSection = ({ isDesktop }) => (
   </div>
 );
 
-const partners = [
-  { name: "VPBank", img: "/logos/logo-vpbank.png" },
-  { name: "Cake by VPBank", img: "/logos/logo-cake-vpbank.png" },
-  { name: "NAPAS", img: "/logos/logo-napas.png" },
-  { name: "VNPAY", img: "/logos/logo-vnpay.png" },
-];
-
-const TrustSection = ({ isDesktop }) => (
-  <div style={{ background: "#fff" }}>
-    <div
-      style={{
-        maxWidth: isDesktop ? 1100 : 480,
-        margin: "0 auto",
-        padding: isDesktop ? "60px 40px" : "36px 16px",
-      }}
-    >
-      <div style={{ textAlign: "center", marginBottom: isDesktop ? 32 : 20 }}>
-        <h2 style={{ fontSize: isDesktop ? 28 : 18, fontWeight: 700, color: MWG_BLACK, margin: "0 0 6px" }}>
-          Đối tác uy tín
-        </h2>
-        <p style={{ fontSize: isDesktop ? 15 : 13, color: TEXT_SECONDARY, margin: 0 }}>
-          An toàn với hệ sinh thái tài chính hàng đầu
-        </p>
-      </div>
-      <div style={{ display: "flex", justifyContent: "center", gap: isDesktop ? 16 : 12, flexWrap: "wrap" }}>
-        {partners.map((p, i) => (
-          <div
-            key={i}
-            style={{
-              background: WARM_GRAY,
-              borderRadius: 12,
-              padding: isDesktop ? "14px 28px" : "12px 20px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <img
-              src={p.img}
-              alt={p.name}
-              style={{ height: isDesktop ? 32 : 26, objectFit: "contain" }}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-);
 
 const faqData = [
-  { q: "Ví MWG PayLater là gì?", a: "Ví MWG PayLater là dịch vụ Mua trước - Trả sau, cho phép bạn mua sắm tại Thế Giới Di Động và Điện Máy Xanh với hạn mức lên đến 5 triệu đồng, miễn lãi khi thanh toán đúng hạn." },
-  { q: "Ai có thể đăng ký Ví MWG?", a: "Công dân Việt Nam từ 18 tuổi trở lên, có CCCD gắn chip còn hiệu lực. Không cần chứng minh thu nhập hay hồ sơ phức tạp." },
-  { q: "Ví MWG có tính lãi không?", a: "Không! Khi bạn thanh toán đúng hạn (trong kỳ miễn lãi 45 ngày), bạn hoàn toàn không phải trả bất kỳ khoản lãi nào. Nếu chuyển đổi trả góp, mức lãi suất sẽ được thông báo rõ ràng." },
+  { q: "Ví MWG PayLater là gì?", a: "Ví MWG PayLater là dịch vụ Mua trước - Trả sau được phát triển bởi Thế Giới Di Động hợp tác cùng Cake by VPBank. Bạn được cấp hạn mức lên đến 40 triệu đồng, miễn lãi tối đa 90 ngày, duyệt hoàn toàn online trong 2 phút." },
+  { q: "Ai có thể đăng ký Ví MWG?", a: "Công dân Việt Nam từ 18 tuổi trở lên, có CCCD gắn chip còn hiệu lực. Không cần chứng minh thu nhập hay hồ sơ phức tạp — duyệt tự động 100% online." },
+  { q: "Ví MWG có tính lãi không?", a: "Không! Khi thanh toán đúng hạn trong kỳ miễn lãi (tối đa 90 ngày), bạn hoàn toàn không trả bất kỳ khoản lãi nào. Nếu muốn trả góp dài hạn hơn (lên đến 24 tháng), mức lãi suất sẽ được thông báo rõ ràng trước khi xác nhận." },
   { q: "Mua trước, trả sau có rủi ro gì không?", a: "Ví MWG minh bạch về mọi khoản phí. Bạn chỉ cần thanh toán đúng hạn để tránh phí trễ hạn. Mọi thông tin đều được hiển thị rõ trước khi xác nhận giao dịch." },
-  { q: "Hạn mức tối đa của Ví MWG là bao nhiêu?", a: "Hạn mức hiện tại lên đến 5.000.000đ. Hạn mức được cấp tự động dựa trên kết quả xét duyệt và có thể được nâng dần theo lịch sử thanh toán đúng hạn của bạn." },
-  { q: "Có thể dùng Ví MWG để mua hàng online không?", a: "Có! Ví MWG PayLater được chấp nhận tại website và app của Thế Giới Di Động, Điện Máy Xanh, TopZone và Avakids. Chọn Ví MWG làm phương thức thanh toán khi checkout là hoàn tất." },
+  { q: "Hạn mức tối đa của Ví MWG là bao nhiêu?", a: "Hạn mức lên đến 40.000.000đ, được xét duyệt tự động dựa trên kết quả eKYC. Hạn mức có thể được nâng dần theo lịch sử thanh toán đúng hạn của bạn." },
+  { q: "Dùng Ví MWG được ở đâu?", a: "Ví MWG PayLater được chấp nhận tại hơn 3.200 cửa hàng của Thế Giới Di Động, Điện Máy Xanh, TopZone, Avakids và Nhà thuốc An Khang — cả online lẫn offline. Chọn Ví MWG làm phương thức thanh toán khi checkout là hoàn tất." },
 ];
 
 const FAQItem = ({ faq, openIdx, idx, setOpenIdx }) => (
@@ -1095,11 +1071,11 @@ export default function App() {
       <StickyHeader isDesktop={isDesktop} />
       <HeroSection isDesktop={isDesktop} />
       <PartnerBanner isDesktop={isDesktop} />
-      <ProductBNPLSection isDesktop={isDesktop} />
-      <USPSection isDesktop={isDesktop} />
-      <GuideSection isDesktop={isDesktop} />
+      <DifferentiatorSection isDesktop={isDesktop} />
       <StoreNetworkSection isDesktop={isDesktop} />
-      <TrustSection isDesktop={isDesktop} />
+      <USPSection isDesktop={isDesktop} />
+      <ProductBNPLSection isDesktop={isDesktop} />
+      <GuideSection isDesktop={isDesktop} />
       <FAQSection isDesktop={isDesktop} />
       <CTASection isDesktop={isDesktop} />
       <Footer isDesktop={isDesktop} />
