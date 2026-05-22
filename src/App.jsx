@@ -407,31 +407,60 @@ const GuideSection = ({ isDesktop }) => {
 };
 
 const bnplCategories = [
-  { icon: "📱", label: "Điện thoại", min: 3000000,  max: 30000000, defaultPrice: 15000000 },
-  { icon: "💻", label: "Laptop",     min: 10000000, max: 40000000, defaultPrice: 29000000 },
-  { icon: "⌚", label: "Smartwatch", min: 2000000,  max: 15000000, defaultPrice: 6000000  },
-  { icon: "❄️", label: "Máy lạnh",  min: 5000000,  max: 20000000, defaultPrice: 10000000 },
-  { icon: "🎧", label: "Phụ kiện",  min: 500000,   max: 5000000,  defaultPrice: 2000000  },
+  { img: "/cat-dienthoai.png", label: "Điện thoại", min: 3000000,  max: 30000000, defaultPrice: 15000000 },
+  { img: "/cat-laptop.png",    label: "Laptop",     min: 10000000, max: 40000000, defaultPrice: 29000000 },
+  { img: "/cat-donghо.png",    label: "Smartwatch", min: 2000000,  max: 15000000, defaultPrice: 6000000  },
+  { img: "/may lanh.png",      label: "Máy lạnh",   min: 5000000,  max: 20000000, defaultPrice: 10000000 },
+  { img: "/cat-phuкien.png",   label: "Phụ kiện",   min: 500000,   max: 5000000,  defaultPrice: 2000000  },
 ];
 
 const periodOptions = [
   { value: 90,  label: "90 ngày",   desc: "1 lần • 0% lãi", installments: 1,  hasInterest: false },
-  { value: 270, label: "3 tháng",   desc: "3 kỳ • 0% lãi",  installments: 3,  hasInterest: false },
+  { value: 270, label: "3 tháng",   desc: "3 kỳ • 0% lãi*", installments: 3,  hasInterest: false },
   { value: 720, label: "24 tháng",  desc: "24 kỳ • có lãi", installments: 24, hasInterest: true  },
 ];
 
 const ProductBNPLSection = ({ isDesktop }) => {
   const [selected, setSelected] = useState(1); // default Laptop
   const [price, setPrice] = useState(29000000);
-  const [period, setPeriod] = useState(90);
+  const [inputVal, setInputVal] = useState("29.000.000");
+  const [period, setPeriod] = useState(720);
 
   const cat = bnplCategories[selected];
   const per = periodOptions.find((p) => p.value === period);
   const payAmount = Math.round(price / per.installments);
 
+  const formatNum = (n) => new Intl.NumberFormat("vi-VN").format(n);
+
   const handleCatSelect = (i) => {
     setSelected(i);
-    setPrice(bnplCategories[i].defaultPrice);
+    const p = bnplCategories[i].defaultPrice;
+    setPrice(p);
+    setInputVal(formatNum(p));
+  };
+
+  const handleSlider = (e) => {
+    const v = Number(e.target.value);
+    setPrice(v);
+    setInputVal(formatNum(v));
+  };
+
+  const handleInputChange = (e) => {
+    const raw = e.target.value.replace(/[^0-9]/g, "");
+    setInputVal(raw);
+    const num = Number(raw);
+    if (num > 0) setPrice(Math.min(Math.max(num, cat.min), cat.max));
+  };
+
+  const handleInputBlur = () => {
+    const num = Math.min(Math.max(Number(inputVal.replace(/[^0-9]/g, "")) || cat.min, cat.min), cat.max);
+    setPrice(num);
+    setInputVal(formatNum(num));
+  };
+
+  const handleInputFocus = (e) => {
+    setInputVal(String(price));
+    e.target.select();
   };
 
   const CategoryTabs = () => (
@@ -444,7 +473,7 @@ const ProductBNPLSection = ({ isDesktop }) => {
           background: selected === i ? SOFT_YELLOW : "#fff",
           cursor: "pointer", transition: "all 0.2s",
         }}>
-          <span style={{ fontSize: isDesktop ? 28 : 22 }}>{c.icon}</span>
+          <img src={c.img} alt={c.label} style={{ width: isDesktop ? 48 : 36, height: isDesktop ? 48 : 36, objectFit: "contain" }} />
           <span style={{ fontSize: isDesktop ? 13 : 11, fontWeight: selected === i ? 700 : 500, color: MWG_BLACK, whiteSpace: "nowrap" }}>{c.label}</span>
         </button>
       ))}
@@ -455,10 +484,33 @@ const ProductBNPLSection = ({ isDesktop }) => {
     <div style={{ background: WARM_GRAY, borderRadius: 20, padding: isDesktop ? "28px 32px" : "20px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 16 }}>
         <span style={{ fontSize: isDesktop ? 14 : 13, color: TEXT_SECONDARY }}>Giá sản phẩm của bạn</span>
-        <span style={{ fontSize: isDesktop ? 22 : 18, fontWeight: 800, color: MWG_BLACK }}>{formatCurrency(price)}</span>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 2 }}>
+          <input
+            type="text"
+            inputMode="numeric"
+            value={inputVal}
+            onChange={handleInputChange}
+            onBlur={handleInputBlur}
+            onFocus={handleInputFocus}
+            style={{
+              fontSize: isDesktop ? 22 : 18,
+              fontWeight: 800,
+              color: MWG_BLACK,
+              border: "none",
+              borderBottom: `2px solid ${MWG_YELLOW}`,
+              background: "transparent",
+              outline: "none",
+              textAlign: "right",
+              fontFamily: "inherit",
+              width: isDesktop ? 180 : 140,
+              cursor: "text",
+            }}
+          />
+          <span style={{ fontSize: isDesktop ? 16 : 14, fontWeight: 700, color: MWG_BLACK }}>đ</span>
+        </div>
       </div>
       <input type="range" min={cat.min} max={cat.max} step={500000} value={price}
-        onChange={(e) => setPrice(Number(e.target.value))}
+        onChange={handleSlider}
         style={{ width: "100%", accentColor: MWG_BLACK, cursor: "pointer", height: 4 }}
       />
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8 }}>
@@ -488,50 +540,43 @@ const ProductBNPLSection = ({ isDesktop }) => {
   );
 
   const BreakdownCard = () => (
-    <div style={{ background: `linear-gradient(135deg, ${MWG_BLACK} 0%, #2D2D2D 100%)`, borderRadius: 24, padding: isDesktop ? "36px 32px" : "24px 20px", position: "relative", overflow: "hidden" }}>
-      <div style={{ position: "absolute", top: -30, right: -30, width: 120, height: 120, borderRadius: "50%", background: MWG_YELLOW, opacity: 0.06 }} />
-      <div style={{ position: "relative", zIndex: 1 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: isDesktop ? 4 : 2 }}>
-          <span style={{ fontSize: isDesktop ? 18 : 16 }}>{cat.icon}</span>
-          <span style={{ fontSize: isDesktop ? 14 : 12, color: "rgba(255,255,255,0.5)" }}>{cat.label} · {formatCurrency(price)}</span>
-        </div>
-        <div style={{ fontSize: isDesktop ? 13 : 12, color: MWG_YELLOW, fontWeight: 600, marginBottom: isDesktop ? 24 : 16 }}>
-          Trả góp {per.label}
-        </div>
-
-        <div style={{ fontSize: isDesktop ? 14 : 13, color: "rgba(255,255,255,0.55)", marginBottom: 6 }}>
-          {per.installments > 1
-            ? (per.hasInterest ? "Mỗi tháng chỉ từ*" : "Mỗi tháng chỉ")
-            : `Trả 1 lần sau ${per.value} ngày`}
-        </div>
-        <div style={{ fontSize: isDesktop ? 52 : 38, fontWeight: 900, color: MWG_YELLOW, letterSpacing: -2, lineHeight: 1 }}>
-          {formatCurrency(payAmount)}
-        </div>
-        {per.installments > 1 && (
-          <div style={{ fontSize: isDesktop ? 13 : 11, color: "rgba(255,255,255,0.35)", marginTop: 8 }}>
-            × {per.installments} kỳ · {per.hasInterest ? "Lãi suất theo chương trình" : "0% lãi suất"}
-          </div>
-        )}
-
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", marginTop: isDesktop ? 28 : 18, paddingTop: isDesktop ? 20 : 14 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
-            <span style={{ fontSize: isDesktop ? 13 : 12, color: "rgba(255,255,255,0.45)" }}>Tổng giá trị sản phẩm</span>
-            <span style={{ fontSize: isDesktop ? 13 : 12, color: "#fff", fontWeight: 600 }}>{formatCurrency(price)}</span>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <span style={{ fontSize: isDesktop ? 13 : 12, color: "rgba(255,255,255,0.45)" }}>Lãi suất</span>
-            <span style={{ fontSize: isDesktop ? 13 : 12, fontWeight: 600, color: per.hasInterest ? MWG_YELLOW : ACCENT_GREEN }}>
-              {per.hasInterest ? "Theo chương trình" : "0đ"}
-            </span>
-          </div>
-        </div>
-
-        <p style={{ fontSize: isDesktop ? 11 : 10, color: "rgba(255,255,255,0.25)", marginTop: isDesktop ? 16 : 12, fontStyle: "italic" }}>
-          {per.hasInterest
-            ? "* Số tiền tạm tính phần gốc, chưa bao gồm lãi suất. Lãi suất theo chương trình từng thời điểm."
-            : "* Số tiền mang tính minh hoạ. Lãi suất 0% theo chương trình từng thời điểm."}
-        </p>
+    <div style={{ background: SOFT_YELLOW, borderRadius: 24, padding: isDesktop ? "36px 32px" : "24px 20px", border: `1px solid ${BORDER}` }}>
+      <div style={{ fontSize: isDesktop ? 13 : 12, color: MWG_RED, fontWeight: 600, marginBottom: isDesktop ? 24 : 16 }}>
+        Trả góp {per.label}
       </div>
+
+      <div style={{ fontSize: isDesktop ? 14 : 13, color: TEXT_SECONDARY, marginBottom: 6 }}>
+        {per.installments > 1
+          ? (per.hasInterest ? "Mỗi tháng chỉ từ*" : "Mỗi tháng chỉ")
+          : `Trả 1 lần sau ${per.value} ngày`}
+      </div>
+      <div style={{ fontSize: isDesktop ? 52 : 38, fontWeight: 900, color: MWG_BLACK, letterSpacing: -2, lineHeight: 1 }}>
+        {formatCurrency(payAmount)}
+      </div>
+      {per.installments > 1 && (
+        <div style={{ fontSize: isDesktop ? 13 : 11, color: TEXT_MUTED, marginTop: 8 }}>
+          × {per.installments} kỳ · {per.hasInterest ? "Lãi suất theo chương trình" : "0% lãi suất"}
+        </div>
+      )}
+
+      <div style={{ borderTop: `1px solid ${BORDER}`, marginTop: isDesktop ? 28 : 18, paddingTop: isDesktop ? 20 : 14 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
+          <span style={{ fontSize: isDesktop ? 13 : 12, color: TEXT_SECONDARY }}>Tổng giá trị sản phẩm</span>
+          <span style={{ fontSize: isDesktop ? 13 : 12, color: MWG_BLACK, fontWeight: 600 }}>{formatCurrency(price)}</span>
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <span style={{ fontSize: isDesktop ? 13 : 12, color: TEXT_SECONDARY }}>Lãi suất</span>
+          <span style={{ fontSize: isDesktop ? 13 : 12, fontWeight: 600, color: per.hasInterest ? MWG_RED : ACCENT_GREEN }}>
+            {per.hasInterest ? "Theo chương trình" : "0đ"}
+          </span>
+        </div>
+      </div>
+
+      <p style={{ fontSize: isDesktop ? 11 : 10, color: TEXT_MUTED, marginTop: isDesktop ? 16 : 12, fontStyle: "italic" }}>
+        {per.hasInterest
+          ? "* Số tiền tạm tính phần gốc, chưa bao gồm lãi suất. Lãi suất theo chương trình từng thời điểm."
+          : "* Số tiền mang tính minh hoạ. Lãi suất 0% theo chương trình từng thời điểm."}
+      </p>
     </div>
   );
 
