@@ -398,7 +398,7 @@ const GuideSection = ({ isDesktop }) => {
             Đăng ký ngay →
           </button>
           <p style={{ fontSize: 12, color: TEXT_MUTED, marginTop: 10 }}>
-            Duyệt trong 30 giây · Không cần chứng minh thu nhập
+            Duyệt trong 2 phút · Không cần chứng minh thu nhập
           </p>
         </div>
       </div>
@@ -448,7 +448,7 @@ const ProductBNPLSection = ({ isDesktop }) => {
         {isDesktop ? (
           <div style={{ display: "flex", gap: 40, alignItems: "flex-start" }}>
             <div style={{ flex: 1 }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12, marginBottom: 28 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12, marginBottom: 28 }}>
                 {bnplCategories.map((c, i) => (
                   <button
                     key={i}
@@ -639,7 +639,7 @@ const ProductBNPLSection = ({ isDesktop }) => {
             Đăng ký ngay →
           </button>
           <p style={{ fontSize: 12, color: TEXT_MUTED, marginTop: 10 }}>
-            Duyệt trong 30 giây · Không cần chứng minh thu nhập
+            Duyệt trong 2 phút · Không cần chứng minh thu nhập
           </p>
         </div>
       </div>
@@ -693,7 +693,7 @@ const StoreNetworkSection = ({ isDesktop }) => (
           toàn quốc
         </h2>
         <p style={{ fontSize: isDesktop ? 16 : 13, color: TEXT_SECONDARY, margin: 0 }}>
-          Ví MWG PayLater được chấp nhận tại toàn bộ hệ thống — online &amp; offline
+          Ví MWG PayLater được chấp nhận tại toàn bộ hệ thống — tại cửa hàng và trên website
         </p>
       </div>
       <div
@@ -720,12 +720,12 @@ const StoreNetworkSection = ({ isDesktop }) => (
 
 
 const faqData = [
-  { q: "Ví MWG PayLater là gì?", a: "Ví MWG PayLater là dịch vụ Mua trước - Trả sau được phát triển bởi Thế Giới Di Động hợp tác cùng Cake by VPBank. Bạn được cấp hạn mức lên đến 40 triệu đồng, miễn lãi tối đa 90 ngày, duyệt hoàn toàn online trong 2 phút." },
-  { q: "Ai có thể đăng ký Ví MWG?", a: "Công dân Việt Nam từ 18 tuổi trở lên, có CCCD gắn chip còn hiệu lực. Không cần chứng minh thu nhập hay hồ sơ phức tạp — duyệt tự động 100% online." },
+  { q: "Ví MWG PayLater là gì?", a: "Ví MWG PayLater là dịch vụ Mua trước - Trả sau được phát triển bởi Thế Giới Di Động hợp tác cùng Cake by VPBank. Bạn được cấp hạn mức lên đến 40 triệu đồng, miễn lãi tối đa 90 ngày, duyệt ngay trên điện thoại trong 2 phút." },
+  { q: "Ai có thể đăng ký Ví MWG?", a: "Công dân Việt Nam từ 18 tuổi trở lên, có CCCD gắn chip còn hiệu lực. Không cần chứng minh thu nhập hay hồ sơ phức tạp — duyệt tự động, không cần đến cửa hàng." },
   { q: "Ví MWG có tính lãi không?", a: "Không! Khi thanh toán đúng hạn trong kỳ miễn lãi (tối đa 90 ngày), bạn hoàn toàn không trả bất kỳ khoản lãi nào. Nếu muốn trả góp dài hạn hơn (lên đến 24 tháng), mức lãi suất sẽ được thông báo rõ ràng trước khi xác nhận." },
   { q: "Mua trước, trả sau có rủi ro gì không?", a: "Ví MWG minh bạch về mọi khoản phí. Bạn chỉ cần thanh toán đúng hạn để tránh phí trễ hạn. Mọi thông tin đều được hiển thị rõ trước khi xác nhận giao dịch." },
-  { q: "Hạn mức tối đa của Ví MWG là bao nhiêu?", a: "Hạn mức lên đến 40.000.000đ, được xét duyệt tự động dựa trên kết quả eKYC. Hạn mức có thể được nâng dần theo lịch sử thanh toán đúng hạn của bạn." },
-  { q: "Dùng Ví MWG được ở đâu?", a: "Ví MWG PayLater được chấp nhận tại hơn 3.200 cửa hàng của Thế Giới Di Động, Điện Máy Xanh, TopZone, Avakids và Nhà thuốc An Khang — cả online lẫn offline. Chọn Ví MWG làm phương thức thanh toán khi checkout là hoàn tất." },
+  { q: "Hạn mức tối đa của Ví MWG là bao nhiêu?", a: "Hạn mức lên đến 40.000.000đ, được xét duyệt tự động dựa trên kết quả xác minh danh tính qua điện thoại. Hạn mức có thể được nâng dần theo lịch sử thanh toán đúng hạn của bạn." },
+  { q: "Dùng Ví MWG được ở đâu?", a: "Ví MWG PayLater được chấp nhận tại hơn 3.200 cửa hàng của Thế Giới Di Động, Điện Máy Xanh, TopZone và Avakids — cả tại cửa hàng lẫn trên website. Chọn Ví MWG làm phương thức thanh toán là hoàn tất." },
 ];
 
 const FAQItem = ({ faq, openIdx, idx, setOpenIdx }) => (
@@ -833,7 +833,7 @@ const CTASection = ({ isDesktop }) => (
           </div>
           <h2 style={{ fontSize: isDesktop ? 36 : 24, fontWeight: 800, color: "#fff", margin: "0 0 8px", lineHeight: 1.3 }}>
             Đăng ký Ví MWG — hoàn tiền đến{" "}
-            <span style={{ color: MWG_YELLOW }}>500.000đ</span>
+            <span style={{ color: MWG_YELLOW }}>800.000đ</span>
           </h2>
           <p style={{ fontSize: isDesktop ? 15 : 13, color: "rgba(255,255,255,0.6)", margin: isDesktop ? 0 : "0 0 20px", lineHeight: 1.5 }}>
             Áp dụng cho giao dịch đủ điều kiện · Theo chương trình từng thời điểm
