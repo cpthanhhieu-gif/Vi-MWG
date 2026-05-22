@@ -126,198 +126,78 @@ const StickyHeader = ({ isDesktop }) => {
 };
 
 const HeroSection = ({ isDesktop }) => (
-  <div
-    style={{
-      background: `linear-gradient(180deg, ${MWG_YELLOW} 0%, ${GRADIENT_END} 60%, #FFFEF5 100%)`,
-      position: "relative",
-      overflow: "hidden",
-    }}
-  >
-    <div
-      style={{
-        position: "absolute",
-        top: -60,
-        right: isDesktop ? "8%" : -60,
-        width: isDesktop ? 360 : 200,
-        height: isDesktop ? 360 : 200,
-        borderRadius: "50%",
-        background: "rgba(255,255,255,0.25)",
-      }}
-    />
-    <div
-      style={{
-        position: "absolute",
-        bottom: -30,
-        left: -40,
-        width: isDesktop ? 200 : 140,
-        height: isDesktop ? 200 : 140,
-        borderRadius: "50%",
-        background: "rgba(255,255,255,0.2)",
-      }}
-    />
+  <div style={{ background: "#fff" }}>
+    {/* Banner image */}
     <div
       style={{
         maxWidth: isDesktop ? 1100 : 480,
         margin: "0 auto",
-        padding: isDesktop ? "80px 40px 100px" : "32px 20px 40px",
-        position: "relative",
-        zIndex: 1,
+        padding: isDesktop ? "0 40px" : "0",
       }}
     >
-      {isDesktop ? (
-        <div style={{ display: "flex", alignItems: "center", gap: 60 }}>
-          <div style={{ flex: 1 }}>
-            <h1
-              style={{
-                fontSize: 52,
-                fontWeight: 800,
-                color: MWG_BLACK,
-                lineHeight: 1.15,
-                margin: "0 0 20px",
-                letterSpacing: -1.5,
-              }}
-            >
-              Chỉ một khoản nhỏ
-              <br />
-              <span style={{ color: MWG_RED }}>Sở hữu ngay</span> sản phẩm mơ ước
-            </h1>
-            <p
-              style={{
-                fontSize: 18,
-                color: "rgba(26,26,26,0.7)",
-                lineHeight: 1.6,
-                margin: "0 0 36px",
-                maxWidth: 460,
-              }}
-            >
-              Chia nhỏ thanh toán theo kỳ, 0% lãi suất. Không cần trả đủ một lúc — mua ngay, dùng ngay.
-            </p>
-            <div style={{ display: "flex", gap: 14 }}>
-              <button
-                style={{
-                  background: MWG_BLACK,
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: 28,
-                  padding: "16px 40px",
-                  fontSize: 16,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
-                }}
-              >
-                Kích hoạt ngay
-              </button>
-              <button
-                style={{
-                  background: "rgba(255,255,255,0.7)",
-                  color: MWG_BLACK,
-                  border: "1.5px solid rgba(0,0,0,0.12)",
-                  borderRadius: 28,
-                  padding: "16px 28px",
-                  fontSize: 16,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
-              >
-                Tìm hiểu thêm
-              </button>
-            </div>
-          </div>
-          <div style={{ width: 260, flexShrink: 0 }}>
-            <div
-              style={{
-                background: "#fff",
-                borderRadius: 32,
-                overflow: "hidden",
-                boxShadow: "0 24px 64px rgba(0,0,0,0.18)",
-                border: "2px solid rgba(255,255,255,0.8)",
-              }}
-            >
-              <img src="/qtv-home.png" alt="App QTV" style={{ width: "100%", display: "block" }} />
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div style={{ textAlign: "center" }}>
-          <h1
-            style={{
-              fontSize: 28,
-              fontWeight: 800,
-              color: MWG_BLACK,
-              lineHeight: 1.25,
-              margin: "0 0 12px",
-              letterSpacing: -0.5,
-            }}
-          >
-            Chỉ một khoản nhỏ
-            <br />
-            <span style={{ color: MWG_RED }}>Sở hữu ngay</span> sản phẩm mơ ước
-          </h1>
-          <p
-            style={{
-              fontSize: 15,
-              color: "rgba(26,26,26,0.7)",
-              lineHeight: 1.5,
-              margin: "0 0 24px",
-              maxWidth: 320,
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          >
-            Chia nhỏ thanh toán theo kỳ, 0% lãi suất. Không cần trả đủ một lúc — mua ngay, dùng ngay.
-          </p>
-          <div style={{ display: "flex", gap: 10, justifyContent: "center", marginBottom: 28 }}>
-            <button
-              style={{
-                background: MWG_BLACK,
-                color: "#fff",
-                border: "none",
-                borderRadius: 24,
-                padding: "14px 28px",
-                fontSize: 15,
-                fontWeight: 600,
-                cursor: "pointer",
-                boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
-              }}
-            >
-              Kích hoạt ngay
-            </button>
-            <button
-              style={{
-                background: "rgba(255,255,255,0.7)",
-                color: MWG_BLACK,
-                border: "1.5px solid rgba(0,0,0,0.12)",
-                borderRadius: 24,
-                padding: "14px 20px",
-                fontSize: 15,
-                fontWeight: 600,
-                cursor: "pointer",
-              }}
-            >
-              Tìm hiểu thêm
-            </button>
-          </div>
-        </div>
-      )}
+      <img
+        src="/hero-banner ví mwg.png"
+        alt="Ví MWG PayLater — Mua trước, trả sau"
+        style={{ width: "100%", display: "block", borderRadius: isDesktop ? 0 : 0 }}
+      />
+    </div>
+
+    {/* Buttons — bên dưới banner, không chồng lên ảnh */}
+    <div
+      style={{
+        maxWidth: isDesktop ? 1100 : 480,
+        margin: "0 auto",
+        padding: isDesktop ? "16px 40px 24px" : "12px 16px 20px",
+        display: "flex",
+        gap: isDesktop ? 14 : 10,
+        justifyContent: "center",
+      }}
+    >
+      <button
+        style={{
+          background: MWG_BLACK,
+          color: "#fff",
+          border: "none",
+          borderRadius: 28,
+          padding: isDesktop ? "16px 40px" : "14px 28px",
+          fontSize: isDesktop ? 16 : 15,
+          fontWeight: 600,
+          cursor: "pointer",
+          boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
+        }}
+      >
+        Kích hoạt ngay
+      </button>
+      <button
+        style={{
+          background: "#fff",
+          color: MWG_BLACK,
+          border: "1.5px solid rgba(0,0,0,0.15)",
+          borderRadius: 28,
+          padding: isDesktop ? "16px 28px" : "14px 20px",
+          fontSize: isDesktop ? 16 : 15,
+          fontWeight: 600,
+          cursor: "pointer",
+        }}
+      >
+        Tìm hiểu thêm
+      </button>
     </div>
   </div>
 );
 
 const PartnerBanner = ({ isDesktop }) => (
-  <div style={{ background: "#fff", paddingBottom: isDesktop ? 48 : 32 }}>
+  <div style={{ background: "#fff", paddingBottom: isDesktop ? 24 : 16 }}>
     <div
       style={{
         maxWidth: isDesktop ? 1100 : 480,
-        margin: "-20px auto 0",
+        margin: "0 auto",
         padding: isDesktop ? "0 40px" : "0 16px",
-        position: "relative",
-        zIndex: 2,
       }}
     >
       <div
         style={{
-          background: MWG_BLACK,
+          background: WARM_GRAY,
           borderRadius: 16,
           padding: isDesktop ? "20px 32px" : "16px 20px",
           display: "flex",
@@ -329,7 +209,7 @@ const PartnerBanner = ({ isDesktop }) => (
         <div
           style={{
             fontSize: 11,
-            color: "rgba(255,255,255,0.5)",
+            color: TEXT_MUTED,
             textTransform: "uppercase",
             letterSpacing: 1,
           }}
@@ -337,8 +217,8 @@ const PartnerBanner = ({ isDesktop }) => (
           Sản phẩm hợp tác
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <img src="/logo-tgdd.png" alt="Thế Giới Di Động" style={{ height: 24, objectFit: "contain" }} />
-          <span style={{ color: "rgba(255,255,255,0.3)", fontSize: 16 }}>×</span>
+          <img src="/logos/Logo-The-Gioi-Di-Dong-MWG-B-V.png" alt="Thế Giới Di Động" style={{ height: 24, objectFit: "contain" }} />
+          <span style={{ color: TEXT_MUTED, fontSize: 16 }}>×</span>
           <img src="/logo-cake.png" alt="Cake by VPBank" style={{ height: 24, objectFit: "contain" }} />
         </div>
       </div>
@@ -346,83 +226,6 @@ const PartnerBanner = ({ isDesktop }) => (
   </div>
 );
 
-const uspItems = [
-  { img: "/usp-duyet.png", title: "Duyệt trong 2 phút", desc: "Chỉ cần CCCD gắn chip, duyệt tự động 100% online" },
-  { img: "/usp-hanmuc.png", title: "Hạn mức 40 triệu", desc: "Mua ngay, trả sau lên đến 40.000.000đ" },
-  { img: "/usp-tragop.png", title: "Miễn lãi đến 90 ngày", desc: "Hoặc trả góp linh hoạt lên đến 24 tháng" },
-  { img: "/usp-khonglai.png", title: "0% lãi suất", desc: "Miễn lãi hoàn toàn khi thanh toán đúng hạn" },
-];
-
-const USPSection = ({ isDesktop }) => (
-  <div style={{ background: "rgb(248, 247, 245)" }}>
-    <div
-      style={{
-        maxWidth: isDesktop ? 1100 : 480,
-        margin: "0 auto",
-        padding: isDesktop ? "72px 40px" : "36px 16px",
-      }}
-    >
-      <div style={{ textAlign: "center", marginBottom: isDesktop ? 44 : 24 }}>
-        <h2
-          style={{
-            fontSize: isDesktop ? 34 : 22,
-            fontWeight: 700,
-            color: MWG_BLACK,
-            margin: "0 0 8px",
-          }}
-        >
-          Ví MWG có gì{" "}
-          <span
-            style={{
-              color: MWG_RED,
-              textDecoration: "underline",
-              textDecorationColor: MWG_YELLOW,
-              textUnderlineOffset: 4,
-              textDecorationThickness: 3,
-            }}
-          >
-            khác biệt
-          </span>
-          ?
-        </h2>
-        <p style={{ fontSize: isDesktop ? 16 : 14, color: TEXT_SECONDARY, margin: 0 }}>
-          Ví trả sau tiện lợi, nhanh chóng và minh bạch
-        </p>
-      </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: isDesktop ? "1fr 1fr 1fr 1fr" : "1fr 1fr",
-          gap: isDesktop ? 20 : 12,
-        }}
-      >
-        {uspItems.map((item, i) => (
-          <div
-            key={i}
-            style={{
-              background: "#fff",
-              borderRadius: 16,
-              padding: isDesktop ? "28px 24px" : "20px 16px",
-              border: `1px solid ${BORDER}`,
-            }}
-          >
-            <img
-              src={item.img}
-              alt={item.title}
-              style={{ width: isDesktop ? 56 : 48, height: isDesktop ? 56 : 48, objectFit: "contain", marginBottom: isDesktop ? 16 : 10 }}
-            />
-            <div style={{ fontSize: isDesktop ? 16 : 14, fontWeight: 700, color: MWG_BLACK, marginBottom: 6, lineHeight: 1.3 }}>
-              {item.title}
-            </div>
-            <div style={{ fontSize: isDesktop ? 13 : 12, color: TEXT_SECONDARY, lineHeight: 1.5 }}>
-              {item.desc}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-);
 
 const guideSteps = [
   { num: 1, title: "Mở app QTV", desc: 'Truy cập app QTV và chọn icon "Ví trả sau"' },
@@ -434,6 +237,13 @@ const guideSteps = [
 const GuideSection = ({ isDesktop }) => {
   const [current, setCurrent] = useState(0);
   const step = guideSteps[current];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % guideSteps.length);
+    }, 2800);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div style={{ background: "#fff" }}>
@@ -821,11 +631,11 @@ const DifferentiatorSection = ({ isDesktop }) => (
       style={{
         maxWidth: isDesktop ? 1100 : 480,
         margin: "0 auto",
-        padding: isDesktop ? "56px 40px" : "32px 16px",
+        padding: isDesktop ? "32px 40px" : "20px 16px",
       }}
     >
       <img
-        src="/banner điểm khác biệt của ví mwg.png"
+        src="/banner điểm khác biệt của ví mwg 1.png"
         alt="Điểm khác biệt của Ví MWG PayLater"
         style={{
           width: "100%",
@@ -1032,17 +842,12 @@ const CTASection = ({ isDesktop }) => (
 const Footer = ({ isDesktop }) => (
   <div style={{ background: WARM_GRAY, padding: isDesktop ? "40px 0" : "24px 16px", textAlign: "center" }}>
     <div style={{ maxWidth: isDesktop ? 1100 : 480, margin: "0 auto", padding: isDesktop ? "0 40px" : "0" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 12 }}>
-        <div
-          style={{
-            width: 28, height: 28, borderRadius: 6, background: MWG_YELLOW,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontWeight: 700, fontSize: 9, color: MWG_BLACK,
-          }}
-        >
-          MWG
-        </div>
-        <span style={{ fontWeight: 600, fontSize: 13, color: MWG_BLACK }}>Ví MWG PayLater</span>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 12 }}>
+        <img
+          src="https://cdnv2.tgdd.vn/pim/cdn/images/202512/Logo%20MWG%20Paylater105741.png"
+          alt="Ví MWG PayLater"
+          style={{ height: 36, objectFit: "contain" }}
+        />
       </div>
       <div style={{ fontSize: 12, color: TEXT_MUTED, lineHeight: 1.6, maxWidth: 400, margin: "0 auto" }}>
         Sản phẩm hợp tác giữa Thế Giới Di Động và Cake by VPBank. Được cấp phép và giám sát bởi Ngân hàng Nhà nước Việt Nam.
@@ -1073,7 +878,6 @@ export default function App() {
       <PartnerBanner isDesktop={isDesktop} />
       <DifferentiatorSection isDesktop={isDesktop} />
       <StoreNetworkSection isDesktop={isDesktop} />
-      <USPSection isDesktop={isDesktop} />
       <ProductBNPLSection isDesktop={isDesktop} />
       <GuideSection isDesktop={isDesktop} />
       <FAQSection isDesktop={isDesktop} />
