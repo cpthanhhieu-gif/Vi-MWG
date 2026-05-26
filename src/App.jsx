@@ -131,7 +131,7 @@ const HeroSection = ({ isDesktop }) => (
       }}
     >
       <img
-        src={isDesktop ? "/hero-banner-desktop.png" : "/hero-banner-mobile.png"}
+        src={isDesktop ? heroContent.bannerDesktop : heroContent.bannerMobile}
         alt="Ví MWG PayLater — Mua trước, trả sau"
         style={{ width: "100%", display: "block" }}
       />
