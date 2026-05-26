@@ -1,29 +1,21 @@
 import { useState, useEffect, useRef } from "react";
-
-const MWG_YELLOW = "#FFD400";
-const MWG_BLACK = "#1A1A1A";
-const MWG_RED = "#D0021B";
-const SOFT_PINK = "#FFF0F3";
-const SOFT_YELLOW = "#FFFBEB";
-const SOFT_BLUE = "#EEF6FF";
-const WARM_GRAY = "#F8F7F5";
-const BORDER = "#E8E8E8";
-const TEXT_SECONDARY = "#6B7280";
-const TEXT_MUTED = "#9CA3AF";
-const GRADIENT_END = "#FFE866";
-const ACCENT_GREEN = "#10B981";
+import { COLORS } from "./brand";
+import {
+  heroContent, partnerContent, differentiatorContent, storeNetworkContent,
+  bnplContent, guideContent, faqContent, ctaContent, footerContent, registerUrl,
+} from "./content";
 
 const formatCurrency = (num) =>
   new Intl.NumberFormat("vi-VN").format(num) + "đ";
 
 const useWindowWidth = () => {
-  const [w, setW] = useState(() => window.innerWidth);
+  const [width, setWidth] = useState(() => window.innerWidth);
   useEffect(() => {
-    const h = () => setW(window.innerWidth);
-    window.addEventListener("resize", h);
-    return () => window.removeEventListener("resize", h);
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
-  return w;
+  return width;
 };
 
 const CountUp = ({ end, suffix = "", prefix = "" }) => {
@@ -76,7 +68,7 @@ const StickyHeader = ({ isDesktop }) => {
         zIndex: 100,
         background: "rgba(255,255,255,0.97)",
         backdropFilter: "blur(12px)",
-        borderBottom: `1px solid ${BORDER}`,
+        borderBottom: `1px solid ${COLORS.borderLight}`,
         boxShadow: scrolled ? "0 2px 16px rgba(0,0,0,0.08)" : "none",
         transition: "box-shadow 0.3s",
       }}
@@ -99,26 +91,30 @@ const StickyHeader = ({ isDesktop }) => {
         <div style={{ display: "flex", alignItems: "center", gap: isDesktop ? 28 : 0 }}>
           {isDesktop && (
             <>
-              <a href="#" style={{ fontSize: 14, fontWeight: 500, color: TEXT_SECONDARY, textDecoration: "none" }}>Tính năng</a>
-              <a href="#" style={{ fontSize: 14, fontWeight: 500, color: TEXT_SECONDARY, textDecoration: "none" }}>Hướng dẫn</a>
-              <a href="#" style={{ fontSize: 14, fontWeight: 500, color: TEXT_SECONDARY, textDecoration: "none" }}>FAQ</a>
+              <a href="#section-bnpl" style={{ fontSize: 14, fontWeight: 500, color: COLORS.textGray, textDecoration: "none" }}>Trả sau</a>
+              <a href="#section-huong-dan" style={{ fontSize: 14, fontWeight: 500, color: COLORS.textGray, textDecoration: "none" }}>Hướng dẫn</a>
+              <a href="#section-faq" style={{ fontSize: 14, fontWeight: 500, color: COLORS.textGray, textDecoration: "none" }}>FAQ</a>
             </>
           )}
-          <button
+          <a
+            href={registerUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
-              background: MWG_YELLOW,
-              color: MWG_BLACK,
-              border: "none",
+              display: "inline-block",
+              background: COLORS.brandYellow,
+              color: COLORS.brandBlack,
               borderRadius: 20,
               padding: isDesktop ? "10px 24px" : "8px 18px",
               fontSize: isDesktop ? 14 : 13,
               fontWeight: 600,
               cursor: "pointer",
               marginLeft: isDesktop ? 8 : 0,
+              textDecoration: "none",
             }}
           >
             Đăng ký ngay
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -127,7 +123,6 @@ const StickyHeader = ({ isDesktop }) => {
 
 const HeroSection = ({ isDesktop }) => (
   <div style={{ background: "#fff" }}>
-    {/* Banner image */}
     <div
       style={{
         maxWidth: isDesktop ? 1100 : 480,
@@ -136,13 +131,12 @@ const HeroSection = ({ isDesktop }) => (
       }}
     >
       <img
-        src={isDesktop ? "/hero-banner ví mwg desktop.png" : "/hero-banner ví mwg 1.png"}
+        src={isDesktop ? "/hero-banner-desktop.png" : "/hero-banner-mobile.png"}
         alt="Ví MWG PayLater — Mua trước, trả sau"
         style={{ width: "100%", display: "block" }}
       />
     </div>
 
-    {/* Buttons — bên dưới banner, không chồng lên ảnh */}
     <div
       style={{
         maxWidth: isDesktop ? 1100 : 480,
@@ -153,35 +147,42 @@ const HeroSection = ({ isDesktop }) => (
         justifyContent: "center",
       }}
     >
-      <button
+      <a
+        href={registerUrl}
+        target="_blank"
+        rel="noopener noreferrer"
         style={{
-          background: MWG_BLACK,
+          display: "inline-block",
+          background: COLORS.brandBlack,
           color: "#fff",
-          border: "none",
           borderRadius: 28,
           padding: isDesktop ? "16px 40px" : "14px 28px",
           fontSize: isDesktop ? 16 : 15,
           fontWeight: 600,
           cursor: "pointer",
           boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
+          textDecoration: "none",
         }}
       >
         Kích hoạt ngay
-      </button>
-      <button
+      </a>
+      <a
+        href="#section-faq"
         style={{
+          display: "inline-block",
           background: "#fff",
-          color: MWG_BLACK,
+          color: COLORS.brandBlack,
           border: "1.5px solid rgba(0,0,0,0.15)",
           borderRadius: 28,
           padding: isDesktop ? "16px 28px" : "14px 20px",
           fontSize: isDesktop ? 16 : 15,
           fontWeight: 600,
           cursor: "pointer",
+          textDecoration: "none",
         }}
       >
         Tìm hiểu thêm
-      </button>
+      </a>
     </div>
   </div>
 );
@@ -197,7 +198,7 @@ const PartnerBanner = ({ isDesktop }) => (
     >
       <div
         style={{
-          background: WARM_GRAY,
+          background: COLORS.warmGray,
           borderRadius: 16,
           padding: isDesktop ? "28px 40px" : "20px 20px",
           display: "flex",
@@ -211,7 +212,7 @@ const PartnerBanner = ({ isDesktop }) => (
           style={{
             fontSize: isDesktop ? 14 : 11,
             fontWeight: isDesktop ? 600 : 400,
-            color: TEXT_MUTED,
+            color: COLORS.textFaint,
             textTransform: "uppercase",
             letterSpacing: 1.5,
           }}
@@ -220,11 +221,11 @@ const PartnerBanner = ({ isDesktop }) => (
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: isDesktop ? 28 : 16 }}>
           <img
-            src="/logos/Logo-The-Gioi-Di-Dong-MWG-B-V.png"
+            src="/logos/logo-tgdd-mwg.png"
             alt="Thế Giới Di Động"
             style={{ height: isDesktop ? 60 : 40, objectFit: "contain" }}
           />
-          <span style={{ color: BORDER, fontSize: isDesktop ? 28 : 20 }}>×</span>
+          <span style={{ color: COLORS.borderLight, fontSize: isDesktop ? 28 : 20 }}>×</span>
           <img
             src="/logo-cake.png"
             alt="Cake by VPBank"
@@ -237,23 +238,36 @@ const PartnerBanner = ({ isDesktop }) => (
 );
 
 
-const guideSteps = [
-  { num: 1, title: "Mở app QTV", desc: 'Truy cập app QTV và chọn icon "Ví trả sau"' },
-  { num: 2, title: "Xác minh danh tính", desc: "Chụp CCCD gắn chip và xác thực khuôn mặt (eKYC)" },
-  { num: 3, title: "Nhận hạn mức", desc: "Hệ thống tự động duyệt và cấp hạn mức chi tiêu" },
-  { num: 4, title: "Mua sắm ngay", desc: "Chọn sản phẩm yêu thích, thanh toán bằng Ví MWG" },
-];
+const guideSteps = guideContent.steps;
 
 const GuideSection = ({ isDesktop }) => {
   const [current, setCurrent] = useState(0);
-  const step = guideSteps[current];
+  const stepRefs = useRef([]);
+  const activeStep = guideSteps[current];
 
+  // Mobile: auto-advance
   useEffect(() => {
+    if (isDesktop) return;
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % guideSteps.length);
     }, 2800);
     return () => clearInterval(timer);
-  }, []);
+  }, [isDesktop]);
+
+  // Desktop: activate step on scroll via IntersectionObserver
+  useEffect(() => {
+    if (!isDesktop) return;
+    const observers = stepRefs.current.map((el, idx) => {
+      if (!el) return null;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setCurrent(idx); },
+        { threshold: 0.55 }
+      );
+      obs.observe(el);
+      return obs;
+    });
+    return () => observers.forEach((o) => o && o.disconnect());
+  }, [isDesktop]);
 
   return (
     <div style={{ background: "#fff" }}>
@@ -265,77 +279,140 @@ const GuideSection = ({ isDesktop }) => {
         }}
       >
         <div style={{ textAlign: "center", marginBottom: isDesktop ? 48 : 24 }}>
-          <h2 style={{ fontSize: isDesktop ? 34 : 22, fontWeight: 700, color: MWG_BLACK, margin: "0 0 8px" }}>
-            Hướng dẫn mở <span style={{ color: MWG_RED }}>Ví MWG</span>
+          <h2 style={{ fontSize: isDesktop ? 34 : 22, fontWeight: 700, color: COLORS.brandBlack, margin: "0 0 8px" }}>
+            {guideContent.heading.replace("Ví MWG", "")}
+            <span style={{ color: COLORS.brandRed }}>Ví MWG</span>
           </h2>
-          <p style={{ fontSize: isDesktop ? 16 : 14, color: TEXT_SECONDARY, margin: 0 }}>
-            Chỉ 4 bước, hoàn tất trong 2 phút
+          <p style={{ fontSize: isDesktop ? 16 : 14, color: COLORS.textGray, margin: 0 }}>
+            {guideContent.subtitle}
           </p>
         </div>
 
         {isDesktop ? (
-          <div style={{ display: "flex", gap: 60, alignItems: "center" }}>
-            <div style={{ flex: 1 }}>
-              {guideSteps.map((s, i) => (
+          <div style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
+            {/* Left: steps list — scrolls normally, click to activate */}
+            <div style={{ flex: 1, border: `1px solid ${COLORS.borderLight}`, borderRadius: 20, padding: "28px 24px" }}>
+              {guideSteps.map((step, idx) => (
                 <div
-                  key={i}
-                  onClick={() => setCurrent(i)}
-                  style={{
-                    padding: "20px 24px",
-                    borderRadius: 16,
-                    marginBottom: 12,
-                    border: `2px solid ${current === i ? MWG_YELLOW : "transparent"}`,
-                    background: current === i ? "#fff" : "rgba(255,255,255,0.5)",
-                    cursor: "pointer",
-                    transition: "all 0.2s",
-                  }}
+                  key={idx}
+                  ref={(el) => (stepRefs.current[idx] = el)}
+                  onClick={() => setCurrent(idx)}
+                  style={{ display: "flex", gap: 16, padding: "8px 0 0", cursor: "pointer", position: "relative" }}
                 >
-                  <div style={{ fontSize: 11, fontWeight: 600, color: TEXT_MUTED, letterSpacing: 1.5, marginBottom: 4 }}>
-                    BƯỚC {s.num}
-                  </div>
-                  <div style={{ fontSize: 18, fontWeight: 700, color: MWG_BLACK, marginBottom: current === i ? 8 : 0 }}>
-                    {s.title}
-                  </div>
-                  {current === i && (
-                    <div style={{ fontSize: 14, color: TEXT_SECONDARY, lineHeight: 1.6 }}>{s.desc}</div>
+                  {/* Connector line */}
+                  {idx < guideSteps.length - 1 && (
+                    <div style={{
+                      position: "absolute",
+                      left: 19,
+                      top: 48,
+                      width: 2,
+                      bottom: -8,
+                      background: current > idx ? COLORS.brandYellow : COLORS.borderLight,
+                      transition: "background 0.4s",
+                    }} />
                   )}
+                  {/* Number badge */}
+                  <div style={{
+                    width: 40, height: 40, borderRadius: "50%", flexShrink: 0, zIndex: 1,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 15, fontWeight: 800,
+                    background: current === idx ? COLORS.brandBlack : current > idx ? COLORS.brandYellow : "#fff",
+                    border: `2px solid ${current === idx ? COLORS.brandBlack : current > idx ? COLORS.brandYellow : COLORS.borderLight}`,
+                    color: current === idx ? "#fff" : current > idx ? COLORS.brandBlack : COLORS.textFaint,
+                    transition: "all 0.3s",
+                  }}>
+                    {current > idx ? "✓" : step.num}
+                  </div>
+                  {/* Text content */}
+                  <div style={{ paddingBottom: 24, flex: 1 }}>
+                    <div style={{
+                      fontSize: 17, fontWeight: 700, marginBottom: 6, lineHeight: 1.3,
+                      color: current === idx ? COLORS.brandBlack : COLORS.textGray,
+                      transition: "color 0.3s",
+                    }}>
+                      {step.title}
+                    </div>
+                    <div style={{
+                      fontSize: 14, color: COLORS.textGray, lineHeight: 1.7,
+                      maxHeight: current === idx ? 60 : 0,
+                      overflow: "hidden",
+                      opacity: current === idx ? 1 : 0,
+                      transition: "max-height 0.35s ease, opacity 0.25s ease",
+                    }}>
+                      {step.desc}
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
-            <div style={{ width: 280, flexShrink: 0 }}>
-              <div
-                style={{
-                  background: "#fff",
-                  borderRadius: 28,
+            {/* Right: phone mockup — sticky, w-64 flex-none */}
+            <div style={{ width: 256, flexShrink: 0, flexGrow: 0, position: "sticky", top: 120 }}>
+              {/* Phone with prev/next arrows overlaid */}
+              <div style={{ position: "relative" }}>
+                <div style={{
+                  background: COLORS.warmGray,
+                  borderRadius: 32,
                   overflow: "hidden",
-                  boxShadow: "0 16px 48px rgba(0,0,0,0.12)",
-                  border: `1px solid ${BORDER}`,
-                }}
-              >
-                <img src="/qtv-home.png" alt="App QTV" style={{ width: "100%", display: "block" }} />
+                  boxShadow: "0 24px 60px rgba(0,0,0,0.14)",
+                  border: `1px solid ${COLORS.borderLight}`,
+                }}>
+                  <img src={guideContent.appImage} alt="App QTV" style={{ width: "100%", display: "block" }} />
+                </div>
+                {/* Prev arrow */}
+                <button
+                  onClick={() => setCurrent((c) => Math.max(0, c - 1))}
+                  disabled={current === 0}
+                  style={{
+                    position: "absolute", left: -18, top: "50%", transform: "translateY(-50%)",
+                    width: 36, height: 36, borderRadius: "50%",
+                    background: "#fff", border: `1px solid ${COLORS.borderLight}`,
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 18, color: COLORS.brandBlack,
+                    cursor: current === 0 ? "default" : "pointer",
+                    opacity: current === 0 ? 0.35 : 1,
+                    transition: "opacity 0.2s",
+                  }}
+                >‹</button>
+                {/* Next arrow */}
+                <button
+                  onClick={() => setCurrent((c) => Math.min(guideSteps.length - 1, c + 1))}
+                  disabled={current === guideSteps.length - 1}
+                  style={{
+                    position: "absolute", right: -18, top: "50%", transform: "translateY(-50%)",
+                    width: 36, height: 36, borderRadius: "50%",
+                    background: "#fff", border: `1px solid ${COLORS.borderLight}`,
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 18, color: COLORS.brandBlack,
+                    cursor: current === guideSteps.length - 1 ? "default" : "pointer",
+                    opacity: current === guideSteps.length - 1 ? 0.35 : 1,
+                    transition: "opacity 0.2s",
+                  }}
+                >›</button>
+              </div>
+              <div style={{ display: "flex", justifyContent: "center", gap: 6, marginTop: 20 }}>
+                {guideSteps.map((_, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => setCurrent(idx)}
+                    style={{
+                      width: current === idx ? 24 : 8, height: 8, borderRadius: 4, cursor: "pointer",
+                      background: current === idx ? COLORS.brandBlack : COLORS.borderLight,
+                      transition: "all 0.3s",
+                    }}
+                  />
+                ))}
               </div>
             </div>
           </div>
         ) : (
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: 24,
-              padding: "24px 16px",
-              textAlign: "center",
-            }}
-          >
-            <div
-              style={{
-                background: WARM_GRAY,
-                borderRadius: 20,
-                maxWidth: 220,
-                margin: "0 auto 20px",
-                overflow: "hidden",
-                border: `1px solid ${BORDER}`,
-                boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
-              }}
-            >
+          <div style={{ background: "#fff", borderRadius: 24, padding: "24px 16px", textAlign: "center" }}>
+            <div style={{
+              background: COLORS.warmGray, borderRadius: 20, maxWidth: 220, margin: "0 auto 20px",
+              overflow: "hidden", border: `1px solid ${COLORS.borderLight}`,
+              boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+            }}>
               <img src="/qtv-home.png" alt="Màn hình app QTV" style={{ width: "100%", display: "block", objectFit: "cover" }} />
             </div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 12 }}>
@@ -343,61 +420,58 @@ const GuideSection = ({ isDesktop }) => {
                 onClick={() => setCurrent(Math.max(0, current - 1))}
                 disabled={current === 0}
                 style={{
-                  width: 36, height: 36, borderRadius: "50%", border: `1px solid ${BORDER}`,
-                  background: current === 0 ? WARM_GRAY : "#fff",
+                  width: 36, height: 36, borderRadius: "50%", border: `1px solid ${COLORS.borderLight}`,
+                  background: current === 0 ? COLORS.warmGray : "#fff",
                   cursor: current === 0 ? "default" : "pointer",
-                  fontSize: 16, color: current === 0 ? TEXT_MUTED : MWG_BLACK,
+                  fontSize: 16, color: current === 0 ? COLORS.textFaint : COLORS.brandBlack,
                   display: "flex", alignItems: "center", justifyContent: "center",
                 }}
               >‹</button>
-              <span style={{ fontSize: 14, fontWeight: 600, color: MWG_BLACK }}>
-                Bước {step.num} / {guideSteps.length}
+              <span style={{ fontSize: 14, fontWeight: 600, color: COLORS.brandBlack }}>
+                Bước {activeStep.num} / {guideSteps.length}
               </span>
               <button
                 onClick={() => setCurrent(Math.min(guideSteps.length - 1, current + 1))}
                 disabled={current === guideSteps.length - 1}
                 style={{
-                  width: 36, height: 36, borderRadius: "50%", border: `1px solid ${BORDER}`,
-                  background: current === guideSteps.length - 1 ? WARM_GRAY : "#fff",
+                  width: 36, height: 36, borderRadius: "50%", border: `1px solid ${COLORS.borderLight}`,
+                  background: current === guideSteps.length - 1 ? COLORS.warmGray : "#fff",
                   cursor: current === guideSteps.length - 1 ? "default" : "pointer",
-                  fontSize: 16, color: current === guideSteps.length - 1 ? TEXT_MUTED : MWG_BLACK,
+                  fontSize: 16, color: current === guideSteps.length - 1 ? COLORS.textFaint : COLORS.brandBlack,
                   display: "flex", alignItems: "center", justifyContent: "center",
                 }}
               >›</button>
             </div>
-            <div style={{ fontSize: 16, fontWeight: 700, color: MWG_BLACK, marginBottom: 4 }}>{step.title}</div>
-            <div style={{ fontSize: 13, color: TEXT_SECONDARY, lineHeight: 1.5 }}>{step.desc}</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: COLORS.brandBlack, marginBottom: 4 }}>{activeStep.title}</div>
+            <div style={{ fontSize: 13, color: COLORS.textGray, lineHeight: 1.5 }}>{activeStep.desc}</div>
             <div style={{ display: "flex", justifyContent: "center", gap: 6, marginTop: 14 }}>
-              {guideSteps.map((_, i) => (
-                <div
-                  key={i}
-                  style={{
-                    width: current === i ? 24 : 8, height: 8, borderRadius: 4,
-                    background: current === i ? MWG_YELLOW : BORDER,
-                    transition: "all 0.3s",
-                  }}
-                />
+              {guideSteps.map((_, idx) => (
+                <div key={idx} style={{
+                  width: current === idx ? 24 : 8, height: 8, borderRadius: 4,
+                  background: current === idx ? COLORS.brandYellow : COLORS.borderLight,
+                  transition: "all 0.3s",
+                }} />
               ))}
             </div>
           </div>
         )}
         <div style={{ textAlign: "center", marginTop: isDesktop ? 40 : 28 }}>
-          <button
+          <a
+            href={registerUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
-              background: MWG_BLACK,
-              color: "#fff",
-              border: "none",
-              borderRadius: 28,
+              display: "inline-block",
+              background: COLORS.brandBlack, color: "#fff", borderRadius: 28,
               padding: isDesktop ? "18px 56px" : "14px 40px",
-              fontSize: isDesktop ? 16 : 15,
-              fontWeight: 700,
-              cursor: "pointer",
+              fontSize: isDesktop ? 16 : 15, fontWeight: 700, cursor: "pointer",
               boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
+              textDecoration: "none",
             }}
           >
             Đăng ký ngay →
-          </button>
-          <p style={{ fontSize: 12, color: TEXT_MUTED, marginTop: 10 }}>
+          </a>
+          <p style={{ fontSize: 12, color: COLORS.textFaint, marginTop: 10 }}>
             Duyệt trong 2 phút · Không cần chứng minh thu nhập
           </p>
         </div>
@@ -406,19 +480,8 @@ const GuideSection = ({ isDesktop }) => {
   );
 };
 
-const bnplCategories = [
-  { img: "/cat-dienthoai.png", label: "Điện thoại", min: 3000000,  max: 30000000, defaultPrice: 15000000 },
-  { img: "/cat-laptop.png",    label: "Laptop",     min: 10000000, max: 40000000, defaultPrice: 29000000 },
-  { img: "/cat-donghо.png",    label: "Smartwatch", min: 2000000,  max: 15000000, defaultPrice: 6000000  },
-  { img: "/may lanh.png",      label: "Máy lạnh",   min: 5000000,  max: 20000000, defaultPrice: 10000000 },
-  { img: "/cat-phuкien.png",   label: "Phụ kiện",   min: 500000,   max: 5000000,  defaultPrice: 2000000  },
-];
-
-const periodOptions = [
-  { value: 90,  label: "90 ngày",   desc: "1 lần • 0% lãi", installments: 1,  hasInterest: false },
-  { value: 270, label: "3 tháng",   desc: "3 kỳ • 0% lãi*", installments: 3,  hasInterest: false },
-  { value: 720, label: "24 tháng",  desc: "24 kỳ • có lãi", installments: 24, hasInterest: true  },
-];
+const bnplCategories = bnplContent.categories;
+const periodOptions  = bnplContent.periods;
 
 const ProductBNPLSection = ({ isDesktop }) => {
   const [selected, setSelected] = useState(1); // default Laptop
@@ -426,34 +489,39 @@ const ProductBNPLSection = ({ isDesktop }) => {
   const [inputVal, setInputVal] = useState("29.000.000");
   const [period, setPeriod] = useState(720);
 
-  const cat = bnplCategories[selected];
-  const per = periodOptions.find((p) => p.value === period);
-  const payAmount = Math.round(price / per.installments);
+  const selectedCategory = bnplCategories[selected];
+  const selectedPeriod = periodOptions.find((opt) => opt.value === period);
+  const payAmount = Math.round(
+    price / selectedPeriod.installments + price * selectedPeriod.monthlyRate
+  );
+  const rateLabel = selectedPeriod.monthlyRate > 0
+    ? `${(selectedPeriod.monthlyRate * 100).toFixed(2).replace(".", ",")}%/tháng`
+    : null;
 
   const formatNum = (n) => new Intl.NumberFormat("vi-VN").format(n);
 
-  const handleCatSelect = (i) => {
-    setSelected(i);
-    const p = bnplCategories[i].defaultPrice;
-    setPrice(p);
-    setInputVal(formatNum(p));
+  const handleCatSelect = (idx) => {
+    setSelected(idx);
+    const defaultPrice = bnplCategories[idx].defaultPrice;
+    setPrice(defaultPrice);
+    setInputVal(formatNum(defaultPrice));
   };
 
   const handleSlider = (e) => {
-    const v = Number(e.target.value);
-    setPrice(v);
-    setInputVal(formatNum(v));
+    const val = Number(e.target.value);
+    setPrice(val);
+    setInputVal(formatNum(val));
   };
 
   const handleInputChange = (e) => {
     const raw = e.target.value.replace(/[^0-9]/g, "");
     setInputVal(raw);
     const num = Number(raw);
-    if (num > 0) setPrice(Math.min(Math.max(num, cat.min), cat.max));
+    if (num > 0) setPrice(Math.min(Math.max(num, selectedCategory.min), selectedCategory.max));
   };
 
   const handleInputBlur = () => {
-    const num = Math.min(Math.max(Number(inputVal.replace(/[^0-9]/g, "")) || cat.min, cat.min), cat.max);
+    const num = Math.min(Math.max(Number(inputVal.replace(/[^0-9]/g, "")) || selectedCategory.min, selectedCategory.min), selectedCategory.max);
     setPrice(num);
     setInputVal(formatNum(num));
   };
@@ -466,16 +534,16 @@ const ProductBNPLSection = ({ isDesktop }) => {
   // --- category tabs ---
   const categoryTabsJsx = (
     <div style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 4, marginBottom: isDesktop ? 32 : 20, scrollbarWidth: "none", justifyContent: isDesktop ? "center" : "flex-start" }}>
-      {bnplCategories.map((c, i) => (
-        <button key={i} onClick={() => handleCatSelect(i)} style={{
+      {bnplCategories.map((cat, idx) => (
+        <button key={idx} onClick={() => handleCatSelect(idx)} style={{
           display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
           padding: isDesktop ? "16px 24px" : "12px 16px", borderRadius: 16, flexShrink: 0,
-          border: selected === i ? `2px solid ${MWG_BLACK}` : `1px solid ${BORDER}`,
-          background: selected === i ? SOFT_YELLOW : "#fff",
+          border: selected === idx ? `2px solid ${COLORS.brandBlack}` : `1px solid ${COLORS.borderLight}`,
+          background: selected === idx ? COLORS.softYellow : "#fff",
           cursor: "pointer", transition: "all 0.2s",
         }}>
-          <img src={c.img} alt={c.label} style={{ width: isDesktop ? 48 : 36, height: isDesktop ? 48 : 36, objectFit: "contain" }} />
-          <span style={{ fontSize: isDesktop ? 13 : 11, fontWeight: selected === i ? 700 : 500, color: MWG_BLACK, whiteSpace: "nowrap" }}>{c.label}</span>
+          <img src={cat.img} alt={cat.label} style={{ width: isDesktop ? 48 : 36, height: isDesktop ? 48 : 36, objectFit: "contain" }} />
+          <span style={{ fontSize: isDesktop ? 13 : 11, fontWeight: selected === idx ? 700 : 500, color: COLORS.brandBlack, whiteSpace: "nowrap" }}>{cat.label}</span>
         </button>
       ))}
     </div>
@@ -483,9 +551,9 @@ const ProductBNPLSection = ({ isDesktop }) => {
 
   // --- slider block ---
   const sliderBlockJsx = (
-    <div style={{ background: WARM_GRAY, borderRadius: 20, padding: isDesktop ? "28px 32px" : "20px" }}>
+    <div style={{ background: COLORS.warmGray, borderRadius: 20, padding: isDesktop ? "28px 32px" : "20px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 16 }}>
-        <span style={{ fontSize: isDesktop ? 14 : 13, color: TEXT_SECONDARY }}>Giá sản phẩm của bạn</span>
+        <span style={{ fontSize: isDesktop ? 14 : 13, color: COLORS.textGray }}>Giá sản phẩm của bạn</span>
         <div style={{ display: "flex", alignItems: "baseline", gap: 2 }}>
           <input
             type="text"
@@ -496,7 +564,7 @@ const ProductBNPLSection = ({ isDesktop }) => {
             onFocus={handleInputFocus}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                const num = Math.min(Math.max(Number(inputVal.replace(/[^0-9]/g, "")) || cat.min, cat.min), cat.max);
+                const num = Math.min(Math.max(Number(inputVal.replace(/[^0-9]/g, "")) || selectedCategory.min, selectedCategory.min), selectedCategory.max);
                 setPrice(num);
                 setInputVal(formatNum(num));
                 e.target.blur();
@@ -505,9 +573,9 @@ const ProductBNPLSection = ({ isDesktop }) => {
             style={{
               fontSize: isDesktop ? 22 : 18,
               fontWeight: 800,
-              color: MWG_BLACK,
+              color: COLORS.brandBlack,
               border: "none",
-              borderBottom: `2px solid ${MWG_YELLOW}`,
+              borderBottom: `2px solid ${COLORS.brandYellow}`,
               background: "transparent",
               outline: "none",
               textAlign: "right",
@@ -516,16 +584,16 @@ const ProductBNPLSection = ({ isDesktop }) => {
               cursor: "text",
             }}
           />
-          <span style={{ fontSize: isDesktop ? 16 : 14, fontWeight: 700, color: MWG_BLACK }}>đ</span>
+          <span style={{ fontSize: isDesktop ? 16 : 14, fontWeight: 700, color: COLORS.brandBlack }}>đ</span>
         </div>
       </div>
-      <input type="range" min={cat.min} max={cat.max} step={500000} value={price}
+      <input type="range" min={selectedCategory.min} max={selectedCategory.max} step={500000} value={price}
         onChange={handleSlider}
-        style={{ width: "100%", accentColor: MWG_BLACK, cursor: "pointer", height: 4 }}
+        style={{ width: "100%", accentColor: COLORS.brandBlack, cursor: "pointer", height: 4 }}
       />
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8 }}>
-        <span style={{ fontSize: 11, color: TEXT_MUTED }}>{formatCurrency(cat.min)}</span>
-        <span style={{ fontSize: 11, color: TEXT_MUTED }}>{formatCurrency(cat.max)}</span>
+        <span style={{ fontSize: 11, color: COLORS.textFaint }}>{formatCurrency(selectedCategory.min)}</span>
+        <span style={{ fontSize: 11, color: COLORS.textFaint }}>{formatCurrency(selectedCategory.max)}</span>
       </div>
     </div>
   );
@@ -533,17 +601,17 @@ const ProductBNPLSection = ({ isDesktop }) => {
   // --- period block ---
   const periodBlockJsx = (
     <div>
-      <div style={{ fontSize: isDesktop ? 14 : 13, color: TEXT_SECONDARY, marginBottom: 10 }}>Chọn kỳ hạn trả sau</div>
+      <div style={{ fontSize: isDesktop ? 14 : 13, color: COLORS.textGray, marginBottom: 10 }}>Chọn kỳ hạn trả sau</div>
       <div style={{ display: "flex", gap: isDesktop ? 12 : 8 }}>
-        {periodOptions.map((p) => (
-          <button key={p.value} onClick={() => setPeriod(p.value)} style={{
+        {periodOptions.map((opt) => (
+          <button key={opt.value} onClick={() => setPeriod(opt.value)} style={{
             flex: 1, padding: isDesktop ? "16px 8px" : "12px 8px", borderRadius: 14,
-            border: period === p.value ? `2px solid ${MWG_BLACK}` : `1px solid ${BORDER}`,
-            background: period === p.value ? SOFT_YELLOW : "#fff",
+            border: period === opt.value ? `2px solid ${COLORS.brandBlack}` : `1px solid ${COLORS.borderLight}`,
+            background: period === opt.value ? COLORS.softYellow : "#fff",
             cursor: "pointer", textAlign: "center", transition: "all 0.2s",
           }}>
-            <div style={{ fontSize: isDesktop ? 15 : 13, fontWeight: 700, color: MWG_BLACK }}>{p.label}</div>
-            <div style={{ fontSize: isDesktop ? 11 : 10, color: TEXT_SECONDARY, marginTop: 3 }}>{p.desc}</div>
+            <div style={{ fontSize: isDesktop ? 15 : 13, fontWeight: 700, color: COLORS.brandBlack }}>{opt.label}</div>
+            <div style={{ fontSize: isDesktop ? 11 : 10, color: COLORS.textGray, marginTop: 3 }}>{opt.desc}</div>
           </button>
         ))}
       </div>
@@ -552,39 +620,59 @@ const ProductBNPLSection = ({ isDesktop }) => {
 
   // --- breakdown card ---
   const breakdownCardJsx = (
-    <div style={{ background: SOFT_YELLOW, borderRadius: 24, padding: isDesktop ? "36px 32px" : "24px 20px", border: `1px solid ${BORDER}` }}>
-      <div style={{ fontSize: isDesktop ? 13 : 12, color: MWG_RED, fontWeight: 600, marginBottom: isDesktop ? 24 : 16 }}>
-        Trả góp {per.label}
+    <div style={{ background: COLORS.softYellow, borderRadius: 24, padding: isDesktop ? "36px 32px" : "24px 20px", border: `1px solid ${COLORS.borderLight}` }}>
+      <div style={{ fontSize: isDesktop ? 13 : 12, color: COLORS.brandRed, fontWeight: 600, marginBottom: isDesktop ? 24 : 16 }}>
+        {selectedPeriod.installments === 1 ? `Trả sau ${selectedPeriod.value} ngày` : `Trả góp ${selectedPeriod.label}`}
       </div>
-      <div style={{ fontSize: isDesktop ? 14 : 13, color: TEXT_SECONDARY, marginBottom: 6 }}>
-        {per.installments > 1
-          ? (per.hasInterest ? "Mỗi tháng chỉ từ*" : "Mỗi tháng chỉ")
-          : `Trả 1 lần sau ${per.value} ngày`}
+      <div style={{ fontSize: isDesktop ? 14 : 13, color: COLORS.textGray, marginBottom: 6 }}>
+        {selectedPeriod.installments > 1
+          ? (selectedPeriod.hasInterest ? "Mỗi tháng chỉ từ*" : "Mỗi tháng chỉ")
+          : `Trả 1 lần sau ${selectedPeriod.value} ngày`}
       </div>
-      <div style={{ fontSize: isDesktop ? 52 : 38, fontWeight: 900, color: MWG_BLACK, letterSpacing: -2, lineHeight: 1 }}>
-        {formatCurrency(payAmount)}
+      <div style={{ fontSize: isDesktop ? 52 : 38, fontWeight: 900, color: COLORS.brandBlack, letterSpacing: -2, lineHeight: 1 }}>
+        {selectedPeriod.hasInterest ? "~" : ""}{formatCurrency(payAmount)}
       </div>
-      {per.installments > 1 && (
-        <div style={{ fontSize: isDesktop ? 13 : 11, color: TEXT_MUTED, marginTop: 8 }}>
-          × {per.installments} kỳ · {per.hasInterest ? "Lãi suất theo chương trình" : "0% lãi suất"}
+      <div style={{ fontSize: isDesktop ? 12 : 11, color: COLORS.textFaint, marginTop: 4 }}>
+        giá ước tính
+      </div>
+      {selectedPeriod.installments > 1 && (
+        <div style={{ fontSize: isDesktop ? 13 : 11, color: COLORS.textFaint, marginTop: 8 }}>
+          × {selectedPeriod.installments} kỳ
         </div>
       )}
-      <div style={{ borderTop: `1px solid ${BORDER}`, marginTop: isDesktop ? 28 : 18, paddingTop: isDesktop ? 20 : 14 }}>
+      <div style={{ borderTop: `1px solid ${COLORS.borderLight}`, marginTop: isDesktop ? 28 : 18, paddingTop: isDesktop ? 20 : 14 }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
-          <span style={{ fontSize: isDesktop ? 13 : 12, color: TEXT_SECONDARY }}>Tổng giá trị sản phẩm</span>
-          <span style={{ fontSize: isDesktop ? 13 : 12, color: MWG_BLACK, fontWeight: 600 }}>{formatCurrency(price)}</span>
+          <span style={{ fontSize: isDesktop ? 13 : 12, color: COLORS.textGray }}>Tổng giá trị sản phẩm</span>
+          <span style={{ fontSize: isDesktop ? 13 : 12, color: COLORS.brandBlack, fontWeight: 600 }}>{formatCurrency(price)}</span>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <span style={{ fontSize: isDesktop ? 13 : 12, color: TEXT_SECONDARY }}>Lãi suất</span>
-          <span style={{ fontSize: isDesktop ? 13 : 12, fontWeight: 600, color: per.hasInterest ? MWG_RED : ACCENT_GREEN }}>
-            {per.hasInterest ? "Theo chương trình" : "0đ"}
+          <span style={{ fontSize: isDesktop ? 13 : 12, color: COLORS.textGray }}>
+            {selectedPeriod.installments === 1 ? "Lãi suất" : "Lãi suất/tháng"}
+          </span>
+          <span style={{ fontSize: isDesktop ? 13 : 12, fontWeight: 600, color: selectedPeriod.hasInterest ? COLORS.brandBlack : COLORS.accentGreen }}>
+            {selectedPeriod.hasInterest ? rateLabel : "Miễn lãi"}
           </span>
         </div>
+        {selectedPeriod.hasInterest && (
+          <div style={{
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+            marginTop: 12, padding: "10px 0",
+          }}>
+            <span style={{ fontSize: isDesktop ? 12 : 11, color: COLORS.textGray, lineHeight: 1.4 }}>
+              Chênh lệch so với<br />trả thẳng
+            </span>
+            <span style={{ fontSize: isDesktop ? 15 : 13, fontWeight: 700, color: COLORS.brandBlack }}>
+              +{formatCurrency(payAmount * selectedPeriod.installments - price)}
+            </span>
+          </div>
+        )}
       </div>
-      <p style={{ fontSize: isDesktop ? 11 : 10, color: TEXT_MUTED, marginTop: isDesktop ? 16 : 12, fontStyle: "italic" }}>
-        {per.hasInterest
-          ? "* Số tiền tạm tính phần gốc, chưa bao gồm lãi suất. Lãi suất theo chương trình từng thời điểm."
-          : "* Số tiền mang tính minh hoạ. Lãi suất 0% theo chương trình từng thời điểm."}
+      <p style={{ fontSize: isDesktop ? 11 : 10, color: COLORS.textFaint, marginTop: isDesktop ? 16 : 12, fontStyle: "italic" }}>
+        {selectedPeriod.hasInterest
+          ? `* Ước tính theo lãi suất flat ${rateLabel} (Cake VPBank). Lãi suất thực tế theo chương trình từng thời điểm.`
+          : selectedPeriod.installments === 1
+          ? "Không phát sinh lãi suất khi thanh toán trong kỳ miễn lãi 90 ngày."
+          : "* Lãi suất 0% theo chương trình từng thời điểm."}
       </p>
     </div>
   );
@@ -593,10 +681,10 @@ const ProductBNPLSection = ({ isDesktop }) => {
     <div style={{ background: "#fff" }}>
       <div style={{ maxWidth: isDesktop ? 1100 : 480, margin: "0 auto", padding: isDesktop ? "72px 40px" : "36px 16px" }}>
         <div style={{ textAlign: "center", marginBottom: isDesktop ? 44 : 20 }}>
-          <h2 style={{ fontSize: isDesktop ? 34 : 22, fontWeight: 700, color: MWG_BLACK, margin: "0 0 8px" }}>
-            Trả sau với <span style={{ color: MWG_RED }}>Ví MWG</span>
+          <h2 style={{ fontSize: isDesktop ? 34 : 22, fontWeight: 700, color: COLORS.brandBlack, margin: "0 0 8px" }}>
+            Trả sau với <span style={{ color: COLORS.brandRed }}>Ví MWG</span>
           </h2>
-          <p style={{ fontSize: isDesktop ? 16 : 14, color: TEXT_SECONDARY, margin: 0 }}>
+          <p style={{ fontSize: isDesktop ? 16 : 14, color: COLORS.textGray, margin: 0 }}>
             Chọn danh mục, điều chỉnh giá — xem ngay số tiền trả mỗi tháng
           </p>
         </div>
@@ -622,15 +710,22 @@ const ProductBNPLSection = ({ isDesktop }) => {
         )}
 
         <div style={{ textAlign: "center", marginTop: isDesktop ? 40 : 28 }}>
-          <button style={{
-            background: MWG_BLACK, color: "#fff", border: "none", borderRadius: 28,
-            padding: isDesktop ? "18px 56px" : "14px 40px",
-            fontSize: isDesktop ? 16 : 15, fontWeight: 700, cursor: "pointer",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
-          }}>
+          <a
+            href={registerUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "inline-block",
+              background: COLORS.brandBlack, color: "#fff", borderRadius: 28,
+              padding: isDesktop ? "18px 56px" : "14px 40px",
+              fontSize: isDesktop ? 16 : 15, fontWeight: 700, cursor: "pointer",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
+              textDecoration: "none",
+            }}
+          >
             Đăng ký ngay →
-          </button>
-          <p style={{ fontSize: 12, color: TEXT_MUTED, marginTop: 10 }}>
+          </a>
+          <p style={{ fontSize: 12, color: COLORS.textFaint, marginTop: 10 }}>
             Duyệt trong 2 phút · Không cần chứng minh thu nhập
           </p>
         </div>
@@ -640,34 +735,112 @@ const ProductBNPLSection = ({ isDesktop }) => {
 };
 
 
+const uspCards = differentiatorContent.cards;
+
 const DifferentiatorSection = ({ isDesktop }) => (
   <div style={{ background: "#fff" }}>
     <div
       style={{
-        maxWidth: isDesktop ? 1100 : 480,
-        margin: "0 auto",
-        padding: isDesktop ? "32px 40px" : "20px 16px",
+        maxWidth: isDesktop ? 1100 : "100vw",
+        width: isDesktop ? "100%" : "100vw",
+        boxSizing: "border-box",
+        margin: isDesktop ? "0 auto" : "0 calc(50% - 50vw)",
+        padding: isDesktop ? "72px 40px 80px" : "40px 16px 44px",
       }}
     >
-      <img
-        src="/banner điểm khác biệt của ví mwg 1.png"
-        alt="Điểm khác biệt của Ví MWG PayLater"
+
+      {/* Section title */}
+      <div style={{ textAlign: "center", marginBottom: isDesktop ? 54 : 28 }}>
+        <h2 style={{ fontSize: isDesktop ? 34 : 22, fontWeight: 700, color: COLORS.brandBlack, margin: "0 0 8px" }}>
+          Điểm <span style={{ color: COLORS.brandRed }}>khác biệt</span>
+        </h2>
+        <p style={{ fontSize: isDesktop ? 16 : 14, color: COLORS.textGray, margin: 0 }}>
+          Hạn mức lên đến 40 triệu · Miễn lãi tối đa · Duyệt tự động 2 phút
+        </p>
+      </div>
+
+      <div
         style={{
-          width: "100%",
-          display: "block",
-          borderRadius: isDesktop ? 20 : 14,
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: isDesktop ? 30 : 12,
+          alignItems: "start",
         }}
-      />
+      >
+        {uspCards.map((card) => (
+          <div
+            key={card.title}
+            style={{
+              position: "relative",
+              paddingTop: isDesktop
+                ? "clamp(100px, 19vw, 225px)"
+                : "clamp(70px, 23vw, 185px)",
+              minWidth: 0,
+            }}
+          >
+            <div
+              style={{
+                background: COLORS.warmGray,
+                borderRadius: isDesktop ? 20 : 12,
+                padding: isDesktop
+                  ? "clamp(70px, 13vw, 155px) 28px 36px"
+                  : "clamp(50px, 17vw, 125px) clamp(12px, 3vw, 20px) 20px",
+                textAlign: "center",
+                boxShadow: "0 12px 30px rgba(18, 18, 18, 0.02)",
+              }}
+            >
+              <p
+                style={{
+                  fontSize: isDesktop ? 28 : "clamp(16px, 4.5vw, 22px)",
+                  lineHeight: 1.15,
+                  fontWeight: 700,
+                  color: COLORS.brandBlack,
+                  margin: "0 0 8px",
+                }}
+              >
+                {card.title}
+              </p>
+              <p
+                style={{
+                  fontSize: isDesktop ? 16 : "clamp(12px, 3vw, 15px)",
+                  lineHeight: 1.4,
+                  color: "#585562",
+                  margin: 0,
+                }}
+              >
+                {card.subtitle}
+              </p>
+            </div>
+
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: isDesktop ? "72%" : "86%",
+                zIndex: 2,
+                pointerEvents: "none",
+              }}
+            >
+              <img
+                src={card.img}
+                alt={card.title}
+                style={{
+                  width: "100%",
+                  display: "block",
+                }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
     </div>
   </div>
 );
 
-const storeChains = [
-  { name: "Thế Giới Di Động", count: "1.014", img: "/TGDĐ.png" },
-  { name: "Điện Máy Xanh", count: "2.006", img: "/DMX.png" },
-  { name: "TopZone", count: "100+", img: "/Topzone.png" },
-  { name: "Avakids", count: "95", img: "/Avakids.png" },
-];
+const storeChains = storeNetworkContent.chains;
 
 const StoreNetworkSection = ({ isDesktop }) => (
   <div style={{ background: "#fff" }}>
@@ -679,12 +852,12 @@ const StoreNetworkSection = ({ isDesktop }) => (
       }}
     >
       <div style={{ textAlign: "center", marginBottom: isDesktop ? 44 : 20 }}>
-        <h2 style={{ fontSize: isDesktop ? 34 : 20, fontWeight: 700, color: MWG_BLACK, margin: "0 0 6px" }}>
+        <h2 style={{ fontSize: isDesktop ? 34 : 20, fontWeight: 700, color: COLORS.brandBlack, margin: "0 0 6px" }}>
           Mua sắm tại hơn{" "}
-          <span style={{ color: MWG_RED }}>3.200 cửa hàng</span>{" "}
+          <span style={{ color: COLORS.brandRed }}>3.200 cửa hàng</span>{" "}
           toàn quốc
         </h2>
-        <p style={{ fontSize: isDesktop ? 16 : 13, color: TEXT_SECONDARY, margin: 0 }}>
+        <p style={{ fontSize: isDesktop ? 16 : 13, color: COLORS.textGray, margin: 0 }}>
           Ví MWG PayLater được chấp nhận tại toàn bộ hệ thống — tại cửa hàng và trên website
         </p>
       </div>
@@ -695,37 +868,30 @@ const StoreNetworkSection = ({ isDesktop }) => (
           gap: isDesktop ? 16 : 10,
         }}
       >
-        {storeChains.map((chain, i) => (
-          <div key={i} style={{ borderRadius: 14, overflow: "hidden", border: `1px solid ${BORDER}` }}>
+        {storeChains.map((chain, idx) => (
+          <div key={idx} style={{ borderRadius: 14, overflow: "hidden", border: `1px solid ${COLORS.borderLight}` }}>
             <img src={chain.img} alt={chain.name} style={{ width: "100%", display: "block", objectFit: "cover" }} />
           </div>
         ))}
       </div>
       <div style={{ marginTop: 14, textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
-        <span style={{ fontSize: 11, color: TEXT_MUTED }}>Số liệu Q1/2026</span>
-        <span style={{ fontSize: 11, color: BORDER }}>•</span>
-        <span style={{ fontSize: 11, color: TEXT_MUTED }}>Cập nhật liên tục</span>
+        <span style={{ fontSize: 11, color: COLORS.textFaint }}>Số liệu Q1/2026</span>
+        <span style={{ fontSize: 11, color: COLORS.borderLight }}>•</span>
+        <span style={{ fontSize: 11, color: COLORS.textFaint }}>Cập nhật liên tục</span>
       </div>
     </div>
   </div>
 );
 
 
-const faqData = [
-  { q: "Ví MWG PayLater là gì?", a: "Ví MWG PayLater là dịch vụ Mua trước - Trả sau được phát triển bởi Thế Giới Di Động hợp tác cùng Cake by VPBank. Bạn được cấp hạn mức lên đến 40 triệu đồng, miễn lãi tối đa 90 ngày, duyệt ngay trên điện thoại trong 2 phút." },
-  { q: "Ai có thể đăng ký Ví MWG?", a: "Công dân Việt Nam từ 18 tuổi trở lên, có CCCD gắn chip còn hiệu lực. Không cần chứng minh thu nhập hay hồ sơ phức tạp — duyệt tự động, không cần đến cửa hàng." },
-  { q: "Ví MWG có tính lãi không?", a: "Không! Khi thanh toán đúng hạn trong kỳ miễn lãi (tối đa 90 ngày), bạn hoàn toàn không trả bất kỳ khoản lãi nào. Nếu muốn trả góp dài hạn hơn (lên đến 24 tháng), mức lãi suất sẽ được thông báo rõ ràng trước khi xác nhận." },
-  { q: "Mua trước, trả sau có rủi ro gì không?", a: "Ví MWG minh bạch về mọi khoản phí. Bạn chỉ cần thanh toán đúng hạn để tránh phí trễ hạn. Mọi thông tin đều được hiển thị rõ trước khi xác nhận giao dịch." },
-  { q: "Hạn mức tối đa của Ví MWG là bao nhiêu?", a: "Hạn mức lên đến 40.000.000đ, được xét duyệt tự động dựa trên kết quả xác minh danh tính qua điện thoại. Hạn mức có thể được nâng dần theo lịch sử thanh toán đúng hạn của bạn." },
-  { q: "Dùng Ví MWG được ở đâu?", a: "Ví MWG PayLater được chấp nhận tại hơn 3.200 cửa hàng của Thế Giới Di Động, Điện Máy Xanh, TopZone và Avakids — cả tại cửa hàng lẫn trên website. Chọn Ví MWG làm phương thức thanh toán là hoàn tất." },
-];
+const faqData = faqContent.items;
 
 const FAQItem = ({ faq, openIdx, idx, setOpenIdx }) => (
   <div
     style={{
       background: "#fff",
       borderRadius: 14,
-      border: `1px solid ${openIdx === idx ? MWG_YELLOW : BORDER}`,
+      border: `1px solid ${openIdx === idx ? COLORS.brandYellow : COLORS.borderLight}`,
       overflow: "hidden",
       transition: "border 0.2s",
       marginBottom: 8,
@@ -739,19 +905,19 @@ const FAQItem = ({ faq, openIdx, idx, setOpenIdx }) => (
         background: "none", border: "none", cursor: "pointer", textAlign: "left",
       }}
     >
-      <span style={{ fontSize: 14, fontWeight: 600, color: MWG_BLACK, flex: 1, paddingRight: 12 }}>
+      <span style={{ fontSize: 14, fontWeight: 600, color: COLORS.brandBlack, flex: 1, paddingRight: 12 }}>
         {faq.q}
       </span>
       <span
         style={{
-          fontSize: 18, color: TEXT_MUTED, flexShrink: 0,
+          fontSize: 18, color: COLORS.textFaint, flexShrink: 0,
           transform: openIdx === idx ? "rotate(45deg)" : "rotate(0deg)",
           transition: "transform 0.2s",
         }}
       >+</span>
     </button>
     {openIdx === idx && (
-      <div style={{ padding: "0 18px 16px", fontSize: 13, color: TEXT_SECONDARY, lineHeight: 1.7 }}>
+      <div style={{ padding: "0 18px 16px", fontSize: 13, color: COLORS.textGray, lineHeight: 1.7 }}>
         {faq.a}
       </div>
     )}
@@ -760,6 +926,7 @@ const FAQItem = ({ faq, openIdx, idx, setOpenIdx }) => (
 
 const FAQSection = ({ isDesktop }) => {
   const [openIdx, setOpenIdx] = useState(null);
+  const half = Math.ceil(faqData.length / 2);
 
   return (
     <div style={{ background: "#fff" }}>
@@ -771,28 +938,28 @@ const FAQSection = ({ isDesktop }) => {
         }}
       >
         <div style={{ textAlign: "center", marginBottom: isDesktop ? 44 : 24 }}>
-          <h2 style={{ fontSize: isDesktop ? 34 : 22, fontWeight: 700, color: MWG_BLACK, margin: "0 0 8px" }}>
-            Câu hỏi <span style={{ color: MWG_RED }}>thường gặp</span>
+          <h2 style={{ fontSize: isDesktop ? 34 : 22, fontWeight: 700, color: COLORS.brandBlack, margin: "0 0 8px" }}>
+            Câu hỏi <span style={{ color: COLORS.brandRed }}>thường gặp</span>
           </h2>
         </div>
         {isDesktop ? (
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, alignItems: "start" }}>
             <div>
-              {faqData.slice(0, Math.ceil(faqData.length / 2)).map((faq, i) => (
-                <FAQItem key={i} faq={faq} openIdx={openIdx} idx={i} setOpenIdx={setOpenIdx} />
+              {faqData.slice(0, half).map((faq, idx) => (
+                <FAQItem key={idx} faq={faq} openIdx={openIdx} idx={idx} setOpenIdx={setOpenIdx} />
               ))}
             </div>
             <div>
-              {faqData.slice(Math.ceil(faqData.length / 2)).map((faq, i) => {
-                const idx = Math.ceil(faqData.length / 2) + i;
-                return <FAQItem key={idx} faq={faq} openIdx={openIdx} idx={idx} setOpenIdx={setOpenIdx} />;
+              {faqData.slice(half).map((faq, offset) => {
+                const faqIdx = half + offset;
+                return <FAQItem key={faqIdx} faq={faq} openIdx={openIdx} idx={faqIdx} setOpenIdx={setOpenIdx} />;
               })}
             </div>
           </div>
         ) : (
           <div>
-            {faqData.map((faq, i) => (
-              <FAQItem key={i} faq={faq} openIdx={openIdx} idx={i} setOpenIdx={setOpenIdx} />
+            {faqData.map((faq, idx) => (
+              <FAQItem key={idx} faq={faq} openIdx={openIdx} idx={idx} setOpenIdx={setOpenIdx} />
             ))}
           </div>
         )}
@@ -806,7 +973,7 @@ const CTASection = ({ isDesktop }) => (
     <div style={{ maxWidth: isDesktop ? 1100 : 480, margin: "0 auto", padding: isDesktop ? "0 40px" : "0" }}>
       <div
         style={{
-          background: `linear-gradient(135deg, ${MWG_BLACK} 0%, #2D2D2D 100%)`,
+          background: `linear-gradient(135deg, ${COLORS.brandBlack} 0%, #2D2D2D 100%)`,
           borderRadius: 24,
           padding: isDesktop ? "52px 64px" : "32px 24px",
           position: "relative",
@@ -817,26 +984,29 @@ const CTASection = ({ isDesktop }) => (
           textAlign: isDesktop ? "left" : "center",
         }}
       >
-        <div style={{ position: "absolute", top: -40, right: -40, width: 160, height: 160, borderRadius: "50%", background: MWG_YELLOW, opacity: 0.08 }} />
-        <div style={{ position: "absolute", bottom: -30, left: isDesktop ? -30 : -30, width: 120, height: 120, borderRadius: "50%", background: MWG_YELLOW, opacity: 0.06 }} />
+        <div style={{ position: "absolute", top: -40, right: -40, width: 160, height: 160, borderRadius: "50%", background: COLORS.brandYellow, opacity: 0.08 }} />
+        <div style={{ position: "absolute", bottom: -30, left: -30, width: 120, height: 120, borderRadius: "50%", background: COLORS.brandYellow, opacity: 0.06 }} />
         <div style={{ position: "relative", zIndex: 1, flex: isDesktop ? 1 : undefined }}>
-          <div style={{ fontSize: 13, color: MWG_YELLOW, fontWeight: 600, marginBottom: 8 }}>
+          <div style={{ fontSize: 13, color: COLORS.brandYellow, fontWeight: 600, marginBottom: 8 }}>
             Ưu đãi dành riêng cho bạn
           </div>
           <h2 style={{ fontSize: isDesktop ? 36 : 24, fontWeight: 800, color: "#fff", margin: "0 0 8px", lineHeight: 1.3 }}>
             Đăng ký Ví MWG — hoàn tiền đến{" "}
-            <span style={{ color: MWG_YELLOW }}>800.000đ</span>
+            <span style={{ color: COLORS.brandYellow }}>800.000đ</span>
           </h2>
           <p style={{ fontSize: isDesktop ? 15 : 13, color: "rgba(255,255,255,0.6)", margin: isDesktop ? 0 : "0 0 20px", lineHeight: 1.5 }}>
             Áp dụng cho giao dịch đủ điều kiện · Theo chương trình từng thời điểm
           </p>
         </div>
         <div style={{ position: "relative", zIndex: 1, flexShrink: isDesktop ? 0 : undefined }}>
-          <button
+          <a
+            href={registerUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
-              background: MWG_YELLOW,
-              color: MWG_BLACK,
-              border: "none",
+              display: "inline-block",
+              background: COLORS.brandYellow,
+              color: COLORS.brandBlack,
               borderRadius: 28,
               padding: isDesktop ? "18px 52px" : "14px 40px",
               fontSize: isDesktop ? 17 : 16,
@@ -844,10 +1014,11 @@ const CTASection = ({ isDesktop }) => (
               cursor: "pointer",
               boxShadow: "0 4px 24px rgba(255,212,0,0.35)",
               whiteSpace: "nowrap",
+              textDecoration: "none",
             }}
           >
             Kích hoạt ngay →
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -855,7 +1026,7 @@ const CTASection = ({ isDesktop }) => (
 );
 
 const Footer = ({ isDesktop }) => (
-  <div style={{ background: WARM_GRAY, padding: isDesktop ? "40px 0" : "24px 16px", textAlign: "center" }}>
+  <div style={{ background: COLORS.warmGray, padding: isDesktop ? "40px 0" : "24px 16px", textAlign: "center" }}>
     <div style={{ maxWidth: isDesktop ? 1100 : 480, margin: "0 auto", padding: isDesktop ? "0 40px" : "0" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 12 }}>
         <img
@@ -864,10 +1035,10 @@ const Footer = ({ isDesktop }) => (
           style={{ height: 36, objectFit: "contain" }}
         />
       </div>
-      <div style={{ fontSize: 12, color: TEXT_MUTED, lineHeight: 1.6, maxWidth: 400, margin: "0 auto" }}>
+      <div style={{ fontSize: 12, color: COLORS.textFaint, lineHeight: 1.6, maxWidth: 400, margin: "0 auto" }}>
         Sản phẩm hợp tác giữa Thế Giới Di Động và Cake by VPBank. Được cấp phép và giám sát bởi Ngân hàng Nhà nước Việt Nam.
       </div>
-      <div style={{ display: "flex", justifyContent: "center", gap: 20, marginTop: 16, fontSize: 12, color: TEXT_SECONDARY }}>
+      <div style={{ display: "flex", justifyContent: "center", gap: 20, marginTop: 16, fontSize: 12, color: COLORS.textGray }}>
         <span>Điều khoản</span>
         <span>Chính sách</span>
         <span>Hỗ trợ</span>
@@ -877,15 +1048,16 @@ const Footer = ({ isDesktop }) => (
 );
 
 export default function App() {
-  const w = useWindowWidth();
-  const isDesktop = w >= 768;
+  const width = useWindowWidth();
+  const isDesktop = width >= 768;
 
   return (
     <div
       style={{
         background: "#fff",
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-        color: MWG_BLACK,
+        color: COLORS.brandBlack,
+        overflowX: "clip",
       }}
     >
       <StickyHeader isDesktop={isDesktop} />
@@ -893,9 +1065,9 @@ export default function App() {
       <PartnerBanner isDesktop={isDesktop} />
       <DifferentiatorSection isDesktop={isDesktop} />
       <StoreNetworkSection isDesktop={isDesktop} />
-      <ProductBNPLSection isDesktop={isDesktop} />
-      <GuideSection isDesktop={isDesktop} />
-      <FAQSection isDesktop={isDesktop} />
+      <div id="section-bnpl"><ProductBNPLSection isDesktop={isDesktop} /></div>
+      <div id="section-huong-dan"><GuideSection isDesktop={isDesktop} /></div>
+      <div id="section-faq"><FAQSection isDesktop={isDesktop} /></div>
       <CTASection isDesktop={isDesktop} />
       <Footer isDesktop={isDesktop} />
     </div>
