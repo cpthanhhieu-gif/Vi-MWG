@@ -621,9 +621,6 @@ const ProductBNPLSection = ({ isDesktop }) => {
   // --- breakdown card ---
   const breakdownCardJsx = (
     <div style={{ background: COLORS.softYellow, borderRadius: 24, padding: isDesktop ? "36px 32px" : "24px 20px", border: `1px solid ${COLORS.borderLight}` }}>
-      <div style={{ fontSize: isDesktop ? 13 : 12, color: COLORS.brandRed, fontWeight: 600, marginBottom: isDesktop ? 24 : 16 }}>
-        {selectedPeriod.installments === 1 ? `Trả sau ${selectedPeriod.value} ngày` : `Trả góp ${selectedPeriod.label}`}
-      </div>
       <div style={{ fontSize: isDesktop ? 14 : 13, color: COLORS.textGray, marginBottom: 6 }}>
         {selectedPeriod.installments > 1
           ? (selectedPeriod.hasInterest ? "Mỗi tháng chỉ từ*" : "Mỗi tháng chỉ")
