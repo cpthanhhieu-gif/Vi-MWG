@@ -121,74 +121,74 @@ const StickyHeader = ({ isDesktop }) => {
   );
 };
 
-const HeroSection = ({ isDesktop }) => (
-  <div style={{ background: "#fff" }}>
-    <div
-      style={{
-        maxWidth: isDesktop ? 1100 : 480,
-        margin: "0 auto",
-        padding: isDesktop ? "0 40px" : "0",
-      }}
-    >
-      <img
-        src={isDesktop ? heroContent.bannerDesktop : heroContent.bannerMobile}
-        alt="Ví MWG PayLater — Mua trước, trả sau"
-        style={{ width: "100%", display: "block" }}
-      />
-    </div>
+const HeroSection = ({ isDesktop }) => {
+  if (!isDesktop) {
+    return (
+      <div style={{ background: "#fff" }}>
+        <div style={{ maxWidth: 480, margin: "0 auto" }}>
+          <img
+            src={heroContent.bannerMobile}
+            alt="Ví MWG PayLater — Mua trước, trả sau"
+            style={{ width: "100%", display: "block" }}
+          />
+        </div>
+        <div style={{
+          maxWidth: 480, margin: "0 auto",
+          padding: "12px 16px 20px",
+          display: "flex", gap: 10, justifyContent: "center",
+        }}>
+          <a href={registerUrl} target="_blank" rel="noopener noreferrer" style={{
+            display: "inline-block", background: COLORS.brandBlack, color: "#fff",
+            borderRadius: 28, padding: "14px 28px", fontSize: 15, fontWeight: 600,
+            cursor: "pointer", boxShadow: "0 4px 20px rgba(0,0,0,0.18)", textDecoration: "none",
+          }}>Kích hoạt ngay</a>
+          <a href="#section-faq" style={{
+            display: "inline-block", background: "#fff", color: COLORS.brandBlack,
+            border: "1.5px solid rgba(0,0,0,0.15)", borderRadius: 28,
+            padding: "14px 20px", fontSize: 15, fontWeight: 600,
+            cursor: "pointer", textDecoration: "none",
+          }}>Tìm hiểu thêm</a>
+        </div>
+      </div>
+    );
+  }
 
-    <div
-      style={{
-        maxWidth: isDesktop ? 1100 : 480,
-        margin: "0 auto",
-        padding: isDesktop ? "16px 40px 24px" : "12px 16px 20px",
+  return (
+    /* Wrapper: position relative — image drives height, buttons overlay at bottom */
+    <div style={{ position: "relative", lineHeight: 0 }}>
+      <img
+        src="/bg 1600x500.jpg"
+        alt="Ví MWG PayLater — Mua trước, trả sau"
+        style={{ width: "100%", display: "block", height: "auto" }}
+      />
+      <div style={{
+        position: "absolute",
+        bottom: "5%",
+        left: 0,
+        right: 0,
         display: "flex",
-        gap: isDesktop ? 14 : 10,
+        gap: 14,
         justifyContent: "center",
-      }}
-    >
-      <a
-        href={registerUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          display: "inline-block",
-          background: COLORS.brandBlack,
-          color: "#fff",
-          borderRadius: 28,
-          padding: isDesktop ? "16px 40px" : "14px 28px",
-          fontSize: isDesktop ? 16 : 15,
-          fontWeight: 600,
-          cursor: "pointer",
-          boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
-          textDecoration: "none",
-        }}
-      >
-        Kích hoạt ngay
-      </a>
-      <a
-        href="#section-faq"
-        style={{
-          display: "inline-block",
-          background: "#fff",
-          color: COLORS.brandBlack,
-          border: "1.5px solid rgba(0,0,0,0.15)",
-          borderRadius: 28,
-          padding: isDesktop ? "16px 28px" : "14px 20px",
-          fontSize: isDesktop ? 16 : 15,
-          fontWeight: 600,
-          cursor: "pointer",
-          textDecoration: "none",
-        }}
-      >
-        Tìm hiểu thêm
-      </a>
+        lineHeight: "normal",
+      }}>
+        <a href={registerUrl} target="_blank" rel="noopener noreferrer" style={{
+          display: "inline-block", background: COLORS.brandBlack, color: "#fff",
+          borderRadius: 28, padding: "16px 40px", fontSize: 16, fontWeight: 600,
+          cursor: "pointer", boxShadow: "0 4px 20px rgba(0,0,0,0.18)", textDecoration: "none",
+        }}>Kích hoạt ngay</a>
+        <a href="#section-faq" style={{
+          display: "inline-block", background: "#fff", color: COLORS.brandBlack,
+          border: "1.5px solid rgba(0,0,0,0.15)", borderRadius: 28,
+          padding: "16px 28px", fontSize: 16, fontWeight: 600,
+          cursor: "pointer", textDecoration: "none",
+        }}>Tìm hiểu thêm</a>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const PartnerBanner = ({ isDesktop }) => (
-  <div style={{ background: "#fff", paddingBottom: isDesktop ? 24 : 16 }}>
+  <div style={{ background: "#fff", paddingTop: 24, paddingBottom: isDesktop ? 24 : 16 }}>
     <div
       style={{
         maxWidth: isDesktop ? 1100 : 480,
@@ -227,7 +227,7 @@ const PartnerBanner = ({ isDesktop }) => (
           />
           <span style={{ color: COLORS.borderLight, fontSize: isDesktop ? 28 : 20 }}>×</span>
           <img
-            src="/logo-cake.png"
+            src="/logos/Logo-Ngan-hang-so-CAKE.png"
             alt="Cake by VPBank"
             style={{ height: isDesktop ? 60 : 40, objectFit: "contain" }}
           />
@@ -769,9 +769,7 @@ const DifferentiatorSection = ({ isDesktop }) => (
             key={card.title}
             style={{
               position: "relative",
-              paddingTop: isDesktop
-                ? "clamp(100px, 19vw, 225px)"
-                : "clamp(70px, 23vw, 185px)",
+              paddingTop: isDesktop ? "clamp(110px, 13vw, 155px)" : "clamp(70px, 23vw, 185px)",
               minWidth: 0,
             }}
           >
@@ -780,7 +778,7 @@ const DifferentiatorSection = ({ isDesktop }) => (
                 background: COLORS.warmGray,
                 borderRadius: isDesktop ? 20 : 12,
                 padding: isDesktop
-                  ? "clamp(70px, 13vw, 155px) 28px 36px"
+                  ? "clamp(75px, 9vw, 105px) 28px 32px"
                   : "clamp(50px, 17vw, 125px) clamp(12px, 3vw, 20px) 20px",
                 textAlign: "center",
                 boxShadow: "0 12px 30px rgba(18, 18, 18, 0.02)",
@@ -788,7 +786,7 @@ const DifferentiatorSection = ({ isDesktop }) => (
             >
               <p
                 style={{
-                  fontSize: isDesktop ? 28 : "clamp(16px, 4.5vw, 22px)",
+                  fontSize: isDesktop ? 22 : "clamp(16px, 4.5vw, 22px)",
                   lineHeight: 1.15,
                   fontWeight: 700,
                   color: COLORS.brandBlack,
@@ -799,7 +797,7 @@ const DifferentiatorSection = ({ isDesktop }) => (
               </p>
               <p
                 style={{
-                  fontSize: isDesktop ? 16 : "clamp(12px, 3vw, 15px)",
+                  fontSize: isDesktop ? 14 : "clamp(12px, 3vw, 15px)",
                   lineHeight: 1.4,
                   color: "#585562",
                   margin: 0,
@@ -815,7 +813,7 @@ const DifferentiatorSection = ({ isDesktop }) => (
                 top: 0,
                 left: "50%",
                 transform: "translateX(-50%)",
-                width: isDesktop ? "72%" : "86%",
+                width: isDesktop ? "58%" : "86%",
                 zIndex: 2,
                 pointerEvents: "none",
               }}
@@ -870,11 +868,6 @@ const StoreNetworkSection = ({ isDesktop }) => (
             <img src={chain.img} alt={chain.name} style={{ width: "100%", display: "block", objectFit: "cover" }} />
           </div>
         ))}
-      </div>
-      <div style={{ marginTop: 14, textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
-        <span style={{ fontSize: 11, color: COLORS.textFaint }}>Số liệu Q1/2026</span>
-        <span style={{ fontSize: 11, color: COLORS.borderLight }}>•</span>
-        <span style={{ fontSize: 11, color: COLORS.textFaint }}>Cập nhật liên tục</span>
       </div>
     </div>
   </div>
