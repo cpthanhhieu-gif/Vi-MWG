@@ -738,15 +738,11 @@ const DifferentiatorSection = ({ isDesktop }) => (
   <div style={{ background: "#fff" }}>
     <div
       style={{
-        maxWidth: isDesktop ? 1100 : "100vw",
-        width: isDesktop ? "100%" : "100vw",
-        boxSizing: "border-box",
-        margin: isDesktop ? "0 auto" : "0 calc(50% - 50vw)",
+        maxWidth: isDesktop ? 1100 : 480,
+        margin: "0 auto",
         padding: isDesktop ? "72px 40px 80px" : "40px 16px 44px",
       }}
     >
-
-      {/* Section title */}
       <div style={{ textAlign: "center", marginBottom: isDesktop ? 54 : 28 }}>
         <h2 style={{ fontSize: isDesktop ? 34 : 22, fontWeight: 700, color: COLORS.brandBlack, margin: "0 0 8px" }}>
           Điểm <span style={{ color: COLORS.brandRed }}>khác biệt</span>
@@ -769,7 +765,8 @@ const DifferentiatorSection = ({ isDesktop }) => (
             key={card.title}
             style={{
               position: "relative",
-              paddingTop: isDesktop ? "clamp(110px, 13vw, 155px)" : "clamp(70px, 23vw, 185px)",
+              // clamp capped at 95px so values stay proportional within the 480px container
+              paddingTop: isDesktop ? "clamp(110px, 13vw, 155px)" : "clamp(70px, 23vw, 95px)",
               minWidth: 0,
             }}
           >
@@ -779,7 +776,7 @@ const DifferentiatorSection = ({ isDesktop }) => (
                 borderRadius: isDesktop ? 20 : 12,
                 padding: isDesktop
                   ? "clamp(75px, 9vw, 105px) 28px 32px"
-                  : "clamp(50px, 17vw, 125px) clamp(12px, 3vw, 20px) 20px",
+                  : "clamp(50px, 17vw, 68px) clamp(12px, 3vw, 20px) 20px",
                 textAlign: "center",
                 boxShadow: "0 12px 30px rgba(18, 18, 18, 0.02)",
               }}
@@ -813,7 +810,7 @@ const DifferentiatorSection = ({ isDesktop }) => (
                 top: 0,
                 left: "50%",
                 transform: "translateX(-50%)",
-                width: isDesktop ? "58%" : "86%",
+                width: isDesktop ? "58%" : "84%",
                 zIndex: 2,
                 pointerEvents: "none",
               }}
@@ -821,16 +818,12 @@ const DifferentiatorSection = ({ isDesktop }) => (
               <img
                 src={card.img}
                 alt={card.title}
-                style={{
-                  width: "100%",
-                  display: "block",
-                }}
+                style={{ width: "100%", display: "block" }}
               />
             </div>
           </div>
         ))}
       </div>
-
     </div>
   </div>
 );

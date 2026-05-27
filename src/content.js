@@ -23,8 +23,8 @@ export const differentiatorContent = {
   heading: "Điểm khác biệt",
   subtitle: "Hạn mức lên đến 40 triệu · Miễn lãi tối đa · Duyệt tự động 2 phút",
   cards: [
-    { title: "Miễn lãi tối đa", subtitle: "0% lãi, đến 24 tháng", img: "/90 ngày.png" },
-    { title: "Hạn mức tối đa", subtitle: "Lên đến 40 triệu đồng", img: "/40 triệu.png" },
+    { title: "Miễn lãi tối đa", subtitle: "0% lãi, đến 24 tháng", img: "/90-commit.png" },
+    { title: "Hạn mức tối đa", subtitle: "Lên đến 40 triệu đồng", img: "/40-commit.png" },
   ],
 };
 
