@@ -91,8 +91,8 @@ const StickyHeader = ({ isDesktop }) => {
         <div style={{ display: "flex", alignItems: "center", gap: isDesktop ? 28 : 0 }}>
           {isDesktop && (
             <>
-              <a href="#section-bnpl" style={{ fontSize: 14, fontWeight: 500, color: COLORS.textGray, textDecoration: "none" }}>Trả sau</a>
-              <a href="#section-huong-dan" style={{ fontSize: 14, fontWeight: 500, color: COLORS.textGray, textDecoration: "none" }}>Hướng dẫn</a>
+              <a href="#section-bnpl" style={{ fontSize: 14, fontWeight: 500, color: COLORS.textGray, textDecoration: "none" }}>Pay Later</a>
+              <a href="#section-huong-dan" style={{ fontSize: 14, fontWeight: 500, color: COLORS.textGray, textDecoration: "none" }}>How It Works</a>
               <a href="#section-faq" style={{ fontSize: 14, fontWeight: 500, color: COLORS.textGray, textDecoration: "none" }}>FAQ</a>
             </>
           )}
@@ -113,7 +113,7 @@ const StickyHeader = ({ isDesktop }) => {
               textDecoration: "none",
             }}
           >
-            Đăng ký ngay
+            Register Now
           </a>
         </div>
       </div>
@@ -141,13 +141,13 @@ const HeroSection = ({ isDesktop }) => {
             display: "inline-block", background: COLORS.brandBlack, color: "#fff",
             borderRadius: 28, padding: "14px 28px", fontSize: 15, fontWeight: 600,
             cursor: "pointer", boxShadow: "0 4px 20px rgba(0,0,0,0.18)", textDecoration: "none",
-          }}>Kích hoạt ngay</a>
+          }}>{heroContent.ctaPrimary}</a>
           <a href="#section-faq" style={{
             display: "inline-block", background: "#fff", color: COLORS.brandBlack,
             border: "1.5px solid rgba(0,0,0,0.15)", borderRadius: 28,
             padding: "14px 20px", fontSize: 15, fontWeight: 600,
             cursor: "pointer", textDecoration: "none",
-          }}>Tìm hiểu thêm</a>
+          }}>{heroContent.ctaSecondary}</a>
         </div>
       </div>
     );
@@ -175,13 +175,13 @@ const HeroSection = ({ isDesktop }) => {
           display: "inline-block", background: COLORS.brandBlack, color: "#fff",
           borderRadius: 28, padding: "16px 40px", fontSize: 16, fontWeight: 600,
           cursor: "pointer", boxShadow: "0 4px 20px rgba(0,0,0,0.18)", textDecoration: "none",
-        }}>Kích hoạt ngay</a>
+        }}>{heroContent.ctaPrimary}</a>
         <a href="#section-faq" style={{
           display: "inline-block", background: "#fff", color: COLORS.brandBlack,
           border: "1.5px solid rgba(0,0,0,0.15)", borderRadius: 28,
           padding: "16px 28px", fontSize: 16, fontWeight: 600,
           cursor: "pointer", textDecoration: "none",
-        }}>Tìm hiểu thêm</a>
+        }}>{heroContent.ctaSecondary}</a>
       </div>
     </div>
   );
@@ -217,7 +217,7 @@ const PartnerBanner = ({ isDesktop }) => (
             letterSpacing: 1.5,
           }}
         >
-          Sản phẩm hợp tác
+          {partnerContent.label}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: isDesktop ? 28 : 16 }}>
           <img
@@ -280,8 +280,7 @@ const GuideSection = ({ isDesktop }) => {
       >
         <div style={{ textAlign: "center", marginBottom: isDesktop ? 48 : 24 }}>
           <h2 style={{ fontSize: isDesktop ? 34 : 22, fontWeight: 700, color: COLORS.brandBlack, margin: "0 0 8px" }}>
-            {guideContent.heading.replace("Ví MWG", "")}
-            <span style={{ color: COLORS.brandRed }}>Ví MWG</span>
+            {guideContent.heading}
           </h2>
           <p style={{ fontSize: isDesktop ? 16 : 14, color: COLORS.textGray, margin: 0 }}>
             {guideContent.subtitle}
@@ -428,7 +427,7 @@ const GuideSection = ({ isDesktop }) => {
                 }}
               >‹</button>
               <span style={{ fontSize: 14, fontWeight: 600, color: COLORS.brandBlack }}>
-                Bước {activeStep.num} / {guideSteps.length}
+                Step {activeStep.num} / {guideSteps.length}
               </span>
               <button
                 onClick={() => setCurrent(Math.min(guideSteps.length - 1, current + 1))}
@@ -469,10 +468,10 @@ const GuideSection = ({ isDesktop }) => {
               textDecoration: "none",
             }}
           >
-            Đăng ký ngay →
+            {guideContent.cta}
           </a>
           <p style={{ fontSize: 12, color: COLORS.textFaint, marginTop: 10 }}>
-            Duyệt trong 2 phút · Không cần chứng minh thu nhập
+            {guideContent.ctaNote}
           </p>
         </div>
       </div>
@@ -495,7 +494,7 @@ const ProductBNPLSection = ({ isDesktop }) => {
     price / selectedPeriod.installments + price * selectedPeriod.monthlyRate
   );
   const rateLabel = selectedPeriod.monthlyRate > 0
-    ? `${(selectedPeriod.monthlyRate * 100).toFixed(2).replace(".", ",")}%/tháng`
+    ? `${(selectedPeriod.monthlyRate * 100).toFixed(2)}%/month`
     : null;
 
   const formatNum = (n) => new Intl.NumberFormat("vi-VN").format(n);
@@ -553,7 +552,7 @@ const ProductBNPLSection = ({ isDesktop }) => {
   const sliderBlockJsx = (
     <div style={{ background: COLORS.warmGray, borderRadius: 20, padding: isDesktop ? "28px 32px" : "20px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 16 }}>
-        <span style={{ fontSize: isDesktop ? 14 : 13, color: COLORS.textGray }}>Giá sản phẩm của bạn</span>
+        <span style={{ fontSize: isDesktop ? 14 : 13, color: COLORS.textGray }}>Your product price</span>
         <div style={{ display: "flex", alignItems: "baseline", gap: 2 }}>
           <input
             type="text"
@@ -584,7 +583,7 @@ const ProductBNPLSection = ({ isDesktop }) => {
               cursor: "text",
             }}
           />
-          <span style={{ fontSize: isDesktop ? 16 : 14, fontWeight: 700, color: COLORS.brandBlack }}>đ</span>
+          <span style={{ fontSize: isDesktop ? 16 : 14, fontWeight: 700, color: COLORS.brandBlack }}>VND</span>
         </div>
       </div>
       <input type="range" min={selectedCategory.min} max={selectedCategory.max} step={500000} value={price}
@@ -601,7 +600,7 @@ const ProductBNPLSection = ({ isDesktop }) => {
   // --- period block ---
   const periodBlockJsx = (
     <div>
-      <div style={{ fontSize: isDesktop ? 14 : 13, color: COLORS.textGray, marginBottom: 10 }}>Chọn kỳ hạn trả sau</div>
+      <div style={{ fontSize: isDesktop ? 14 : 13, color: COLORS.textGray, marginBottom: 10 }}>Select payment plan</div>
       <div style={{ display: "flex", gap: isDesktop ? 12 : 8 }}>
         {periodOptions.map((opt) => (
           <button key={opt.value} onClick={() => setPeriod(opt.value)} style={{
@@ -623,31 +622,31 @@ const ProductBNPLSection = ({ isDesktop }) => {
     <div style={{ background: COLORS.softYellow, borderRadius: 24, padding: isDesktop ? "36px 32px" : "24px 20px", border: `1px solid ${COLORS.borderLight}` }}>
       <div style={{ fontSize: isDesktop ? 14 : 13, color: COLORS.textGray, marginBottom: 6 }}>
         {selectedPeriod.installments > 1
-          ? (selectedPeriod.hasInterest ? "Mỗi tháng chỉ từ*" : "Mỗi tháng chỉ")
-          : `Trả 1 lần sau ${selectedPeriod.value} ngày`}
+          ? (selectedPeriod.hasInterest ? "Est. monthly payment*" : "Monthly payment")
+          : `Pay once after ${selectedPeriod.value} days`}
       </div>
       <div style={{ fontSize: isDesktop ? 52 : 38, fontWeight: 900, color: COLORS.brandBlack, letterSpacing: -2, lineHeight: 1 }}>
         {selectedPeriod.hasInterest ? "~" : ""}{formatCurrency(payAmount)}
       </div>
       <div style={{ fontSize: isDesktop ? 12 : 11, color: COLORS.textFaint, marginTop: 4 }}>
-        giá ước tính
+        estimated price
       </div>
       {selectedPeriod.installments > 1 && (
         <div style={{ fontSize: isDesktop ? 13 : 11, color: COLORS.textFaint, marginTop: 8 }}>
-          × {selectedPeriod.installments} kỳ
+          × {selectedPeriod.installments} payments
         </div>
       )}
       <div style={{ borderTop: `1px solid ${COLORS.borderLight}`, marginTop: isDesktop ? 28 : 18, paddingTop: isDesktop ? 20 : 14 }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
-          <span style={{ fontSize: isDesktop ? 13 : 12, color: COLORS.textGray }}>Tổng giá trị sản phẩm</span>
+          <span style={{ fontSize: isDesktop ? 13 : 12, color: COLORS.textGray }}>Total product value</span>
           <span style={{ fontSize: isDesktop ? 13 : 12, color: COLORS.brandBlack, fontWeight: 600 }}>{formatCurrency(price)}</span>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <span style={{ fontSize: isDesktop ? 13 : 12, color: COLORS.textGray }}>
-            {selectedPeriod.installments === 1 ? "Lãi suất" : "Lãi suất/tháng"}
+            {selectedPeriod.installments === 1 ? "Interest rate" : "Interest rate/month"}
           </span>
           <span style={{ fontSize: isDesktop ? 13 : 12, fontWeight: 600, color: selectedPeriod.hasInterest ? COLORS.brandBlack : COLORS.accentGreen }}>
-            {selectedPeriod.hasInterest ? rateLabel : "Miễn lãi"}
+            {selectedPeriod.hasInterest ? rateLabel : "Interest-Free"}
           </span>
         </div>
         {selectedPeriod.hasInterest && (
@@ -656,7 +655,7 @@ const ProductBNPLSection = ({ isDesktop }) => {
             marginTop: 12, padding: "10px 0",
           }}>
             <span style={{ fontSize: isDesktop ? 12 : 11, color: COLORS.textGray, lineHeight: 1.4 }}>
-              Chênh lệch so với<br />trả thẳng
+              Extra vs.<br />paying upfront
             </span>
             <span style={{ fontSize: isDesktop ? 15 : 13, fontWeight: 700, color: COLORS.brandBlack }}>
               +{formatCurrency(payAmount * selectedPeriod.installments - price)}
@@ -666,10 +665,10 @@ const ProductBNPLSection = ({ isDesktop }) => {
       </div>
       <p style={{ fontSize: isDesktop ? 11 : 10, color: COLORS.textFaint, marginTop: isDesktop ? 16 : 12, fontStyle: "italic" }}>
         {selectedPeriod.hasInterest
-          ? `* Ước tính theo lãi suất flat ${rateLabel} (Cake VPBank). Lãi suất thực tế theo chương trình từng thời điểm.`
+          ? `* Estimated at flat rate ${rateLabel} (Cake VPBank). Actual rate subject to promotional terms.`
           : selectedPeriod.installments === 1
-          ? "Không phát sinh lãi suất khi thanh toán trong kỳ miễn lãi 90 ngày."
-          : "* Lãi suất 0% theo chương trình từng thời điểm."}
+          ? "No interest charged when paid within the 90-day interest-free period."
+          : "* 0% interest rate subject to promotional terms."}
       </p>
     </div>
   );
@@ -679,10 +678,10 @@ const ProductBNPLSection = ({ isDesktop }) => {
       <div style={{ maxWidth: isDesktop ? 1100 : 480, margin: "0 auto", padding: isDesktop ? "72px 40px" : "36px 16px" }}>
         <div style={{ textAlign: "center", marginBottom: isDesktop ? 44 : 20 }}>
           <h2 style={{ fontSize: isDesktop ? 34 : 22, fontWeight: 700, color: COLORS.brandBlack, margin: "0 0 8px" }}>
-            Trả sau với <span style={{ color: COLORS.brandRed }}>Ví MWG</span>
+            {bnplContent.heading}
           </h2>
           <p style={{ fontSize: isDesktop ? 16 : 14, color: COLORS.textGray, margin: 0 }}>
-            Chọn danh mục, điều chỉnh giá — xem ngay số tiền trả mỗi tháng
+            {bnplContent.subtitle}
           </p>
         </div>
 
@@ -720,10 +719,10 @@ const ProductBNPLSection = ({ isDesktop }) => {
               textDecoration: "none",
             }}
           >
-            Đăng ký ngay →
+            {bnplContent.cta}
           </a>
           <p style={{ fontSize: 12, color: COLORS.textFaint, marginTop: 10 }}>
-            Duyệt trong 2 phút · Không cần chứng minh thu nhập
+            {bnplContent.ctaNote}
           </p>
         </div>
       </div>
@@ -745,10 +744,10 @@ const DifferentiatorSection = ({ isDesktop }) => (
     >
       <div style={{ textAlign: "center", marginBottom: isDesktop ? 54 : 28 }}>
         <h2 style={{ fontSize: isDesktop ? 34 : 22, fontWeight: 700, color: COLORS.brandBlack, margin: "0 0 8px" }}>
-          Điểm <span style={{ color: COLORS.brandRed }}>khác biệt</span>
+          {differentiatorContent.heading}
         </h2>
         <p style={{ fontSize: isDesktop ? 16 : 14, color: COLORS.textGray, margin: 0 }}>
-          Hạn mức lên đến 40 triệu · Miễn lãi tối đa · Duyệt tự động 2 phút
+          {differentiatorContent.subtitle}
         </p>
       </div>
 
@@ -841,12 +840,10 @@ const StoreNetworkSection = ({ isDesktop }) => (
     >
       <div style={{ textAlign: "center", marginBottom: isDesktop ? 44 : 20 }}>
         <h2 style={{ fontSize: isDesktop ? 34 : 20, fontWeight: 700, color: COLORS.brandBlack, margin: "0 0 6px" }}>
-          Mua sắm tại hơn{" "}
-          <span style={{ color: COLORS.brandRed }}>3.200 cửa hàng</span>{" "}
-          toàn quốc
+          {storeNetworkContent.heading}
         </h2>
         <p style={{ fontSize: isDesktop ? 16 : 13, color: COLORS.textGray, margin: 0 }}>
-          Ví MWG PayLater được chấp nhận tại toàn bộ hệ thống — tại cửa hàng và trên website
+          {storeNetworkContent.subtitle}
         </p>
       </div>
       <div
@@ -922,7 +919,7 @@ const FAQSection = ({ isDesktop }) => {
       >
         <div style={{ textAlign: "center", marginBottom: isDesktop ? 44 : 24 }}>
           <h2 style={{ fontSize: isDesktop ? 34 : 22, fontWeight: 700, color: COLORS.brandBlack, margin: "0 0 8px" }}>
-            Câu hỏi <span style={{ color: COLORS.brandRed }}>thường gặp</span>
+            {faqContent.heading}
           </h2>
         </div>
         {isDesktop ? (
@@ -971,14 +968,13 @@ const CTASection = ({ isDesktop }) => (
         <div style={{ position: "absolute", bottom: -30, left: -30, width: 120, height: 120, borderRadius: "50%", background: COLORS.brandYellow, opacity: 0.06 }} />
         <div style={{ position: "relative", zIndex: 1, flex: isDesktop ? 1 : undefined }}>
           <div style={{ fontSize: 13, color: COLORS.brandYellow, fontWeight: 600, marginBottom: 8 }}>
-            Ưu đãi dành riêng cho bạn
+            {ctaContent.badge}
           </div>
           <h2 style={{ fontSize: isDesktop ? 36 : 24, fontWeight: 800, color: "#fff", margin: "0 0 8px", lineHeight: 1.3 }}>
-            Đăng ký Ví MWG — hoàn tiền đến{" "}
-            <span style={{ color: COLORS.brandYellow }}>800.000đ</span>
+            {ctaContent.heading}
           </h2>
           <p style={{ fontSize: isDesktop ? 15 : 13, color: "rgba(255,255,255,0.6)", margin: isDesktop ? 0 : "0 0 20px", lineHeight: 1.5 }}>
-            Áp dụng cho giao dịch đủ điều kiện · Theo chương trình từng thời điểm
+            {ctaContent.subtitle}
           </p>
         </div>
         <div style={{ position: "relative", zIndex: 1, flexShrink: isDesktop ? 0 : undefined }}>
@@ -1000,7 +996,7 @@ const CTASection = ({ isDesktop }) => (
               textDecoration: "none",
             }}
           >
-            Kích hoạt ngay →
+            {ctaContent.button}
           </a>
         </div>
       </div>
@@ -1019,12 +1015,10 @@ const Footer = ({ isDesktop }) => (
         />
       </div>
       <div style={{ fontSize: 12, color: COLORS.textFaint, lineHeight: 1.6, maxWidth: 400, margin: "0 auto" }}>
-        Sản phẩm hợp tác giữa Thế Giới Di Động và Cake by VPBank. Được cấp phép và giám sát bởi Ngân hàng Nhà nước Việt Nam.
+        {footerContent.legal}
       </div>
       <div style={{ display: "flex", justifyContent: "center", gap: 20, marginTop: 16, fontSize: 12, color: COLORS.textGray }}>
-        <span>Điều khoản</span>
-        <span>Chính sách</span>
-        <span>Hỗ trợ</span>
+        {footerContent.links.map(link => <span key={link}>{link}</span>)}
       </div>
     </div>
   </div>
