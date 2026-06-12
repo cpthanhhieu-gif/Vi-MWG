@@ -1,17 +1,18 @@
-// ─── MWG Official Brand Identity (source: mwg.vn) ───
+// ─── Ví Trả Sau Brand Identity ───
 // Chỉ cần sửa file này khi đổi brand → toàn bộ landing page tự cập nhật
 
 export const COLORS = {
   // ── Brand core ──────────────────────────────────────────────────
-  brandYellow: "#FFD400",   // màu vàng nhận diện MWG
+  brandPink:   "#F0197D",   // hồng magenta chủ đạo Ví Trả Sau
+  brandYellow: "#FFD400",   // giữ lại cho các accent phụ
   brandBlack:  "#1A1A1A",   // màu nền/chữ đậm chính
-  brandRed:    "#D0021B",   // accent đỏ
+  brandRed:    "#F0197D",   // alias → brandPink
 
-  // ── Gold spectrum (design system) ───────────────────────────────
-  primary:      "#FBBD00",
-  primaryDark:  "#EFB400",
-  primaryLight: "#FFC900",
-  buttonGold:   "#FCD900",
+  // ── Pink spectrum ────────────────────────────────────────────────
+  primary:      "#F0197D",
+  primaryDark:  "#C8116A",
+  primaryLight: "#FF4FA3",
+  buttonPink:   "#F0197D",
 
   // ── Dark / Navy ──────────────────────────────────────────────────
   darkNavy:  "#2F3342",
@@ -22,8 +23,8 @@ export const COLORS = {
   textSecondary: "#333333",
   textMuted:     "#68728E",
   textLight:     "#999999",
-  textGray:      "#6B7280",  // phụ trên nền trắng
-  textFaint:     "#9CA3AF",  // muted nhạt hơn
+  textGray:      "#6B7280",
+  textFaint:     "#9CA3AF",
 
   // ── Backgrounds & surfaces ───────────────────────────────────────
   pageBg:    "#F8F8F8",
@@ -34,8 +35,8 @@ export const COLORS = {
   inputBg:   "#F2F4F6",
 
   // ── Tints ────────────────────────────────────────────────────────
-  softPink:   "#FFF0F3",
-  softYellow: "#FFFBEB",
+  softPink:   "#FFF0F7",
+  softYellow: "#FFF0F7",   // reuse soft pink for selected states
   softBlue:   "#EEF6FF",
 
   // ── Semantic ─────────────────────────────────────────────────────
@@ -45,6 +46,7 @@ export const COLORS = {
   accentGreen: "#10B981",
 
   // ── Gradient ─────────────────────────────────────────────────────
+  gradientPink: "linear-gradient(135deg, #F0197D 0%, #FF6BAE 100%)",
   gradientYellow: "#FFE866",
 };
 

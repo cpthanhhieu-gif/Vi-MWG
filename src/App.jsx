@@ -102,8 +102,8 @@ const StickyHeader = ({ isDesktop }) => {
             rel="noopener noreferrer"
             style={{
               display: "inline-block",
-              background: COLORS.brandYellow,
-              color: COLORS.brandBlack,
+              background: COLORS.brandPink,
+              color: "#fff",
               borderRadius: 20,
               padding: isDesktop ? "10px 24px" : "8px 18px",
               fontSize: isDesktop ? 14 : 13,
@@ -306,7 +306,7 @@ const GuideSection = ({ isDesktop }) => {
                       top: 48,
                       width: 2,
                       bottom: -8,
-                      background: current > idx ? COLORS.brandYellow : COLORS.borderLight,
+                      background: current > idx ? COLORS.brandPink : COLORS.borderLight,
                       transition: "background 0.4s",
                     }} />
                   )}
@@ -315,8 +315,8 @@ const GuideSection = ({ isDesktop }) => {
                     width: 40, height: 40, borderRadius: "50%", flexShrink: 0, zIndex: 1,
                     display: "flex", alignItems: "center", justifyContent: "center",
                     fontSize: 15, fontWeight: 800,
-                    background: current === idx ? COLORS.brandBlack : current > idx ? COLORS.brandYellow : "#fff",
-                    border: `2px solid ${current === idx ? COLORS.brandBlack : current > idx ? COLORS.brandYellow : COLORS.borderLight}`,
+                    background: current === idx ? COLORS.brandBlack : current > idx ? COLORS.brandPink : "#fff",
+                    border: `2px solid ${current === idx ? COLORS.brandBlack : current > idx ? COLORS.brandPink : COLORS.borderLight}`,
                     color: current === idx ? "#fff" : current > idx ? COLORS.brandBlack : COLORS.textFaint,
                     transition: "all 0.3s",
                   }}>
@@ -447,7 +447,7 @@ const GuideSection = ({ isDesktop }) => {
               {guideSteps.map((_, idx) => (
                 <div key={idx} style={{
                   width: current === idx ? 24 : 8, height: 8, borderRadius: 4,
-                  background: current === idx ? COLORS.brandYellow : COLORS.borderLight,
+                  background: current === idx ? COLORS.brandPink : COLORS.borderLight,
                   transition: "all 0.3s",
                 }} />
               ))}
@@ -574,7 +574,7 @@ const ProductBNPLSection = ({ isDesktop }) => {
               fontWeight: 800,
               color: COLORS.brandBlack,
               border: "none",
-              borderBottom: `2px solid ${COLORS.brandYellow}`,
+              borderBottom: `2px solid ${COLORS.brandPink}`,
               background: "transparent",
               outline: "none",
               textAlign: "right",
@@ -871,7 +871,7 @@ const FAQItem = ({ faq, openIdx, idx, setOpenIdx }) => (
     style={{
       background: "#fff",
       borderRadius: 14,
-      border: `1px solid ${openIdx === idx ? COLORS.brandYellow : COLORS.borderLight}`,
+      border: `1px solid ${openIdx === idx ? COLORS.brandPink : COLORS.borderLight}`,
       overflow: "hidden",
       transition: "border 0.2s",
       marginBottom: 8,
@@ -953,7 +953,7 @@ const CTASection = ({ isDesktop }) => (
     <div style={{ maxWidth: isDesktop ? 1100 : 480, margin: "0 auto", padding: isDesktop ? "0 40px" : "0" }}>
       <div
         style={{
-          background: `linear-gradient(135deg, ${COLORS.brandBlack} 0%, #2D2D2D 100%)`,
+          background: COLORS.gradientPink,
           borderRadius: 24,
           padding: isDesktop ? "52px 64px" : "32px 24px",
           position: "relative",
@@ -964,10 +964,10 @@ const CTASection = ({ isDesktop }) => (
           textAlign: isDesktop ? "left" : "center",
         }}
       >
-        <div style={{ position: "absolute", top: -40, right: -40, width: 160, height: 160, borderRadius: "50%", background: COLORS.brandYellow, opacity: 0.08 }} />
-        <div style={{ position: "absolute", bottom: -30, left: -30, width: 120, height: 120, borderRadius: "50%", background: COLORS.brandYellow, opacity: 0.06 }} />
+        <div style={{ position: "absolute", top: -40, right: -40, width: 160, height: 160, borderRadius: "50%", background: "#fff", opacity: 0.08 }} />
+        <div style={{ position: "absolute", bottom: -30, left: -30, width: 120, height: 120, borderRadius: "50%", background: "#fff", opacity: 0.06 }} />
         <div style={{ position: "relative", zIndex: 1, flex: isDesktop ? 1 : undefined }}>
-          <div style={{ fontSize: 13, color: COLORS.brandYellow, fontWeight: 600, marginBottom: 8 }}>
+          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.85)", fontWeight: 600, marginBottom: 8 }}>
             {ctaContent.badge}
           </div>
           <h2 style={{ fontSize: isDesktop ? 36 : 24, fontWeight: 800, color: "#fff", margin: "0 0 8px", lineHeight: 1.3 }}>
@@ -984,14 +984,14 @@ const CTASection = ({ isDesktop }) => (
             rel="noopener noreferrer"
             style={{
               display: "inline-block",
-              background: COLORS.brandYellow,
-              color: COLORS.brandBlack,
+              background: "#fff",
+              color: COLORS.brandPink,
               borderRadius: 28,
               padding: isDesktop ? "18px 52px" : "14px 40px",
               fontSize: isDesktop ? 17 : 16,
               fontWeight: 700,
               cursor: "pointer",
-              boxShadow: "0 4px 24px rgba(255,212,0,0.35)",
+              boxShadow: "0 4px 24px rgba(240,25,125,0.25)",
               whiteSpace: "nowrap",
               textDecoration: "none",
             }}
