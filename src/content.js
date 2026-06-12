@@ -7,12 +7,12 @@ export const registerUrl = "https://tgdd.vn"; // TODO: replace with real registe
 export const heroContent = {
   bannerDesktop: "/hero-banner-desktop.png",
   bannerMobile: "/hero-banner-mobile.png",
-  ctaPrimary: "Kích hoạt ngay",
-  ctaSecondary: "Tìm hiểu thêm",
+  ctaPrimary: "Activate Now",
+  ctaSecondary: "Learn More",
 };
 
 export const partnerContent = {
-  label: "Sản phẩm hợp tác",
+  label: "Partnership Product",
   brands: [
     { logo: "/logos/logo-tgdd-mwg.png", name: "Thế Giới Di Động" },
     { logo: "/logo-cake.png", name: "Cake by VPBank" },
@@ -20,79 +20,79 @@ export const partnerContent = {
 };
 
 export const differentiatorContent = {
-  heading: "Điểm khác biệt",
-  subtitle: "Hạn mức lên đến 40 triệu · Miễn lãi tối đa · Duyệt tự động 2 phút",
+  heading: "What Sets Us Apart",
+  subtitle: "Up to 40M VND credit limit · Interest-free maximum · Auto-approved in 2 minutes",
   cards: [
-    { title: "Miễn lãi tối đa", subtitle: "0% lãi, đến 24 tháng", img: "/90-commit.png" },
-    { title: "Hạn mức tối đa", subtitle: "Lên đến 40 triệu đồng", img: "/40-commit.png" },
+    { title: "Interest-Free Maximum", subtitle: "0% interest, up to 24 months", img: "/90-commit.png" },
+    { title: "Maximum Credit Limit",  subtitle: "Up to 40,000,000 VND",         img: "/40-commit.png" },
   ],
 };
 
 export const storeNetworkContent = {
-  heading: "Mua sắm tại hơn 3.200 cửa hàng toàn quốc",
-  subtitle: "Ví MWG PayLater được chấp nhận tại toàn bộ hệ thống — tại cửa hàng và trên website",
+  heading: "Shop at 3,200+ Stores Nationwide",
+  subtitle: "Ví MWG PayLater is accepted across the entire network — in-store and online",
   chains: [
-    { name: "Thế Giới Di Động", count: "1.014", img: "/TGDĐ.png" },
-    { name: "Điện Máy Xanh",    count: "2.006", img: "/DMX.png" },
+    { name: "Thế Giới Di Động", count: "1,014", img: "/TGDĐ.png" },
+    { name: "Điện Máy Xanh",    count: "2,006", img: "/DMX.png" },
     { name: "TopZone",           count: "100+",  img: "/Topzone.png" },
     { name: "Avakids",           count: "95",    img: "/Avakids.png" },
   ],
-  footnote: "Số liệu Q1/2026",
+  footnote: "Data as of Q1/2026",
 };
 
 export const bnplContent = {
-  heading: "Trả sau với Ví MWG",
-  subtitle: "Chọn danh mục, điều chỉnh giá — xem ngay số tiền trả mỗi tháng",
-  cta: "Đăng ký ngay →",
-  ctaNote: "Duyệt trong 2 phút · Không cần chứng minh thu nhập",
+  heading: "Buy Now, Pay Later with Ví MWG",
+  subtitle: "Choose a category, adjust the price — instantly see your monthly payment",
+  cta: "Register Now →",
+  ctaNote: "Approved in 2 minutes · No income proof required",
   categories: [
-    { img: "/cat-dienthoai.png", label: "Điện thoại", min: 3000000,  max: 30000000, defaultPrice: 15000000 },
-    { img: "/cat-laptop.png",    label: "Laptop",     min: 10000000, max: 40000000, defaultPrice: 29000000 },
-    { img: "/cat-smartwatch.png",label: "Smartwatch", min: 2000000,  max: 15000000, defaultPrice: 6000000  },
-    { img: "/cat-maylanh.png",   label: "Máy lạnh",   min: 5000000,  max: 20000000, defaultPrice: 10000000 },
-    { img: "/cat-phukien.png",   label: "Phụ kiện",   min: 500000,   max: 5000000,  defaultPrice: 2000000  },
+    { img: "/cat-dienthoai.png", label: "Smartphones", min: 3000000,  max: 30000000, defaultPrice: 15000000 },
+    { img: "/cat-laptop.png",    label: "Laptops",      min: 10000000, max: 40000000, defaultPrice: 29000000 },
+    { img: "/cat-smartwatch.png",label: "Smartwatches", min: 2000000,  max: 15000000, defaultPrice: 6000000  },
+    { img: "/cat-maylanh.png",   label: "Air Conditioners", min: 5000000, max: 20000000, defaultPrice: 10000000 },
+    { img: "/cat-phukien.png",   label: "Accessories",  min: 500000,   max: 5000000,  defaultPrice: 2000000  },
   ],
   periods: [
-    { value: 90,  label: "90 ngày",  desc: "1 lần • 0% lãi",  installments: 1,  hasInterest: false, monthlyRate: 0      },
-    { value: 270, label: "3 tháng",  desc: "3 kỳ • 0% lãi*",  installments: 3,  hasInterest: false, monthlyRate: 0      },
-    { value: 720, label: "24 tháng", desc: "24 kỳ • có lãi",  installments: 24, hasInterest: true,  monthlyRate: 0.0167 },
+    { value: 90,  label: "90 days",   desc: "1 payment • 0% interest",  installments: 1,  hasInterest: false, monthlyRate: 0      },
+    { value: 270, label: "3 months",  desc: "3 payments • 0% interest*", installments: 3,  hasInterest: false, monthlyRate: 0      },
+    { value: 720, label: "24 months", desc: "24 payments • interest applies", installments: 24, hasInterest: true, monthlyRate: 0.0167 },
   ],
 };
 
 export const guideContent = {
-  heading: "Hướng dẫn mở Ví MWG",
-  subtitle: "Chỉ 4 bước, hoàn tất trong 2 phút",
+  heading: "How to Open Ví MWG",
+  subtitle: "Just 4 steps, completed in 2 minutes",
   appImage: "/qtv-home.png",
-  cta: "Đăng ký ngay →",
-  ctaNote: "Duyệt trong 2 phút · Không cần chứng minh thu nhập",
+  cta: "Register Now →",
+  ctaNote: "Approved in 2 minutes · No income proof required",
   steps: [
-    { num: 1, title: "Mở app QTV",         desc: 'Truy cập app QTV và chọn icon "Ví trả sau"'          },
-    { num: 2, title: "Xác minh danh tính", desc: "Chụp CCCD gắn chip và xác thực khuôn mặt (eKYC)"    },
-    { num: 3, title: "Nhận hạn mức",       desc: "Hệ thống tự động duyệt và cấp hạn mức chi tiêu"     },
-    { num: 4, title: "Mua sắm ngay",       desc: "Chọn sản phẩm yêu thích, thanh toán bằng Ví MWG"    },
+    { num: 1, title: "Open the QTV App",      desc: 'Launch the QTV app and tap the "Pay Later Wallet" icon'     },
+    { num: 2, title: "Verify Your Identity",  desc: "Take a photo of your chip-enabled ID and complete face authentication (eKYC)" },
+    { num: 3, title: "Receive Your Limit",    desc: "The system automatically approves and assigns your credit limit" },
+    { num: 4, title: "Start Shopping",        desc: "Pick your favorite products and pay with Ví MWG"             },
   ],
 };
 
 export const faqContent = {
-  heading: "Câu hỏi thường gặp",
+  heading: "Frequently Asked Questions",
   items: [
-    { q: "Ví MWG PayLater là gì?",                   a: "Ví MWG PayLater là dịch vụ Mua trước - Trả sau được phát triển bởi Thế Giới Di Động hợp tác cùng Cake by VPBank. Bạn được cấp hạn mức lên đến 40 triệu đồng, miễn lãi tối đa 90 ngày, duyệt ngay trên điện thoại trong 2 phút." },
-    { q: "Ai có thể đăng ký Ví MWG?",                a: "Công dân Việt Nam từ 18 tuổi trở lên, có CCCD gắn chip còn hiệu lực. Không cần chứng minh thu nhập hay hồ sơ phức tạp — duyệt tự động, không cần đến cửa hàng." },
-    { q: "Ví MWG có tính lãi không?",                a: "Không! Khi thanh toán đúng hạn trong kỳ miễn lãi (tối đa 90 ngày), bạn hoàn toàn không trả bất kỳ khoản lãi nào. Nếu muốn trả góp dài hạn hơn (lên đến 24 tháng), mức lãi suất sẽ được thông báo rõ ràng trước khi xác nhận." },
-    { q: "Mua trước, trả sau có rủi ro gì không?",   a: "Ví MWG minh bạch về mọi khoản phí. Bạn chỉ cần thanh toán đúng hạn để tránh phí trễ hạn. Mọi thông tin đều được hiển thị rõ trước khi xác nhận giao dịch." },
-    { q: "Hạn mức tối đa của Ví MWG là bao nhiêu?",  a: "Hạn mức lên đến 40.000.000đ, được xét duyệt tự động dựa trên kết quả xác minh danh tính qua điện thoại. Hạn mức có thể được nâng dần theo lịch sử thanh toán đúng hạn của bạn." },
-    { q: "Dùng Ví MWG được ở đâu?",                  a: "Ví MWG PayLater được chấp nhận tại hơn 3.200 cửa hàng của Thế Giới Di Động, Điện Máy Xanh, TopZone và Avakids — cả tại cửa hàng lẫn trên website. Chọn Ví MWG làm phương thức thanh toán là hoàn tất." },
+    { q: "What is Ví MWG PayLater?",               a: "Ví MWG PayLater is a Buy Now, Pay Later service developed by Thế Giới Di Động in partnership with Cake by VPBank. You receive a credit limit of up to 40,000,000 VND, interest-free for up to 90 days, approved instantly on your phone in just 2 minutes." },
+    { q: "Who can apply for Ví MWG?",              a: "Vietnamese citizens aged 18 and above with a valid chip-enabled national ID. No income proof or complex paperwork required — fully automated approval, no store visit needed." },
+    { q: "Does Ví MWG charge interest?",           a: "No! When you pay on time within the interest-free period (up to 90 days), you pay absolutely no interest. If you choose a longer installment plan (up to 24 months), the interest rate will be clearly disclosed before you confirm." },
+    { q: "Are there any risks with Buy Now, Pay Later?", a: "Ví MWG is fully transparent about all fees. You simply need to pay on time to avoid late fees. All details are clearly displayed before you confirm any transaction." },
+    { q: "What is the maximum credit limit?",      a: "The credit limit goes up to 40,000,000 VND, automatically approved based on your identity verification result on your phone. Your limit may increase over time with a consistent on-time payment history." },
+    { q: "Where can I use Ví MWG?",               a: "Ví MWG PayLater is accepted at 3,200+ stores across Thế Giới Di Động, Điện Máy Xanh, TopZone, and Avakids — both in-store and online. Simply select Ví MWG as your payment method at checkout." },
   ],
 };
 
 export const ctaContent = {
-  badge:    "Ưu đãi dành riêng cho bạn",
-  heading:  "Đăng ký Ví MWG — hoàn tiền đến 800.000đ",
-  subtitle: "Áp dụng cho giao dịch đủ điều kiện · Theo chương trình từng thời điểm",
-  button:   "Kích hoạt ngay →",
+  badge:    "Exclusive Offer for You",
+  heading:  "Sign Up for Ví MWG — Get Up to 800,000 VND Cashback",
+  subtitle: "Applicable to qualifying transactions · Subject to promotional terms",
+  button:   "Activate Now →",
 };
 
 export const footerContent = {
-  legal:   "Sản phẩm hợp tác giữa Thế Giới Di Động và Cake by VPBank. Được cấp phép và giám sát bởi Ngân hàng Nhà nước Việt Nam.",
-  links:   ["Điều khoản", "Chính sách", "Hỗ trợ"],
+  legal:   "A partnership product between Thế Giới Di Động and Cake by VPBank. Licensed and supervised by the State Bank of Vietnam.",
+  links:   ["Terms & Conditions", "Privacy Policy", "Support"],
 };
